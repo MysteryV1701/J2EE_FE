@@ -1,7 +1,6 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import {
-//   LoaderFunctionArgs,
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
@@ -10,7 +9,7 @@ import { ProtectedRoute } from '@/lib/auth';
 
 import { AppRoot } from './routes/app/root';
 
-export const createAppRouter = (queryClient: QueryClient) =>
+const createAppRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
       path: '/',
@@ -41,63 +40,32 @@ export const createAppRouter = (queryClient: QueryClient) =>
         </ProtectedRoute>
       ),
       children: [
-        // {
-        //   path: 'discussions',
-        //   lazy: async () => {
-        //     const { DiscussionsRoute } = await import(
-        //       './routes/app/discussions/discussions'
-        //     );
-        //     return { Component: DiscussionsRoute };
-        //   },
-        //   loader: async (args: LoaderFunctionArgs) => {
-        //     const { discussionsLoader } = await import(
-        //       './routes/app/discussions/discussions'
-        //     );
-        //     return discussionsLoader(queryClient)(args);
-        //   },
-        // },
-        // {
-        //   path: 'discussions/:discussionId',
-        //   lazy: async () => {
-        //     const { DiscussionRoute } = await import(
-        //       './routes/app/discussions/discussion'
-        //     );
-        //     return { Component: DiscussionRoute };
-        //   },
-
-        //   loader: async (args: LoaderFunctionArgs) => {
-        //     const { discussionLoader } = await import(
-        //       './routes/app/discussions/discussion'
-        //     );
-        //     return discussionLoader(queryClient)(args);
-        //   },
-        // },
         {
           path: 'users',
           lazy: async () => {
-            const { UsersRoute } = await import('./routes/app/users');
+            const { UsersRoute } = await import('./routes/app/users.tsx');
             return { Component: UsersRoute };
           },
 
           loader: async () => {
-            const { usersLoader } = await import('./routes/app/users');
+            const { usersLoader } = await import('./routes/app/users.tsx');
             return usersLoader(queryClient)();
           },
         },
-        {
-          path: 'profile',
-          lazy: async () => {
-            const { ProfileRoute } = await import('./routes/app/profile');
-            return { Component: ProfileRoute };
-          },
-        },
-        {
-          path: '',
-          lazy: async () => {
-            const { DashboardRoute } = await import('./routes/app/dashboard');
-            return { Component: DashboardRoute };
-          },
-        },
+        // {
+        //   path: 'profile',
+        //   lazy: async () => {
+        //     const { ProfileRoute } = await import('./routes/app/profile');
+        //     return { Component: ProfileRoute };
+        //   },
+        // },
+        // {
+        //   path: '',
+        //   lazy: async () => {
+        //     const { DashboardRoute } = await import('./routes/app/dashboard');
+        //     return { Component: DashboardRoute };
+        //   },
+        // },
       ],
     },
     {

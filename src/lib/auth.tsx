@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { configureAuth } from 'react-query-auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { z } from 'zod';
@@ -6,13 +7,9 @@ import { AuthResponse, User } from '@/types/api';
 
 import { api } from './api-client';
 
-// api call definitions for auth (types, schemas, requests):
-// these are not part of features as this is a module shared across features
-
-const getUser = async (): Promise<User> => {
-  const response = await api.get('/auth/me');
-
-  return response.data;
+const getUser = async (): Promise<null> => {
+  // const response = await api.get('/auth/me');
+  return null;
 };
 
 const logout = (): Promise<void> => {
@@ -64,7 +61,6 @@ export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const location = useLocation();
-
   if (!user.data) {
     return (
       <Navigate

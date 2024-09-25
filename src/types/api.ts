@@ -1,12 +1,12 @@
 export type BaseEntity = {
   id: string;
-  createAt: number;
+  createdAt: number;
 };
 
 export type Entity<T> = {
-    [K in keyof T] : T[K];
-
+  [K in keyof T]: T[K];
 } & BaseEntity;
+
 
 export type Meta = {
     page:number;
@@ -18,7 +18,7 @@ export type User = Entity<{
     lastName: string;
     email:string;
     role:"ADMIN" | "USER";
-    bio: string;
+    bio: string;    
 }>
 export type AuthResponse = {
     jwt: string;

@@ -7,8 +7,8 @@ import { HelmetProvider } from 'react-helmet-async';
 import { MainErrorFallback } from '@/components/errors/main';
 import { Notifications } from '@/components/ui/notifications';
 import { AuthLoader } from '@/lib/auth';
-import { TbLoader } from 'react-icons/tb';
 import { queryConfig } from '@/lib/react-query';
+import { Spinner } from '@/components/ui/spinner';
 
 type AppProviderProps = {
     children: React.ReactNode;
@@ -23,7 +23,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         <React.Suspense
             fallback={
                 <div className="flex h-screen w-screen items-center justify-center">
-                    <TbLoader className="animate-spin" size={25} />;
+                    <Spinner size='xl'/>
                 </div>
             }
         >
@@ -32,11 +32,12 @@ export const AppProvider = ({ children }: AppProviderProps) => {
                     <QueryClientProvider client={queryClient}>
                         {import.meta.env.DEV && <ReactQueryDevtools />}
                         <Notifications />
+                        
                         <AuthLoader renderLoading={()=> (
                             <div className='flex h-screen w-screen items-center justify-center'>
-                                <TbLoader className="animate-spin" size={25} />;
+                                <Spinner size="xl"/> 
                             </div>
-    )}>
+                        )}>
                         {children}
                         </AuthLoader>
                     </QueryClientProvider>

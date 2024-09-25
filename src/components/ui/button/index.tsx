@@ -9,7 +9,7 @@ import {
 type BaseButtonAttributes = React.ComponentPropsWithoutRef<'button'>;
 type Ref = HTMLButtonElement;
 
-interface ButtonProps extends BaseButtonAttributes {
+export interface ButtonProps extends BaseButtonAttributes {
     isLoading?: boolean;
     disable?: boolean;
     leftIcon?: React.ReactElement;
@@ -34,6 +34,8 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
         isLoading,
         className,
         title,
+        leftIcon,
+        rightIcon,
         onClick,
         ...rest
     } = props;
@@ -60,7 +62,9 @@ const Button = forwardRef<Ref, ButtonProps>((props, ref) => {
             disabled={disable || isLoading}
             title={title}
         >
+            {leftIcon}
             {!isLoading && children}
+            {rightIcon}
         </button>
     );
 });

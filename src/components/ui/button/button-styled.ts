@@ -67,8 +67,6 @@ export const baseButton = tv({
     }
 });
 
-// TODO: Need refactor
-// https://www.tailwind-variants.org/docs/variants#adding-variants
 export const filledButton = tv({
     extend: baseButton,
     variants: {
