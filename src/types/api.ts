@@ -1,6 +1,7 @@
 export type BaseEntity = {
   id: string;
-  createdAt: number;
+  createdAt: string;
+  updatedAt: string;
 };
 
 export type Entity<T> = {
@@ -14,10 +15,10 @@ export type Meta = {
     totalPages: number;
 }
 export type User = Entity<{
-    firstName:string,
-    lastName: string;
+    fullname: string,
     email:string;
-    role:"ADMIN" | "USER";
+    password: string,
+    role: "ADMIN" | "USER";
     bio: string;    
 }>
 export type AuthResponse = {

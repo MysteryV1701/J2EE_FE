@@ -26,11 +26,9 @@ type SideNavigationItem = {
 
 const Logo = () => {
   return (
-    <Link className="flex items-center text-white" to="/">
-      <img className="h-8 w-auto" src={logo} alt="Workflow" />
-      <span className="text-sm font-semibold text-white">
-        Mystery V
-      </span>
+    <Link className="flex items-center text-white" to="/app">
+      <img className="h-8 w-auto" src={logo} alt="Happy Life Logo" />
+      <span className="text-sm font-semibold text-white">Mystery V</span>
     </Link>
   );
 };
@@ -81,7 +79,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const navigation = [
     { name: 'Dashboard', to: '.', icon: Home },
-    { name: 'Discussions', to: './discussions', icon: Folder },
+    { name: 'Donate', to: './donate', icon: Folder },
     checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
       name: 'Users',
       to: './users',
@@ -90,8 +88,8 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
   ].filter(Boolean) as SideNavigationItem[];
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
-      <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-black sm:flex">
+    <div className="flex min-h-screen w-full flex-col">
+      <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-gray-900 sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 py-4">
           <div className="flex h-16 shrink-0 items-center px-4">
             <Logo />
@@ -100,12 +98,12 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             <NavLink
               key={item.name}
               to={item.to}
-              end={item.name !== 'Discussions'}
+              end
               className={({ isActive }) =>
                 cn(
                   'text-gray-300 hover:bg-gray-700 hover:text-white',
                   'group flex flex-1 w-full items-center rounded-md p-2 text-base font-medium',
-                  isActive && 'bg-gray-900 text-white',
+                  isActive && 'bg-gray-600 text-white',
                 )
               }
             >
@@ -121,12 +119,16 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
           ))}
         </nav>
       </aside>
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-60">
-        <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:justify-end sm:border-0 sm:bg-transparent sm:px-6">
+      <div className="flex flex-col flex-1 sm:pl-60 ">
+        <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background shadow px-4 sm:items-center sm:static sm:justify-end sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 sm:py-3">
           <Progress />
           <Drawer>
             <DrawerTrigger asChild>
-              <Button leftIcon={<PanelLeft className="size-5" />} buttonVariant="outlined" className="sm:hidden">
+              <Button
+                leftIcon={<PanelLeft className="size-5" />}
+                buttonVariant="outlined"
+                className="sm:hidden"
+              >
                 <span className="sr-only">Toggle Menu</span>
               </Button>
             </DrawerTrigger>
@@ -174,7 +176,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <span className="sr-only">Open user menu</span>
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" color="bg-gray-200">
               <DropdownMenuItem
                 onClick={() => navigate('./profile')}
                 className={cn('block px-4 py-2 text-sm text-gray-700')}
@@ -191,7 +193,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
-        <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
+        <main className="grid flex-1 items-start gap-4 p-4 bg-gray-100 sm:px-6 sm:py-0 md:gap-8">
           {children}
         </main>
       </div>

@@ -1,9 +1,6 @@
 import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { useMemo } from 'react';
-import {
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/lib/auth';
 
@@ -52,20 +49,22 @@ const createAppRouter = (queryClient: QueryClient) =>
             return usersLoader(queryClient)();
           },
         },
-        // {
-        //   path: 'profile',
-        //   lazy: async () => {
-        //     const { ProfileRoute } = await import('./routes/app/profile');
-        //     return { Component: ProfileRoute };
-        //   },
-        // },
-        // {
-        //   path: '',
-        //   lazy: async () => {
-        //     const { DashboardRoute } = await import('./routes/app/dashboard');
-        //     return { Component: DashboardRoute };
-        //   },
-        // },
+        {
+          path: 'profile',
+          lazy: async () => {
+            const { ProfileRoute } = await import('./routes/app/profile.tsx');
+            return { Component: ProfileRoute };
+          },
+        },
+        {
+          path: '',
+          lazy: async () => {
+            const { DashboardRoute } = await import(
+              './routes/app/dashboard.tsx'
+            );
+            return { Component: DashboardRoute };
+          },
+        },
       ],
     },
     {
@@ -79,8 +78,6 @@ const createAppRouter = (queryClient: QueryClient) =>
 
 export const AppRouter = () => {
   const queryClient = useQueryClient();
-
   const router = useMemo(() => createAppRouter(queryClient), [queryClient]);
-
   return <RouterProvider router={router} />;
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/prefer-as-const */
 /* eslint-disable react-refresh/only-export-components */
 import { configureAuth } from 'react-query-auth';
 import { Navigate, useLocation } from 'react-router-dom';
@@ -7,9 +8,21 @@ import { AuthResponse, User } from '@/types/api';
 
 import { api } from './api-client';
 
-const getUser = async (): Promise<null> => {
+const getUser = async (): Promise<User> => {
   // const response = await api.get('/auth/me');
-  return null;
+  const response = {
+    data: {
+      id: '1',
+      fullname: 'John Doe',
+      email: 'johndoe@example.com',
+      password: 'Password123!',
+      role: 'USER' as 'USER',
+      bio: 'Software developer and technology enthusiast.',
+      createdAt: '2023-09-25T10:00:00Z',
+      updatedAt: '2023-09-25T12:00:00Z',
+    },
+  };
+  return response.data;
 };
 
 const logout = (): Promise<void> => {
@@ -18,7 +31,7 @@ const logout = (): Promise<void> => {
 
 export const loginInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
-  password: z.string().min(5, 'Required'),
+  password: z.string().min(1, 'Required'),
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
@@ -26,13 +39,19 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
   return api.post('/auth/login', data);
 };
 
-export const registerInputSchema = z
-  .object({
-    email: z.string().min(1, 'Required'),
-    firstName: z.string().min(1, 'Required'),
-    lastName: z.string().min(1, 'Required'),
-    password: z.string().min(1, 'Required'),
-  });
+export const registerInputSchema = z.object({
+  email: z.string().min(1, 'Required'),
+  fullName: z
+    .string()
+    .min(1, 'Required')
+    .regex(/^[a-zA-Z]+$/, 'Name must only contain letters'),
+  password: z
+    .string()
+    .min(8, 'Password must be at least 8 characters long')
+    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .regex(/[\W_]/, 'Password must contain at least one special character'),
+});
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
