@@ -1,9 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@import "tailwindcss/base";
-/* @import "./custom-base-styles.css"; */
+@layer base {
+  :root {
+    --primary-color: '#c14d37';
+    --primary-color-50: '#fdf5f3';
+    --primary-color-100: '#fbe9e5';
+    --primary-color-200: '#f8d6d0';
+    --primary-color-300: '#f2baaf';
+    --primary-color-400: '#e99180';
+    --primary-color-500: '#db6d58';
+    --primary-color-700: '#a7412e';
+    --primary-color-800: '#8b3929';
+    --primary-color-900: '#743428';
 
-@import "tailwindcss/components";
-/* @import "./custom-components.css"; */
+    --secondary-color: '#52b2a6';
+    --secondary-color-50: '#f3faf9';
+    --secondary-color-100: '#d6f1eb';
+    --secondary-color-200: '#ace3d8';
+    --secondary-color-300: '#7bcdc0';
+    --secondary-color-500: '#36968b';
+    --secondary-color-600: '#297871';
+    --secondary-color-700: '#25605c';
+    --secondary-color-800: '#214e4b';
+    --secondary-color-900: '#1f423f';
 
-@import "tailwindcss/utilities";
-/* @import "./custom-utilities.css"; */
+    --tertiary-color: '#e6b848';
+    --tertiary-color-50: '#fcf8ea';
+    --tertiary-color-100: '#f7eeca';
+    --tertiary-color-200: '#f1da97';
+    --tertiary-color-400: '#e0a62f';
+    --tertiary-color-500: '#d18f21';
+    --tertiary-color-600: '#b46e1a';
+    --tertiary-color-700: '#904f18';
+    --tertiary-color-800: '#78401b';
+    --tertiary-color-900: '#66361d';
+
+    --info-color: '#a1d0ea';
+    --info-color-50: '#f3f8fc';
+    --info-color-100: '#e5f0f9';
+    --info-color-200: '#c5e1f2';
+    --info-color-400: '#7bcdc0';
+    --info-color-500: '#36968b';
+    --info-color-600: '#297871';
+    --info-color-700: '#25605c';
+    --info-color-800: '#214e4b';
+    --info-color-900: '#1f423f';
+
+    --success-color: '#52b2a6';
+    --success-color-50: '#f3faf9';
+    --success-color-100: '#d6f1eb';
+    --success-color-200: '#ace3d8';
+    --success-color-300: '#7bcdc0';
+    --success-color-500: '#36968b';
+    --success-color-600: '#297871';
+    --success-color-700: '#25605c';
+    --success-color-800: '#214e4b';
+    --success-color-900: '#0d2625';
+  }
+}
