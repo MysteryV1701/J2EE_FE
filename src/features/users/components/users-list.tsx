@@ -26,12 +26,8 @@ export const UsersList = () => {
       data={users}
       columns={[
         {
-          title: 'First Name',
-          field: 'firstName',
-        },
-        {
-          title: 'Last Name',
-          field: 'lastName',
+          title: 'Full Name',
+          field: 'name',
         },
         {
           title: 'Email',

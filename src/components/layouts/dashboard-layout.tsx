@@ -1,12 +1,9 @@
-import { Home, PanelLeft, Folder, Users, User2 } from 'lucide-react';
-import { useEffect, useState } from 'react';
-import { NavLink, useNavigate, useNavigation } from 'react-router-dom';
+import { PanelLeft, User2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
-import logo from '@/assets/logo.svg';
 import Button from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer';
 import { useLogout } from '@/lib/auth';
-import { ROLES, useAuthorization } from '@/lib/authorization';
 import { cn } from '@/helpers/cn';
 
 import {
@@ -16,108 +13,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '../ui/dropdown';
-import { Link } from '../ui/link';
 
-type SideNavigationItem = {
-  name: string;
-  to: string;
-  icon: (props: React.SVGProps<SVGSVGElement>) => JSX.Element;
-};
-
-const Logo = () => {
-  return (
-    <Link className="flex items-center text-white" to="/app">
-      <img className="h-8 w-auto" src={logo} alt="Happy Life Logo" />
-      <span className="text-sm font-semibold text-white">Mystery V</span>
-    </Link>
-  );
-};
-
-const Progress = () => {
-  const { state, location } = useNavigation();
-
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    setProgress(0);
-  }, [location?.pathname]);
-
-  useEffect(() => {
-    if (state === 'loading') {
-      const timer = setInterval(() => {
-        setProgress((oldProgress) => {
-          if (oldProgress === 100) {
-            clearInterval(timer);
-            return 100;
-          }
-          const newProgress = oldProgress + 10;
-          return newProgress > 100 ? 100 : newProgress;
-        });
-      }, 300);
-
-      return () => {
-        clearInterval(timer);
-      };
-    }
-  }, [state]);
-
-  if (state !== 'loading') {
-    return null;
-  }
-
-  return (
-    <div
-      className="fixed left-0 top-0 h-1 bg-blue-500 transition-all duration-200 ease-in-out"
-      style={{ width: `${progress}%` }}
-    ></div>
-  );
-};
+import { Progress } from '../ui/progress';
+import { Navbar } from '../ui/partials/navbar';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const logout = useLogout();
-  const { checkAccess } = useAuthorization();
   const navigate = useNavigate();
-  const navigation = [
-    { name: 'Dashboard', to: '.', icon: Home },
-    { name: 'Donate', to: './donate', icon: Folder },
-    checkAccess({ allowedRoles: [ROLES.ADMIN] }) && {
-      name: 'Users',
-      to: './users',
-      icon: Users,
-    },
-  ].filter(Boolean) as SideNavigationItem[];
 
   return (
     <div className="flex min-h-screen w-full flex-col">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-gray-900 sm:flex">
-        <nav className="flex flex-col items-center gap-4 px-2 py-4">
-          <div className="flex h-16 shrink-0 items-center px-4">
-            <Logo />
-          </div>
-          {navigation.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.to}
-              end
-              className={({ isActive }) =>
-                cn(
-                  'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'group flex flex-1 w-full items-center rounded-md p-2 text-base font-medium',
-                  isActive && 'bg-gray-600 text-white',
-                )
-              }
-            >
-              <item.icon
-                className={cn(
-                  'text-gray-400 group-hover:text-gray-300',
-                  'mr-4 size-6 shrink-0',
-                )}
-                aria-hidden="true"
-              />
-              {item.name}
-            </NavLink>
-          ))}
-        </nav>
+        <Navbar />
       </aside>
       <div className="flex flex-col flex-1 sm:pl-60 ">
         <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background shadow px-4 sm:items-center sm:static sm:justify-end sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 sm:py-3">
@@ -136,34 +43,7 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               side="left"
               className="bg-black pt-10 text-white sm:max-w-60"
             >
-              <nav className="grid gap-6 text-lg font-medium">
-                <div className="flex h-16 shrink-0 items-center px-4">
-                  <Logo />
-                </div>
-                {navigation.map((item) => (
-                  <NavLink
-                    key={item.name}
-                    to={item.to}
-                    end
-                    className={({ isActive }) =>
-                      cn(
-                        'text-gray-300 hover:bg-gray-700 hover:text-white',
-                        'group flex flex-1 w-full items-center rounded-md p-2 text-base font-medium',
-                        isActive && 'bg-gray-900 text-white',
-                      )
-                    }
-                  >
-                    <item.icon
-                      className={cn(
-                        'text-gray-400 group-hover:text-gray-300',
-                        'mr-4 size-6 shrink-0',
-                      )}
-                      aria-hidden="true"
-                    />
-                    {item.name}
-                  </NavLink>
-                ))}
-              </nav>
+              <Navbar />
             </DrawerContent>
           </Drawer>
           <DropdownMenu>

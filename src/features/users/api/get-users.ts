@@ -2,9 +2,24 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-import { User } from '@/types/api';
+import { ROLES, User } from '@/types/api';
 
 export const getUsers = (): Promise<{ data: User[] }> => {
+  return Promise.resolve({
+    data: [
+      {
+        id: '1',
+        name: 'John Doe',
+        email: '',
+        password: 'defaultPassword',
+        role: ROLES.ADMIN,
+        bio: '',
+        status: 1,
+        createdAt: '2023-09-25T10:00:00Z',
+        updatedAt: '2023-09-25T12:00:00Z',
+      },
+    ],
+  });
   return api.get(`/users`);
 };
 

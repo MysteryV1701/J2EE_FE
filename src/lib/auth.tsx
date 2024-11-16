@@ -4,7 +4,7 @@ import { configureAuth } from 'react-query-auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { z } from 'zod';
 
-import { AuthResponse, User } from '@/types/api';
+import { AuthResponse, ROLES, User } from '@/types/api';
 
 import { api } from './api-client';
 
@@ -13,11 +13,11 @@ const getUser = async (): Promise<User> => {
   const response = {
     data: {
       id: '1',
-      fullname: 'John Doe',
+      name: 'John Doe',
+      status: 1,
       email: 'johndoe@example.com',
       password: 'Password123!',
-      role: 'USER' as 'USER',
-      bio: 'Software developer and technology enthusiast.',
+      role: ROLES.USER,
       createdAt: '2023-09-25T10:00:00Z',
       updatedAt: '2023-09-25T12:00:00Z',
     },
@@ -39,19 +39,27 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
   return api.post('/auth/login', data);
 };
 
-export const registerInputSchema = z.object({
-  email: z.string().min(1, 'Required'),
-  fullName: z
-    .string()
-    .min(1, 'Required')
-    .regex(/^[a-zA-Z]+$/, 'Name must only contain letters'),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[\W_]/, 'Password must contain at least one special character'),
-});
+export const registerInputSchema = z
+  .object({
+    email: z.string().min(1, 'Required'),
+    name: z
+      .string()
+      .min(1, 'Required')
+      .regex(/^[a-zA-Z]+$/, 'Name must only contain letters'),
+    password: z
+      .string()
+      .min(8, 'Password must be at least 8 characters long')
+      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
+      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
+      .regex(/[\W_]/, 'Password must contain at least one special character'),
+    confirmPassword: z
+      .string()
+      .min(8, 'Password must be at least 8 characters long'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Confirm password don't match",
+    path: ['confirmPassword'], // show error for confirmPassword field
+  });
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 

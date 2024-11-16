@@ -3,11 +3,7 @@ import * as React from 'react';
 import { Comment, User } from '@/types/api';
 
 import { useUser } from './auth';
-
-export enum ROLES {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-}
+import { ROLES } from '../types/api';
 
 type RoleTypes = keyof typeof ROLES;
 

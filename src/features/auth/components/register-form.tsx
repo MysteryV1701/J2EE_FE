@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 
-import Button  from '@/components/ui/button';
+import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useRegister, registerInputSchema } from '@/lib/auth';
 
@@ -8,9 +8,7 @@ type RegisterFormProps = {
   onSuccess: () => void;
 };
 
-export const RegisterForm = ({
-  onSuccess,
-}: RegisterFormProps) => {
+export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const registering = useRegister({ onSuccess });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
@@ -29,28 +27,28 @@ export const RegisterForm = ({
         {({ register, formState }) => (
           <>
             <Input
-              type="text"
-              label="First Name"
-              error={formState.errors['firstName']}
-              registration={register('firstName')}
-            />
-            <Input
-              type="text"
-              label="Last Name"
-              error={formState.errors['lastName']}
-              registration={register('lastName')}
-            />
-            <Input
               type="email"
               label="Email Address"
               error={formState.errors['email']}
               registration={register('email')}
             />
             <Input
+              type="text"
+              label="Name"
+              error={formState.errors['name']}
+              registration={register('name')}
+            />
+            <Input
               type="password"
               label="Password"
               error={formState.errors['password']}
               registration={register('password')}
+            />
+            <Input
+              type="password"
+              label="Confirm Password"
+              error={formState.errors['confirmPassword']}
+              registration={register('confirmPassword')}
             />
             <div>
               <Button

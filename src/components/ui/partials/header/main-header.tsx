@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 import { TbSearch } from 'react-icons/tb';
-import Button from '../button';
+import Button from '../../button';
 import { Link } from 'react-router-dom';
 
 interface MainHeaderProps {

@@ -6,7 +6,11 @@ import { useUser } from '@/lib/auth';
 export const DashboardRoute = () => {
   const user = useUser();
   return (
-    <ContentLayout title="Dashboard" description="Admin of Happly Life Site">
+    <ContentLayout
+      title="Dashboard"
+      description="Admin of Happly Life Site"
+      isDashboard
+    >
       <div className="mb-10">
         <h1 className="text-xl">
           Welcome <b>{`${user.data?.fullname}`}</b>
@@ -16,7 +20,6 @@ export const DashboardRoute = () => {
         </h4>
         <p className="font-medium">In this application you can:</p>
       </div>
-
       {/* {user.data?.role === ROLES.USER && (
         <ul className="my-4 list-inside list-disc">
           <li>Create comments in discussions</li>

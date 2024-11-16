@@ -1,0 +1,106 @@
+.background-landing {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+  overflow: hidden;
+  & .--1 {
+    position: absolute;
+    top: 12rem;
+    right: -2rem;
+    width: 8rem;
+    height: 8rem;
+    background: url('../images/background/shape_pink_1.png') no-repeat center
+      center/cover;
+    background-size: contain;
+  }
+  & .--2 {
+    position: absolute;
+    top: 30rem;
+    left: -12rem;
+    width: 28rem;
+    height: 28rem;
+    background: url('../images/background/shape_pink_lg_1.png') no-repeat center
+      center/cover;
+    background-size: contain;
+  }
+  & .--3 {
+    position: absolute;
+    top: 10%;
+    left: -2rem;
+    width: 12rem;
+    height: 12rem;
+    background: url('../images/background/shape_blue_1.png') no-repeat center
+      center/cover;
+    background-size: contain;
+  }
+  & .--4 {
+    position: absolute;
+    top: 12rem;
+    right: -2rem;
+    width: 8rem;
+    height: 8rem;
+    background: url('../images/background/shape_pink_1.png') no-repeat center
+      center/cover;
+    background-size: contain;
+  }
+
+  &--hero {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    & .--1 {
+      position: absolute;
+      top: 1rem;
+      left: 30%;
+      width: 4.2rem;
+      height: 3.8rem;
+      background: url('../images/background/cloud_1.png') no-repeat center
+        center/cover;
+      background-size: contain;
+    }
+    & .--2 {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      width: 3.2rem;
+      height: 2.8rem;
+      background: url('../images/background/heart_pink.png') no-repeat center
+        center/cover;
+      background-size: contain;
+    }
+  }
+}
+.background-landing--hero .--3 {
+  position: absolute;
+  top: 1rem;
+  left: 75%;
+  width: 3.2rem;
+  height: 2.8rem;
+  background: url('../images/background/heart_pink_r.png') no-repeat center
+    center/cover;
+  background-size: contain;
+}
+.background-landing--hero .--4 {
+  position: absolute;
+  top: 35%;
+  left: -1rem;
+  width: 3.2rem;
+  height: 2.8rem;
+  background: url('../images/background/heart_yellow.png') no-repeat center
+    center/cover;
+  background-size: contain;
+}
+.background-landing--hero .--5 {
+  position: absolute;
+  top: 80%;
+  left: 20%;
+  width: 3.2rem;
+  height: 2.8rem;
+  background: url('../images/background/start_blue.png') no-repeat center
+    center/cover;
+  background-size: contain;
+}

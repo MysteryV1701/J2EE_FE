@@ -29,6 +29,24 @@ const createAppRouter = (queryClient: QueryClient) =>
         return { Component: LoginRoute };
       },
     },
+    // {
+    //   path: '/auth/forgot-password',
+    //   lazy: async () => {
+    //     const { ForgotPasswordRoute } = await import(
+    //       './routes/auth/forgot-password'
+    //     );
+    //     return { Component: ForgotPasswordRoute };
+    //   },
+    // },
+    // {
+    //   path: '/auth/reset-password',
+    //   lazy: async () => {
+    //     const { ResetPasswordRoute } = await import(
+    //       './routes/auth/reset-password'
+    //     );
+    //     return { Component: ResetPasswordRoute };
+    //   },
+    // },
     {
       path: '/app',
       element: (
@@ -40,12 +58,14 @@ const createAppRouter = (queryClient: QueryClient) =>
         {
           path: 'users',
           lazy: async () => {
-            const { UsersRoute } = await import('./routes/app/users.tsx');
+            const { UsersRoute } = await import('./routes/app/admin/users.tsx');
             return { Component: UsersRoute };
           },
 
           loader: async () => {
-            const { usersLoader } = await import('./routes/app/users.tsx');
+            const { usersLoader } = await import(
+              './routes/app/admin/users.tsx'
+            );
             return usersLoader(queryClient)();
           },
         },
@@ -60,7 +80,7 @@ const createAppRouter = (queryClient: QueryClient) =>
           path: '',
           lazy: async () => {
             const { DashboardRoute } = await import(
-              './routes/app/dashboard.tsx'
+              './routes/app/admin/dashboard.tsx'
             );
             return { Component: DashboardRoute };
           },

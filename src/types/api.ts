@@ -14,12 +14,18 @@ export type Meta = {
     total:number;
     totalPages: number;
 }
+
+export enum ROLES {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  OR = 'OR',
+}
+
 export type User = Entity<{
-    fullname: string,
+    name: string;
     email:string;
-    password: string,
-    role: "ADMIN" | "USER";
-    bio: string;    
+    role: ROLES;
+    status: number;
 }>
 export type AuthResponse = {
     jwt: string;
