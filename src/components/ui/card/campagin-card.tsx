@@ -28,14 +28,14 @@ const CampaginCard: FunctionComponent<Campaign> = (props) => {
         </span>
         <h3
           title={props.title}
-          className="lg:text-lg text-base font-semibold h-14 mb-4 max-md:pb-2 max-md:text-sm text-ellipsis line-clamp-2"
+          className="lg:text-md text-base font-semibold h-12 mb-4 max-md:pb-2 max-md:text-sm text-ellipsis line-clamp-2"
         >
           {props.title}
         </h3>
         <div className="flex flex-col justify-between content-center md:gap-4 gap-2 mt-2">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row justify-between items-center">
-              <p className="text-lg font-medium max-md:text-sm text-primary-600">
+              <p className="text-md font-medium max-md:text-sm text-primary-600">
                 <span className="font-semibold text-primary-900">
                   {formatPrice(props.currentAmount)}
                 </span>

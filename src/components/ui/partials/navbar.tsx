@@ -16,6 +16,7 @@ import {
 } from '../dropdown';
 import Button from '../button';
 import { useLogout } from '@/lib/auth';
+import { Logo } from '../logo';
 
 type SideNavigationItem = {
   name: string;
@@ -37,6 +38,7 @@ export const Navbar: React.FC = () => {
     { name: 'Trang chủ', to: '.' },
     { name: 'Chiến Dịch Gây Quỹ', to: './campaign' },
     { name: 'Hoàn Cảnh Gây Quỹ', to: './' },
+    { name: 'Về chúng tôi', to: './aboutus' },
   ];
 
   const dashboardNavigation: SideNavigationItem[] = [
@@ -51,9 +53,7 @@ export const Navbar: React.FC = () => {
         isAdmin ? 'flex-col' : 'flex-row',
       )}
     >
-      <div className="flex h-16 shrink-0 items-center px-4 font-bold md:text-4xl text-3xl font-dancing text-primary">
-        <NavLink to="/">DannCharity</NavLink>
-      </div>
+      <Logo />
       {!isAdmin ? (
         <div className="md:flex flex-row gap-4 bg-primary rounded-2xl p-2 hidden">
           {generalNavigation.map((item) => (
@@ -64,7 +64,7 @@ export const Navbar: React.FC = () => {
               className={({ isActive }) =>
                 cn(
                   'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'group flex items-center rounded-md px-2 py-1 text-base font-semibold',
+                  'group flex items-center rounded-xl px-2 py-1 text-base font-semibold',
                   isActive && 'text-white',
                 )
               }
@@ -75,8 +75,13 @@ export const Navbar: React.FC = () => {
 
           {userStatus === 'guest' ? (
             <Button
-              buttonVariant="outlined"
-              className="rounded-full"
+              buttonVariant="filled"
+              buttonStyled={{
+                color: 'primary',
+                hPadding: 'md',
+                vPadding: 'sm',
+              }}
+              className="rounded-xl"
               onClick={() => navigate('/auth/login')}
             >
               Login

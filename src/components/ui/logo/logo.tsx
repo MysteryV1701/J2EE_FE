@@ -1,11 +1,11 @@
 import { Link } from '../link';
-import logo from '@/assets/logo.svg';
 
 export const Logo = () => {
   return (
-    <Link className="flex items-center text-white" to="/">
-      <img className="h-8 w-auto" src={logo} alt="Workflow" />
-      <span className="text-sm font-semibold text-white">Happy Life</span>
-    </Link>
+    <div className="flex h-16 shrink-0 items-center px-4 font-bold md:text-4xl text-3xl font-dancing">
+      <Link to="/" className="text-primary">
+        DannCharity
+      </Link>
+    </div>
   );
 };
