@@ -20,9 +20,9 @@ export const baseButton = tv({
     vPadding: {
       none: 'py-0',
       xs: 'py-[4px]',
-      sm: 'py-[8px]',
-      md: 'py-[12px]',
-      lg: 'py-[16px]',
+      sm: 'lg:py-[8px] md:py-[6px] px-[4px]',
+      md: 'xl:py-[12px] lg:py-[10px] md:py-[8px] px-[4px]',
+      lg: 'xl:py-[16px] lg:py-[14px] md:py-[12px] px-[6px]',
     },
     vSpace: {
       none: 'my-0',
@@ -72,7 +72,7 @@ export const filledButton = tv({
   base: "text-white",
   variants: {
     color: {
-      primary: 'bg-primary',
+      primary: 'bg-primary hover:bg-primary-600',
       secondary: 'bg-secondary',
     },
   },
@@ -80,14 +80,14 @@ export const filledButton = tv({
 export const textButton = tv({
   extend: baseButton,
   variants: {
-    color: { primary: 'text-blue-600', secondary: '' },
+    color: { primary: 'text-primary-600', secondary: 'text-secondary-600' },
   },
 });
 export const outlinedButton = tv({
   extend: baseButton,
   base: 'ring-1',
   variants: {
-    color: { primary: 'outlined', secondary: '' },
+    color: { primary: 'text-primary-600 border border-primary-600', secondary: 'text-secondary-600 border border-primary-600' },
   },
 });
 export const ghostButton = tv({

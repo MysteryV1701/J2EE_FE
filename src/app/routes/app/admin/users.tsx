@@ -4,7 +4,7 @@ import { ContentLayout } from '@/components/layouts';
 import { getUsersQueryOptions } from '@/features/users/api/get-users';
 import { UsersList } from '@/features/users/components/users-list';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/api';
+import { ROLES } from '@/types/enum';
 
 export const usersLoader = (queryClient: QueryClient) => async () => {
   const query = getUsersQueryOptions();

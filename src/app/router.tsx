@@ -29,24 +29,20 @@ const createAppRouter = (queryClient: QueryClient) =>
         return { Component: LoginRoute };
       },
     },
-    // {
-    //   path: '/auth/forgot-password',
-    //   lazy: async () => {
-    //     const { ForgotPasswordRoute } = await import(
-    //       './routes/auth/forgot-password'
-    //     );
-    //     return { Component: ForgotPasswordRoute };
-    //   },
-    // },
-    // {
-    //   path: '/auth/reset-password',
-    //   lazy: async () => {
-    //     const { ResetPasswordRoute } = await import(
-    //       './routes/auth/reset-password'
-    //     );
-    //     return { Component: ResetPasswordRoute };
-    //   },
-    // },
+    {
+      path: '/campaign',
+      lazy: async () => {
+        const { CampaignRoute } = await import('./routes/client/campaign');
+        return { Component: CampaignRoute };
+      },
+    },
+    {
+      path: '/campaign/{id}',
+      lazy: async () => {
+        const { CampaignRoute } = await import('./routes/client/campaign');
+        return { Component: CampaignRoute };
+      },
+    },
     {
       path: '/app',
       element: (

@@ -1,7 +1,8 @@
+import { ROLES } from "./enum";
+
 export type BaseEntity = {
   id: string;
   createdAt: string;
-  updatedAt: string;
 };
 
 export type Entity<T> = {
@@ -15,16 +16,16 @@ export type Meta = {
     totalPages: number;
 }
 
-export enum ROLES {
-  ADMIN = 'ADMIN',
-  USER = 'USER',
-  OR = 'OR',
-}
+export type Role = Entity<{
+    name: ROLES;
+    description: string;
+    status: number;
+}>
 
 export type User = Entity<{
     name: string;
     email:string;
-    role: ROLES;
+    roleName: ROLES;
     status: number;
 }>
 export type AuthResponse = {
@@ -35,3 +36,53 @@ export type Comment = Entity<{
     body:string,
     author: User,
 }>
+
+
+export type Campaign = Entity<{
+  categoryName: string;
+  createdId: number;
+  createdBy: string;
+  title: string;
+  description: string;
+  thumbnail: string;
+  targetAmount: number;
+  currentAmount: number;
+  startDate: Date;
+  endDate: string;
+  status: number;
+}>
+
+export type Category = Entity<{
+  name:string;
+  description: string;
+  status: number;
+}>
+
+export type Donation = Entity<{
+  campaignId: number;
+  userId: number;
+  amount: number;
+  isAnonymous: boolean;
+  isPaid: boolean;
+  status: number;
+}>
+
+export type FinancialReport = Entity<{
+  totalReceived: number;
+  totalRemain: number;
+  campaignId: number;
+  personReceivedId: number;
+}>
+
+export type Payment = Entity<{
+  code: string;
+  message: string;
+  paymentUrl: string;
+}>
+
+export type Recipient = Entity<{
+  name: string;
+  phone: number;
+  address: string;
+  status: number;
+}> 

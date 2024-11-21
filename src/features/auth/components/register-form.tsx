@@ -14,7 +14,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const redirectTo = searchParams.get('redirectTo');
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <Form
         onSubmit={(values) => {
           registering.mutate(values);
@@ -55,6 +55,14 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                 isLoading={registering.isPending}
                 type="submit"
                 className="w-full"
+                buttonStyled={{
+                  behavior: 'block',
+                  rounded: 'normal',
+                  color: 'primary',
+                  hPadding: 'md',
+                  vPadding: 'sm',
+                }}
+                buttonVariant="filled"
               >
                 Register
               </Button>
@@ -62,15 +70,26 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           </>
         )}
       </Form>
+      <div className="w-100 border-t border-gray-400"></div>
       <div className="mt-2 flex items-center justify-end">
-        <div className="text-sm">
+        <Button
+          buttonVariant="outlined"
+          buttonStyled={{
+            behavior: 'block',
+            rounded: 'normal',
+            color: 'primary',
+            size: 'lg',
+            vPadding: 'sm',
+          }}
+          className="border-primary text-info"
+        >
           <Link
             to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
             className="font-medium text-blue-600 hover:text-blue-500"
           >
-            Log In
+            Đăng nhập
           </Link>
-        </div>
+        </Button>
       </div>
     </div>
   );

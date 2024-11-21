@@ -50,7 +50,7 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
           className="mt-8 sm:mx-auto sm:w-full sm:max-w-md"
           style={{ zIndex: 1 }}
         >
-          <div className="bg-gray-50 px-4 py-8 shadow sm:rounded-lg sm:px-10">
+          <div className="bg-gray-50 border border-gray-200 px-4 py-8 shadow sm:rounded-lg sm:px-10">
             {children}
           </div>
         </div>

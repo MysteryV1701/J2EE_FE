@@ -1,0 +1,122 @@
+// Button
+@mixin button__default-style($text-color, $bg-color, $bg-hover-color) {
+  color: $text-color;
+  background-color: $bg-color;
+  border: none;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &:before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    z-index: -1;
+    background: $bg-hover-color;
+    height: 20rem;
+    width: 20rem;
+    border-radius: 50%;
+    transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
+  }
+  &:hover::before {
+    top: -3rem;
+    left: -3rem;
+  }
+  &:active {
+    transform: translateY(0.1em);
+  }
+}
+@mixin button__outline-style(
+  $border-color,
+  $text-color,
+  $bg-color,
+  $border-hover-color,
+  $text-hover-color,
+  $bg-hover-color
+) {
+  border: 1px solid $border-color;
+  color: $text-color;
+  background-color: $bg-color;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  &::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.25);
+    top: 100%;
+    width: 140%;
+    height: 180%;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+  }
+  &::after {
+    content: '';
+    position: absolute;
+    left: 55%;
+    transform: translateX(-50%) scaleY(1) scaleX(1.45);
+    top: 180%;
+    width: 160%;
+    height: 190%;
+    background-color: $bg-color;
+    border-radius: 50%;
+    display: block;
+    transition: all 0.5s 0.1s cubic-bezier(0.55, 0, 0.1, 1);
+    z-index: -1;
+  }
+  &:hover {
+    color: $text-hover-color;
+    border-color: $border-hover-color;
+  }
+  &:active {
+    transform: translateY(0.1em);
+  }
+  &:hover::before {
+    top: -35%;
+    background-color: $bg-hover-color;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  }
+  &:hover::after {
+    top: -45%;
+    background-color: $bg-hover-color;
+    transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
+  }
+}
+@mixin button__ghost-style(
+  $text-color,
+  $bg-color,
+  $text-hover-color,
+  $bg-hover-color
+) {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  border: none;
+  background-color: $bg-color;
+  color: $text-color;
+  &::before {
+    content: '';
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
+    transition-duration: 500ms;
+    background-color: $bg-hover-color;
+    border-radius: 9999px;
+    z-index: -1;
+  }
+  &:hover {
+    color: $text-hover-color;
+  }
+  &:hover::before {
+    width: 120%;
+    height: 14em;
+  }
+}

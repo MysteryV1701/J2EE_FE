@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 import { Folder, Home, User2 } from 'lucide-react';
 import { useAuthorization } from '@/lib/authorization';
-import { ROLES } from '@/types/api';
+import { ROLES } from '@/types/enum';
 
 import { cn } from '@/helpers/cn';
 
@@ -77,7 +77,7 @@ export const Navbar: React.FC = () => {
             <Button
               buttonVariant="outlined"
               className="rounded-full"
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/auth/login')}
             >
               Login
             </Button>
