@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { Folder, Home, User2 } from 'lucide-react';
+import { Folder, Home, User2, ChevronDownIcon } from 'lucide-react';
 import { useAuthorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
 
@@ -21,6 +21,7 @@ import { Logo } from '../logo';
 type SideNavigationItem = {
   name: string;
   to: string;
+  dropdown?: { name: string; to: string }[];
   icon?: React.ElementType;
 };
 
@@ -35,14 +36,23 @@ export const Navbar: React.FC = () => {
   const userStatus = isAdmin ? 'admin' : isUser ? 'user' : 'guest';
 
   const generalNavigation: SideNavigationItem[] = [
-    { name: 'Trang chủ', to: '.' },
+    { name: 'Trang chủ', to: '/' },
     { name: 'Chiến Dịch Gây Quỹ', to: './campaign' },
-    { name: 'Hoàn Cảnh Gây Quỹ', to: './' },
+    {
+      name: 'Hoàn Cảnh Gây Quỹ',
+      to: './',
+      dropdown: [
+        { name: 'Trang thiết bị', to: '/campaign/equipment' },
+        { name: 'Hoàn cảnh khó khăn', to: '/campaign/dif' },
+        { name: 'Học sinh nghèo vượt khó', to: '/campaign/pstudent' },
+        { name: 'Học sinh vùng cao', to: '/campaign/other' },
+      ],
+    },
     { name: 'Về chúng tôi', to: './aboutus' },
   ];
 
   const dashboardNavigation: SideNavigationItem[] = [
-    { name: 'Dashboard', to: '.', icon: Home },
+    { name: 'Dashboard', to: '/app', icon: Home },
     { name: 'Discussions', to: './discussions', icon: Folder },
   ];
 
@@ -56,22 +66,54 @@ export const Navbar: React.FC = () => {
       <Logo />
       {!isAdmin ? (
         <div className="md:flex flex-row gap-4 bg-primary rounded-2xl p-2 hidden">
-          {generalNavigation.map((item) => (
-            <NavLink
-              key={item.name}
-              to={item.to}
-              end
-              className={({ isActive }) =>
-                cn(
-                  'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'group flex items-center rounded-xl px-2 py-1 text-base font-semibold',
-                  isActive && 'text-white',
-                )
-              }
-            >
-              {item.name}
-            </NavLink>
-          ))}
+          {generalNavigation.map((item) =>
+            !item.dropdown ? (
+              <NavLink
+                key={item.name}
+                to={item.to}
+                end
+                className={({ isActive }) =>
+                  cn(
+                    'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'group flex items-center rounded-xl px-2 py-1 text-base font-semibold',
+                    isActive && 'text-white',
+                  )
+                }
+              >
+                {item.name}
+              </NavLink>
+            ) : (
+              <DropdownMenu key={item.name}>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    buttonVariant="filled"
+                    buttonStyled={{
+                      color: 'primary',
+                      hPadding: 'md',
+                      vPadding: 'sm',
+                    }}
+                    className="rounded-xl"
+                  >
+                    {item.name}
+                    <ChevronDownIcon className="size-6" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="center" color="bg-gray-200">
+                  {item.dropdown.map((subItem) => (
+                    <DropdownMenuItem
+                      key={subItem.name}
+                      onClick={() => navigate(subItem.to)}
+                      className={cn(
+                        'block px-4 py-2 text-sm text-gray-700 hover:bg-primary-300 rounded-md',
+                      )}
+                    >
+                      {subItem.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ),
+          )}
 
           {userStatus === 'guest' ? (
             <Button

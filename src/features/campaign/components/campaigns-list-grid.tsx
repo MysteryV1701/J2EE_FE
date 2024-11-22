@@ -18,7 +18,6 @@ export const CampaignListGird: FunctionComponent = () => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
 
-  // For the pagination
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
@@ -44,7 +43,7 @@ export const CampaignListGird: FunctionComponent = () => {
       return null;
     }
   };
-  const totalPages = 20;
+  const totalPages = 10;
   const campaigns = CampaignList;
 
   if (!campaigns || campaigns.length === 0) {
