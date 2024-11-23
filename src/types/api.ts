@@ -15,6 +15,12 @@ export type Meta = {
     totalPages: number;
 }
 
+export type Recipient = Entity<{
+  name: string;
+  code: string;
+  phone: string;
+}>
+
 export enum ROLES {
   ADMIN = 'ADMIN',
   USER = 'USER',

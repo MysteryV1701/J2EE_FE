@@ -85,6 +85,15 @@ const createAppRouter = (queryClient: QueryClient) =>
             return { Component: DashboardRoute };
           },
         },
+        {
+          path: 'recipients',
+          lazy: async () => {
+            const { RecipientsRoute } = await import(
+              './routes/app/admin/recipient.tsx'
+            );
+            return { Component: RecipientsRoute };
+          },
+        }
       ],
     },
     {
