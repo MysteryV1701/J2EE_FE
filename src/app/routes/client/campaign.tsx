@@ -1,8 +1,57 @@
 import { ContentLayout } from '@/components/layouts';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
-import { CampaignListGird } from '@/features/campaign/components/campaigns-list-grid';
+import { Spinner } from '@/components/ui/spinner';
+import {
+  getCampaignQueryOptions,
+  useCampaign,
+} from '@/features/campaign/api/get-campaign';
+import { CampaignView } from '@/features/campaign/components/campaign-view';
+// import { getListDonationOfCampaignQueryOptions } from '@/features/donate/api/get-donates';
+import { QueryClient } from '@tanstack/react-query';
+import { ErrorBoundary } from 'react-error-boundary';
+import { LoaderFunctionArgs, useParams } from 'react-router-dom';
+
+export const campaignLoader =
+  (queryClient: QueryClient) =>
+  async ({ params }: LoaderFunctionArgs) => {
+    const campaignId = Number(params.campaignId);
+
+    const discussionQuery = getCampaignQueryOptions(campaignId);
+    // const donatesQuery = getListDonationOfCampaignQueryOptions(campaignId);
+
+    const promises = [
+      queryClient.getQueryData(discussionQuery.queryKey) ??
+        (await queryClient.fetchQuery(discussionQuery)),
+      // queryClient.getQueryData(donatesQuery.queryKey) ??
+      //   (await queryClient.fetchInfiniteQuery(donatesQuery)),
+    ] as const;
+
+    const [campaign] = await Promise.all(promises);
+
+    return {
+      campaign,
+    };
+  };
 
 export const CampaignRoute = () => {
+  const params = useParams();
+  const campaignId = Number(params.discussionId);
+  const discussionQuery = useCampaign({
+    campaignId,
+  });
+
+  if (discussionQuery.isLoading) {
+    return (
+      <div className="flex h-48 w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  const discussion = discussionQuery.data?.data;
+
+  if (!discussion) return null;
+
   const breadcrumbs = [
     {
       to: '/',
@@ -40,7 +89,17 @@ export const CampaignRoute = () => {
           optio perspiciatis quod nihil.
         </span>
       </div>
-      <CampaignListGird />
+      <CampaignView campaignId={campaignId} />
+      <div className="mt-8">
+        <ErrorBoundary
+          fallback={
+            <div>Failed to load comments. Try to refresh the page.</div>
+          }
+        >
+          <div className=""></div>
+          {/* <Donations campaignId={campaignId} /> */}
+        </ErrorBoundary>
+      </div>
     </ContentLayout>
   );
 };

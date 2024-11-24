@@ -1,9 +1,9 @@
 import { Spinner } from '@/components/ui/spinner';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent } from 'react';
 import { useCampaign } from '../api/get-campaign';
 
 export interface CampaignDetailProps {
-  campaignId: string;
+  campaignId: number;
 }
 
 export const CampaignView: FunctionComponent<CampaignDetailProps> = (props) => {

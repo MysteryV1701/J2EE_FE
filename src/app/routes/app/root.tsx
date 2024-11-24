@@ -26,3 +26,7 @@ export const AppRoot = () => {
     </DashboardLayout>
   );
 };
+
+export const AppRootErrorBoundary = () => {
+  return <div>Something went wrong!</div>;
+};

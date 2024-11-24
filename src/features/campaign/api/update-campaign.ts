@@ -19,7 +19,7 @@ export const updateCampaign = ({
   campaignId,
 }: {
   data: UpdateCampaignInput;
-  campaignId: string;
+  campaignId: number;
 }): Promise<Campaign> => {
   return api.patch(`/campaign/${campaignId}`, data);
 };
@@ -38,7 +38,7 @@ export const useUpdateCampaign = ({
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.refetchQueries({
-        queryKey: getCampaignQueryOptions(data.id).queryKey,
+        queryKey: getCampaignQueryOptions(Number(data.id)).queryKey,
       });
       onSuccess?.(data, ...args);
     },

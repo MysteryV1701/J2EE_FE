@@ -1,17 +1,21 @@
 import { Spinner } from '@/components/ui/spinner';
 import { useCampaigns } from '../api/get-campaigns';
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import { CampaignCard } from '@/components/ui/card';
 import { Pagination } from '@/components/ui/pagination';
 
 export const CampaignListGird: FunctionComponent = () => {
   const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(5);
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
 
   const campaignQuery = useCampaigns({ queryConfig: {}, page });
+
+  useEffect(() => {
+    setPageNumberLimit(campaignQuery.data?.totalPages || 5);
+    setMaxPageNumberLimit(campaignQuery.data?.totalPages || 5);
+  }, [campaignQuery.data]);
 
   if (campaignQuery.isLoading) {
     return (
@@ -42,7 +46,6 @@ export const CampaignListGird: FunctionComponent = () => {
       return null;
     }
   };
-  const totalPages = 10;
   const campaigns = campaignQuery?.data?.data;
 
   if (!campaigns || campaigns.length === 0) {
@@ -67,8 +70,8 @@ export const CampaignListGird: FunctionComponent = () => {
         })}
       </div>
       <Pagination
-        totalPages={totalPages}
-        pageSize={pageSize}
+        totalPages={campaignQuery.data?.totalPages || 5}
+        pageSize={campaignQuery.data?.size || 5}
         page={page}
         changePage={changePage}
         incrementPage={incrementPage}
