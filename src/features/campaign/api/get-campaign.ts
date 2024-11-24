@@ -6,12 +6,12 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 export const getCampaign = ({
   campaignId,
 }: {
-  campaignId: string;
+  campaignId: number;
 }): Promise<{ data: Campaign }> => {
   return api.get(`/camp/${campaignId}`);
 };
 
-export const getCampaignQueryOptions = (campaignId: string) => {
+export const getCampaignQueryOptions = (campaignId: number) => {
   return queryOptions({
     queryKey: ['id', campaignId],
     queryFn: () => getCampaign({ campaignId }),
@@ -19,7 +19,7 @@ export const getCampaignQueryOptions = (campaignId: string) => {
 };
 
 type UseCampaignOptions = {
-  campaignId: string;
+  campaignId: number;
   queryConfig?: QueryConfig<typeof getCampaignQueryOptions>;
 };
 

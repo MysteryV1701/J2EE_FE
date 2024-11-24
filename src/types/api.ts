@@ -11,7 +11,7 @@ export type Entity<T> = {
 
 export type Meta = {
   page: number;
-  total: number;
+  size: number;
   totalPages: number;
 };
 

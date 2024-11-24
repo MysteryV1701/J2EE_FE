@@ -2,13 +2,15 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-import { Campaign, Meta } from '@/types/api';
+import { Campaign } from '@/types/api';
 
 export const getCampaigns = (
   page = 1,
 ): Promise<{
   data: Campaign[];
-  meta: Meta;
+  total: number;
+  size: number;
+  totalPages: number;
 }> => {
   return api.get(`/campaigns`, {
     params: {

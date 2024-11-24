@@ -4,55 +4,72 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { ProtectedRoute } from '@/lib/auth';
 
-import { AppRoot } from './routes/app/root';
+import { AppRoot, AppRootErrorBoundary } from './routes/app/root';
+import { paths } from '@/config/paths.ts';
 
 const createAppRouter = (queryClient: QueryClient) =>
   createBrowserRouter([
     {
-      path: '/',
+      path: paths.home.path,
       lazy: async () => {
         const { LandingRoute } = await import('./routes/landing');
         return { Component: LandingRoute };
       },
+      ErrorBoundary: AppRootErrorBoundary,
     },
     {
-      path: '/auth/register',
+      path: paths.auth.register.path,
       lazy: async () => {
         const { RegisterRoute } = await import('./routes/auth/register');
         return { Component: RegisterRoute };
       },
+      ErrorBoundary: AppRootErrorBoundary,
     },
     {
-      path: '/auth/login',
+      path: paths.auth.login.path,
       lazy: async () => {
         const { LoginRoute } = await import('./routes/auth/login');
         return { Component: LoginRoute };
       },
+      ErrorBoundary: AppRootErrorBoundary,
     },
     {
-      path: '/campaign',
+      path: paths.campaigns.path,
       lazy: async () => {
-        const { CampaignRoute } = await import('./routes/client/campaign');
-        return { Component: CampaignRoute };
+        const { CampaignRoute, campaignsLoader } = await import(
+          './routes/client/campaigns.tsx'
+        );
+        return {
+          Component: CampaignRoute,
+          loader: campaignsLoader(queryClient),
+        };
       },
+      ErrorBoundary: AppRootErrorBoundary,
     },
     {
-      path: '/campaign/{id}',
+      path: paths.campaign.path,
       lazy: async () => {
-        const { CampaignRoute } = await import('./routes/client/campaign');
-        return { Component: CampaignRoute };
+        const { CampaignRoute, campaignLoader } = await import(
+          './routes/client/campaign.tsx'
+        );
+        return {
+          Component: CampaignRoute,
+          loader: campaignLoader(queryClient),
+        };
       },
+      ErrorBoundary: AppRootErrorBoundary,
     },
     {
-      path: '/app',
+      path: paths.app.root.path,
       element: (
         <ProtectedRoute>
           <AppRoot />
         </ProtectedRoute>
       ),
+      ErrorBoundary: AppRootErrorBoundary,
       children: [
         {
-          path: 'users',
+          path: paths.app.users.path,
           lazy: async () => {
             const { UsersRoute } = await import('./routes/app/admin/users.tsx');
             return { Component: UsersRoute };
@@ -66,14 +83,7 @@ const createAppRouter = (queryClient: QueryClient) =>
           },
         },
         {
-          path: 'profile',
-          lazy: async () => {
-            const { ProfileRoute } = await import('./routes/app/profile.tsx');
-            return { Component: ProfileRoute };
-          },
-        },
-        {
-          path: '',
+          path: paths.app.dashboard.path,
           lazy: async () => {
             const { DashboardRoute } = await import(
               './routes/app/admin/dashboard.tsx'
