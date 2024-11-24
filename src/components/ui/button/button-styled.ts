@@ -63,31 +63,44 @@ export const baseButton = tv({
     behavior: {
       block: 'w-full',
     },
+    ringWidth: {
+      1: 'ring-1',
+      2: 'ring-2',
+      4: 'ring-4',
+    },
     responsiveVariants: ['xs', 'sm', 'md'],
   },
 });
 
 export const filledButton = tv({
   extend: baseButton,
-  base: "text-white",
+  base: 'text-white',
   variants: {
     color: {
       primary: 'bg-primary hover:bg-primary-600',
       secondary: 'bg-secondary',
+      gray: 'bg-gray-600',
     },
   },
 });
 export const textButton = tv({
   extend: baseButton,
   variants: {
-    color: { primary: 'text-primary-600', secondary: 'text-secondary-600' },
+    color: {
+      primary: 'text-primary-600',
+      secondary: 'text-secondary-600',
+      gray: 'text-gray-600',
+    },
   },
 });
 export const outlinedButton = tv({
   extend: baseButton,
-  base: 'ring-1',
   variants: {
-    color: { primary: 'text-primary-600 border border-primary-600', secondary: 'text-secondary-600 border border-primary-600' },
+    color: {
+      primary: 'text-primary-600 ring-primary-600',
+      secondary: 'text-secondary-600 border border-primary-600',
+      gray: 'text-gray-600 ring-gray-600 ',
+    },
   },
 });
 export const ghostButton = tv({
@@ -97,6 +110,7 @@ export const ghostButton = tv({
       primary:
         "text-primary bg-transparent border-primary after:content-[''] after:absolute after:rotate-[25deg] after:top-[-100%] after:left-[-190%] after:bg-primary after:w-[150%] after:pt-[150%] after:transition-[left] after:duration-300 after:ease-linear after:z-[-1] hover:after:left-[-30%] hover:text-white hover:ring-2",
       secondary: '',
+      gray: '',
     },
   },
 });

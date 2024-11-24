@@ -1,26 +1,25 @@
-// import { Spinner } from '@/components/ui/spinner';
-// import { useCampaigns } from '../api/get-campaigns';
-import { CampaignList } from '@/helpers/dataset';
+import { Spinner } from '@/components/ui/spinner';
+import { useCampaigns } from '../api/get-campaigns';
 import { FunctionComponent, useState } from 'react';
-import CampaginCard from '@/components/ui/card/campagin-card';
+import { CampaignCard } from '@/components/ui/card';
 import { Pagination } from '@/components/ui/pagination';
 
 export const CampaignListGird: FunctionComponent = () => {
-  // const campaignQuery = useCampaigns();
-
-  // if (campaignQuery.isLoading) {
-  //   return (
-  //     <div className="flex h-48 w-full items-center justify-center">
-  //       <Spinner size="lg" />
-  //     </div>
-  //   );
-  // }
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(5);
-
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
+
+  const campaignQuery = useCampaigns({ queryConfig: {}, page });
+
+  if (campaignQuery.isLoading) {
+    return (
+      <div className="flex h-48 w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
   const changePage = (pageNumber: number) => {
     setPage(pageNumber);
@@ -44,7 +43,7 @@ export const CampaignListGird: FunctionComponent = () => {
     }
   };
   const totalPages = 10;
-  const campaigns = CampaignList;
+  const campaigns = campaignQuery?.data?.data;
 
   if (!campaigns || campaigns.length === 0) {
     return (
@@ -63,8 +62,8 @@ export const CampaignListGird: FunctionComponent = () => {
   return (
     <div className="mt-8 min-h-screen flex flex-col gap-4">
       <div className="grid sm:grid-cols-2 2xl:grid-cols-4 lg:grid-cols-3 grid-cols-1 gap-md-16 gap-8 ">
-        {campaigns.map((campagin) => {
-          return <CampaginCard {...campagin} key={campagin.id}></CampaginCard>;
+        {campaigns.map((campaign) => {
+          return <CampaignCard {...campaign} key={campaign.id}></CampaignCard>;
         })}
       </div>
       <Pagination

@@ -30,8 +30,9 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           size: 'lg',
           hPadding: 'sm',
           vPadding: 'xs',
+          ringWidth: 1,
         }}
-        className="border-primary text-info"
+        className="bg-white"
       >
         <div className="bg-white p-2 rounded-full">
           <svg className="w-4" viewBox="0 0 533.5 544.3">
@@ -53,7 +54,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             />
           </svg>
         </div>
-        <span className="ml-4">Sign Up with Google</span>
+        <span className="ml-4 ">Đăng nhập bằng Google</span>
       </Button>
       <div className="relative text-center">
         <div className="absolute inset-0 flex items-center">
@@ -115,12 +116,13 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             color: 'primary',
             size: 'lg',
             vPadding: 'sm',
+            ringWidth: 1,
           }}
-          className="border-primary text-info"
+          className="text-primary"
         >
           <Link
             to={`/auth/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
-            className="font-medium text-blue-600 hover:text-blue-500"
+            className="font-medium"
           >
             Log In
           </Link>

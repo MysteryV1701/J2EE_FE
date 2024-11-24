@@ -1,6 +1,6 @@
 import { ContentLayout } from '@/components/layouts';
 import Button from '@/components/ui/button';
-import CampaignContainer from '@/components/ui/card/campaign-container';
+import { CampaignContainer } from '@/components/ui/card';
 import { CampaignList } from '@/helpers/dataset';
 
 import { ShieldCheckIcon, BookOpenCheckIcon } from 'lucide-react';

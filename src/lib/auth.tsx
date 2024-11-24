@@ -88,7 +88,8 @@ export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const location = useLocation();
-  if (!user.data) {
+
+  if (!user.data || user.data.roleName !== ROLES.ADMIN) {
     return (
       <Navigate
         to={`/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`}

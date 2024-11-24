@@ -1,7 +1,6 @@
 import { ContentLayout } from '@/components/layouts';
 import Button from '@/components/ui/button';
 import { useUser } from '@/lib/auth';
-// import { ROLES } from '@/lib/authorization';
 
 export const DashboardRoute = () => {
   const user = useUser();
@@ -16,7 +15,7 @@ export const DashboardRoute = () => {
           Welcome <b>{`${user.data?.fullname}`}</b>
         </h1>
         <h4 className="my-3">
-          Your role is : <b>{user.data?.role}</b>
+          Your role is : <b>{user.data?.roleName}</b>
         </h4>
         <p className="font-medium">In this application you can:</p>
       </div>

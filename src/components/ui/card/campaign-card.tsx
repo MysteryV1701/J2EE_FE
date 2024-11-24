@@ -4,7 +4,7 @@ import { Campaign } from '@/types/api';
 import { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
-const CampaginCard: FunctionComponent<Campaign> = (props) => {
+export const CampaignCard: FunctionComponent<Campaign> = (props) => {
   const progress = Math.floor((props.currentAmount / props.targetAmount) * 100);
   const date = Math.ceil(
     (new Date(props.endDate).getTime() - new Date().getTime()) /
@@ -27,10 +27,10 @@ const CampaginCard: FunctionComponent<Campaign> = (props) => {
           {props.categoryName}
         </span>
         <h3
-          title={props.title}
+          title={props.code}
           className="lg:text-md text-base font-semibold h-12 mb-4 max-md:pb-2 max-md:text-sm text-ellipsis line-clamp-2"
         >
-          {props.title}
+          {props.name}
         </h3>
         <div className="flex flex-col justify-between content-center md:gap-4 gap-2 mt-2">
           <div className="flex flex-col gap-2">
@@ -82,5 +82,3 @@ const CampaginCard: FunctionComponent<Campaign> = (props) => {
     </div>
   );
 };
-
-export default CampaginCard;

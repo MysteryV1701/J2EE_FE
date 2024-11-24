@@ -1,2 +1,2 @@
-export * from "./campagin-card"
-export * from "./campaign-container"
+export * from './campaign-card';
+export * from './campaign-container';

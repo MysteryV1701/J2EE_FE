@@ -80,14 +80,15 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             color: 'primary',
             size: 'lg',
             vPadding: 'sm',
+            ringWidth: 1,
           }}
-          className="border-primary text-info"
+          className="text-primary"
         >
           <Link
             to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
-            className="font-medium text-blue-600 hover:text-blue-500"
+            className="font-medium"
           >
-            Đăng nhập
+            Log In
           </Link>
         </Button>
       </div>

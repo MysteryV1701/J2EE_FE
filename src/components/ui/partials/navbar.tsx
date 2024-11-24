@@ -30,7 +30,6 @@ export const Navbar: React.FC = () => {
   const navigate = useNavigate();
   const logout = useLogout();
 
-  // Determine user status: guest, user, or admin
   const isAdmin = checkAccess({ allowedRoles: [ROLES.ADMIN] });
   const isUser = checkAccess({ allowedRoles: [ROLES.USER] });
   const userStatus = isAdmin ? 'admin' : isUser ? 'user' : 'guest';
@@ -48,19 +47,19 @@ export const Navbar: React.FC = () => {
         { name: 'Học sinh vùng cao', to: '/campaign/other' },
       ],
     },
-    { name: 'Về chúng tôi', to: './aboutus' },
+    { name: 'Về chúng tôi', to: './about-us' },
   ];
 
   const dashboardNavigation: SideNavigationItem[] = [
     { name: 'Dashboard', to: '/app', icon: Home },
-    { name: 'Discussions', to: './discussions', icon: Folder },
+    { name: 'Campaign', to: './campaign', icon: Folder },
   ];
 
   return (
     <nav
       className={cn(
         'flex justify-between items-center gap-4',
-        isAdmin ? 'flex-col' : 'flex-row',
+        isAdmin ? 'flex-col w-full' : 'flex-row',
       )}
     >
       <Logo />
@@ -74,7 +73,7 @@ export const Navbar: React.FC = () => {
                 end
                 className={({ isActive }) =>
                   cn(
-                    'text-gray-300 hover:bg-gray-700 hover:text-white',
+                    'text-gray-300 hover:bg-primary-700 hover:text-white',
                     'group flex items-center rounded-xl px-2 py-1 text-base font-semibold',
                     isActive && 'text-white',
                   )
@@ -160,7 +159,7 @@ export const Navbar: React.FC = () => {
           )}
         </div>
       ) : (
-        <nav className="flex flex-col items-center gap-4 px-2 py-4">
+        <div className="flex flex-col items-center gap-2 p-4 w-full">
           {dashboardNavigation.map((item) => (
             <NavLink
               key={item.name}
@@ -168,16 +167,16 @@ export const Navbar: React.FC = () => {
               end={item.name !== 'Discussions'}
               className={({ isActive }) =>
                 cn(
-                  'text-gray-300 hover:bg-gray-700 hover:text-white',
-                  'group flex flex-1 w-full items-center rounded-md p-2 text-base font-medium',
-                  isActive && 'bg-gray-900 text-white',
+                  'text-gray-300 hover:bg-primary-700 hover:text-white',
+                  'group flex flex-1 w-full items-center rounded-md p-2 text-base font-medium transition duration-200 ease-in-out',
+                  isActive && 'bg-primary-800 text-white',
                 )
               }
             >
               {item.icon && (
                 <item.icon
                   className={cn(
-                    'text-gray-400 group-hover:text-gray-300',
+                    'text-gray-400 group-hover:text-gray-300 transition duration-200 ease-in-out',
                     'mr-4 size-6 shrink-0',
                   )}
                   aria-hidden="true"
@@ -186,7 +185,7 @@ export const Navbar: React.FC = () => {
               {item.name}
             </NavLink>
           ))}
-        </nav>
+        </div>
       )}
     </nav>
   );
