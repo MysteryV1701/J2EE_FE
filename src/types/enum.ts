@@ -1,0 +1,11 @@
+export enum ROLES {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
+  OR = 'OR',
+}
+export enum CAMPAIGNSTATUS {
+  PENDING = 'PENDING',
+  ACTIVE = 'ACTIVE',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}

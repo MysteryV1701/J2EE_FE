@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Head } from '../seo';
 import { Navbar } from '../ui/partials/navbar';
+import Footer from '../ui/partials/footer';
 
 type ContentLayoutProps = {
   children: React.ReactNode;
@@ -35,6 +36,7 @@ export const ContentLayout = ({
             <Navbar />
             <div className="px-4">{children}</div>
           </div>
+          <Footer />
         </>
       )}
     </>

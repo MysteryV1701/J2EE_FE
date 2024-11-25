@@ -3,17 +3,17 @@ import * as React from 'react';
 import { Comment, User } from '@/types/api';
 
 import { useUser } from './auth';
-import { ROLES } from '../types/api';
+import { ROLES } from '../types/enum';
 
 type RoleTypes = keyof typeof ROLES;
 
 export const POLICIES = {
   'comment:delete': (user: User, comment: Comment) => {
-    if (user.role === 'ADMIN') {
+    if (user.roleName === 'ADMIN') {
       return true;
     }
 
-    if (user.role === 'USER' && comment.author?.id === user.id) {
+    if (user.roleName === 'USER' && comment.author?.id === user.id) {
       return true;
     }
 
@@ -23,7 +23,6 @@ export const POLICIES = {
 
 export const useAuthorization = () => {
   const user = useUser();
-
   if (!user.data) {
     throw Error('User does not exist!');
   }
@@ -31,7 +30,7 @@ export const useAuthorization = () => {
   const checkAccess = React.useCallback(
     ({ allowedRoles }: { allowedRoles: RoleTypes[] }) => {
       if (allowedRoles && allowedRoles.length > 0 && user.data) {
-        return allowedRoles?.includes(user.data.role);
+        return allowedRoles?.includes(user.data.roleName);
       }
 
       return true;
@@ -39,7 +38,7 @@ export const useAuthorization = () => {
     [user.data],
   );
 
-  return { checkAccess, role: user.data.role };
+  return { checkAccess, role: user.data.roleName };
 };
 
 type AuthorizationProps = {

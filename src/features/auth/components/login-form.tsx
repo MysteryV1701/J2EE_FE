@@ -20,10 +20,19 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const passwordRef = React.useRef<HTMLInputElement>(null);
 
   return (
-    <div>
-      {/* <Button
+    <div className="flex flex-col gap-4">
+      <Button
         buttonVariant="outlined"
-        buttonStyled={{ behavior: 'block', rounded: 'normal' }}
+        buttonStyled={{
+          behavior: 'block',
+          rounded: 'normal',
+          color: 'primary',
+          size: 'lg',
+          hPadding: 'sm',
+          vPadding: 'xs',
+          ringWidth: 1,
+        }}
+        className="bg-white"
       >
         <div className="bg-white p-2 rounded-full">
           <svg className="w-4" viewBox="0 0 533.5 544.3">
@@ -45,8 +54,17 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             />
           </svg>
         </div>
-        <span className="ml-4">Sign Up with Google</span>
-      </Button> */}
+        <span className="ml-4 ">Đăng nhập bằng Google</span>
+      </Button>
+      <div className="relative text-center">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-400"></div>
+        </div>
+        <span className="relative bg-white px-2 text-gray-500">
+          Hoặc đăng nhập với tài khoản
+        </span>
+      </div>
+
       <Form
         onSubmit={(values) => {
           login.mutate(values);
@@ -88,15 +106,27 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           </>
         )}
       </Form>
+      <div className="w-100 border-t border-gray-400"></div>
       <div className="mt-2 flex items-center justify-end">
-        <div className="text-sm">
+        <Button
+          buttonVariant="outlined"
+          buttonStyled={{
+            behavior: 'block',
+            rounded: 'normal',
+            color: 'primary',
+            size: 'lg',
+            vPadding: 'sm',
+            ringWidth: 1,
+          }}
+          className="text-primary"
+        >
           <Link
             to={`/auth/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
-            className="font-medium text-blue-600 hover:text-blue-500"
+            className="font-medium"
           >
-            Đăng ký
+            Log In
           </Link>
-        </div>
+        </Button>
       </div>
     </div>
   );

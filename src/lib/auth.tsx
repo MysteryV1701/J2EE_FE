@@ -4,8 +4,8 @@ import { configureAuth } from 'react-query-auth';
 import { Navigate, useLocation } from 'react-router-dom';
 import { z } from 'zod';
 
-import { AuthResponse, ROLES, User } from '@/types/api';
-
+import { AuthResponse, User } from '@/types/api';
+import { ROLES } from '@/types/enum';
 import { api } from './api-client';
 
 const getUser = async (): Promise<User> => {
@@ -17,7 +17,7 @@ const getUser = async (): Promise<User> => {
       status: 1,
       email: 'johndoe@example.com',
       password: 'Password123!',
-      role: ROLES.USER,
+      roleName: ROLES.USER,
       createdAt: '2023-09-25T10:00:00Z',
       updatedAt: '2023-09-25T12:00:00Z',
     },
@@ -88,7 +88,8 @@ export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const location = useLocation();
-  if (!user.data) {
+
+  if (!user.data || user.data.roleName !== ROLES.ADMIN) {
     return (
       <Navigate
         to={`/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`}

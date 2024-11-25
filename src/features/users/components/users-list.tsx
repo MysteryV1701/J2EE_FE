@@ -35,7 +35,7 @@ export const UsersList = () => {
         },
         {
           title: 'Role',
-          field: 'role',
+          field: 'roleName',
         },
         {
           title: 'Created At',

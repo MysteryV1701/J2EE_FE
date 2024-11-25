@@ -1,5 +1,7 @@
 import { ContentLayout } from '@/components/layouts';
 import Button from '@/components/ui/button';
+import { CampaignContainer } from '@/components/ui/card';
+import { CampaignList } from '@/helpers/dataset';
 
 import { ShieldCheckIcon, BookOpenCheckIcon } from 'lucide-react';
 
@@ -14,7 +16,7 @@ export const LandingRoute = () => {
         <span className="--5"></span>
       </div>
       <section
-        className="relative grid md:grid-cols-2 grid-cols-1 items-center md:mt-20 md:gap-24 mt-4 gap-8 z-1 bg-transparent"
+        className="relative grid md:grid-cols-2 grid-cols-1 items-center md:mt-20 xl:gap-24 lg:gap-12 mt-4 gap-8 z-1 bg-transparent"
         id="hero"
       >
         <div className="background-landing--hero">
@@ -26,10 +28,10 @@ export const LandingRoute = () => {
         </div>
         <div className="flex flex-col md:gap-8 gap-2">
           <div className="flex flex-col gap-3">
-            <h1 className="font-dancing text-primary font-bold md:text-6xl text-3xl">
+            <h1 className="font-dancing text-primary font-bold xl:text-6xl lg:text-5xl text-3xl">
               Chung tay góp sức
             </h1>
-            <h1 className="ml-12 font-dancing text-primary font-bold md:text-6xl text-3xl">
+            <h1 className="ml-12 font-dancing text-primary font-bold xl:text-6xl lg:text-5xl text-3xl">
               Phát triển mầm non
             </h1>
           </div>
@@ -40,13 +42,18 @@ export const LandingRoute = () => {
           </q>
           <Button
             buttonVariant="filled"
-            buttonStyled={{ color: 'primary', rounded: 'lg', size: 'lg' }}
+            buttonStyled={{
+              color: 'primary',
+              rounded: 'lg',
+              size: 'xxl',
+              vPadding: 'md',
+              hPadding: 'md',
+              responsiveVariants: 'md' as keyof string[],
+            }}
             style={{ width: 'fit-content' }}
-            className="mt-2"
+            className="mt-2 font-dancing "
           >
-            <span className="text-2xl font-semibold font-dancing">
-              Chung tay góp sức
-            </span>
+            Chung tay góp sức
           </Button>
         </div>
         <div className="flex align-center justify-center">
@@ -90,7 +97,7 @@ export const LandingRoute = () => {
             title="Help many children need to help"
             className="text-gray-800 font-semibold text-3xl font-nunito"
           >
-            Hãy chung tay cùng chúng tôi giúp đỡ những{' '}
+            Hãy chung tay cùng chúng tôi giúp đỡ những
             <q className="text-secondary-600 italic">ngôi sao</q> đang muốn được
             tỏa sáng
           </h1>
@@ -154,18 +161,52 @@ export const LandingRoute = () => {
           Những hoàn cảnh cần sự giúp đỡ của các{' '}
           <q className="text-secondary-600 italic">người ương mầm</q> như bạn
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
-          <div className="w-100 h-[24rem] bg-secondary-200 rounded-xl"></div>
+        <CampaignContainer campaigns={CampaignList}></CampaignContainer>
+      </section>
+      <section
+        id="aboutUs"
+        className="grid md:grid-cols-2 grid-cols-1 items-center md:gap-24 md:pt-32 md:pb-24 gap-12 py-12"
+      >
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2">
+            <span className="w-fit-content font-dancing text-primary font-semibold text-2xl relative ">
+              Chúng tôi là ai?
+            </span>
+            <span className="w-32 h-[1px] bg-primary mt-3 md:block hidden"></span>
+          </div>
+          <h1
+            title="Help many children need to help"
+            className="text-gray-800 font-semibold text-3xl font-nunito"
+          >
+            Sự hộ trợ của bạn là{' '}
+            <q className="text-secondary-600 italic">sức mạnh</q> của chúng tôi
+          </h1>
+          <span className="text-gray-700 text-base text-justify">
+            Bí quyết của hạnh phúc nằm ở việc giúp đỡ người khác. Đừng bao giờ
+            đánh giá thấp sự khác biệt mà bạn có thể tạo ra trong cuộc sống của
+            các em nhỏ đang có mong muốn học tập mà hoàn cảnh không cho phép.
+          </span>
+          <Button
+            buttonVariant="filled"
+            buttonStyled={{
+              color: 'primary',
+              rounded: 'lg',
+              size: 'xxl',
+              vPadding: 'md',
+              hPadding: 'md',
+              responsiveVariants: 'md' as keyof string[],
+            }}
+            style={{ width: 'fit-content' }}
+            className="mt-2 font-dancing"
+          >
+            Tìm hiểu thêm về chúng tôi
+          </Button>
+        </div>
+        <div className="flex flex-col lg:gap-0 gap-8">
+          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
+          <div className="lg:-mt-24 px-8 py-4 self-end w-[20rem] h-[20rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
         </div>
       </section>
-      <section id="aboutus"></section>
     </ContentLayout>
   );
 };
