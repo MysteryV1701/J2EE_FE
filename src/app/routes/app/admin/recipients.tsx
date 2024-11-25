@@ -4,7 +4,7 @@ import { ContentLayout } from '@/components/layouts';
 import { getRecipientQueryOptions } from '@/features/recipients/api/get-recipient';
 import { RecipientList } from '@/features/recipients/components/recipient-list';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/api';
+import { ROLES } from '@/types/enum';
 
 export const recipientsLoader = (queryClient: QueryClient) => async () => {
   const query = getRecipientQueryOptions();
