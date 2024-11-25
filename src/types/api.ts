@@ -51,6 +51,11 @@ export type Campaign = Entity<{
   status: number;
 }>;
 
+export type CampaignView = Entity<{
+  education: Education;
+}> &
+  Campaign;
+
 export type Category = Entity<{
   name: string;
   description: string;
@@ -85,3 +90,17 @@ export type Recipient = Entity<{
   address: string;
   status: number;
 }>;
+
+export type Education = Entity<{
+  name: string;
+  email: string;
+  phone: number;
+  address: string;
+  status: number;
+}>;
+
+export type VNPResponse = {
+  code: string;
+  message: string;
+  paymentUrl: string;
+};

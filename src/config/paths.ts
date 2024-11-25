@@ -8,8 +8,8 @@ export const paths = {
     getHref: () => '/campaigns',
   },
   campaign: {
-    path: 'campaigns/:campaignId',
-    getHref: (id: string) => `/campaigns/${id}`,
+    path: 'campaigns/:code',
+    getHref: (code: string) => `/campaigns/${code}`,
   },
   aboutUs: {
     path: 'about-us',

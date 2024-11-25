@@ -1,34 +1,31 @@
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-import { Campaign } from '@/types/api';
+import { CampaignView } from '@/types/api';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
 export const getCampaign = ({
-  campaignId,
+  code,
 }: {
-  campaignId: number;
-}): Promise<{ data: Campaign }> => {
-  return api.get(`/camp/${campaignId}`);
+  code: string;
+}): Promise<{ data: CampaignView }> => {
+  return api.get(`/campaigns/${code}`);
 };
 
-export const getCampaignQueryOptions = (campaignId: number) => {
+export const getCampaignQueryOptions = (code: string) => {
   return queryOptions({
-    queryKey: ['id', campaignId],
-    queryFn: () => getCampaign({ campaignId }),
+    queryKey: ['campaigns', code],
+    queryFn: () => getCampaign({ code }),
   });
 };
 
 type UseCampaignOptions = {
-  campaignId: number;
+  code: string;
   queryConfig?: QueryConfig<typeof getCampaignQueryOptions>;
 };
 
-export const useCampaign = ({
-  campaignId,
-  queryConfig,
-}: UseCampaignOptions) => {
+export const useCampaign = ({ code, queryConfig }: UseCampaignOptions) => {
   return useQuery({
-    ...getCampaignQueryOptions(campaignId),
+    ...getCampaignQueryOptions(code),
     ...queryConfig,
   });
 };

@@ -17,6 +17,7 @@ import {
 import Button from '../button';
 import { useLogout } from '@/lib/auth';
 import { Logo } from '../logo';
+import { paths } from '@/config/paths';
 
 type SideNavigationItem = {
   name: string;
@@ -35,8 +36,8 @@ export const Navbar: React.FC = () => {
   const userStatus = isAdmin ? 'admin' : isUser ? 'user' : 'guest';
 
   const generalNavigation: SideNavigationItem[] = [
-    { name: 'Trang chủ', to: '/' },
-    { name: 'Chiến Dịch Gây Quỹ', to: './campaign' },
+    { name: 'Trang chủ', to: paths.home.path },
+    { name: 'Chiến Dịch Gây Quỹ', to: paths.campaigns.path },
     {
       name: 'Hoàn Cảnh Gây Quỹ',
       to: './',
@@ -47,7 +48,7 @@ export const Navbar: React.FC = () => {
         { name: 'Học sinh vùng cao', to: '/campaign/other' },
       ],
     },
-    { name: 'Về chúng tôi', to: './about-us' },
+    { name: 'Về chúng tôi', to: paths.aboutUs.path },
   ];
 
   const dashboardNavigation: SideNavigationItem[] = [
@@ -69,7 +70,7 @@ export const Navbar: React.FC = () => {
             !item.dropdown ? (
               <NavLink
                 key={item.name}
-                to={item.to}
+                to={item.to.startsWith('/') ? item.to : `/${item.to}`}
                 end
                 className={({ isActive }) =>
                   cn(
@@ -163,7 +164,7 @@ export const Navbar: React.FC = () => {
           {dashboardNavigation.map((item) => (
             <NavLink
               key={item.name}
-              to={item.to}
+              to={item.to.startsWith('/') ? item.to : `/${item.to}`}
               end={item.name !== 'Discussions'}
               className={({ isActive }) =>
                 cn(

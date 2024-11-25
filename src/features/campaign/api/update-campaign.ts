@@ -16,12 +16,12 @@ export type UpdateCampaignInput = z.infer<typeof updateCampaignInputSchema>;
 
 export const updateCampaign = ({
   data,
-  campaignId,
+  code,
 }: {
   data: UpdateCampaignInput;
-  campaignId: number;
+  code: string;
 }): Promise<Campaign> => {
-  return api.patch(`/campaign/${campaignId}`, data);
+  return api.patch(`/campaign/${code}`, data);
 };
 
 type UseUpdateCampaignOptions = {
@@ -38,7 +38,7 @@ export const useUpdateCampaign = ({
   return useMutation({
     onSuccess: (data, ...args) => {
       queryClient.refetchQueries({
-        queryKey: getCampaignQueryOptions(Number(data.id)).queryKey,
+        queryKey: getCampaignQueryOptions(data.code).queryKey,
       });
       onSuccess?.(data, ...args);
     },
