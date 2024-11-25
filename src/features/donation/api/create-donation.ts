@@ -13,7 +13,7 @@ export const createDonationInputSchema = z.object({
 
 export type CreateDonationInput = z.infer<typeof createDonationInputSchema>;
 
-export const createDonation = ({
+export const createDonation = async ({
   data,
   campaignId,
   userId,
@@ -22,7 +22,14 @@ export const createDonation = ({
   campaignId: number;
   userId?: string;
 }): Promise<Donation> => {
-  return api.post(`/donations`, { ...data, campaignId, userId });
+  const response = await api
+    .post(`/donations`, { ...data, campaignId, userId })
+    .catch((error) => {
+      return error;
+    });
+  return api.get(
+    `/payment/vnp?amount=${response.amount}&donationId=${response.id}`,
+  );
 };
 
 type UseCreateDonationOptions = {

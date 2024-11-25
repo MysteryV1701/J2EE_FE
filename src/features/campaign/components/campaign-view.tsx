@@ -6,7 +6,7 @@ import Button from '@/components/ui/button';
 import { UserIcon } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { Modal } from '@/components/ui/modal';
-import { Form, Input, Switch, Label } from '@/components/ui/form';
+import { Form, Input, Label } from '@/components/ui/form';
 
 import {
   createDonationInputSchema,
@@ -14,7 +14,9 @@ import {
 } from '@/features/donation/api/create-donation';
 import { cn } from '@/helpers/cn';
 import { useUser } from '@/lib/auth';
-import { useNotifications } from '@/components/ui/notifications';
+import { ErrorBoundary } from 'react-error-boundary';
+import { Donations } from '@/features/donation/components/get-donations';
+import { MDPreview } from '@/components/ui/md-preview';
 
 interface CampaignViewProps {
   code: string;
@@ -24,7 +26,6 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
   campaignId,
 }) => {
   const user = useUser();
-  const { addNotification } = useNotifications();
   const [params, setParams] = useSearchParams();
   const [isChecked, setIsChecked] = useState(false);
   const handleSwitchChange = (checked: boolean) => {
@@ -33,11 +34,9 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
   const createDonationMutation = useCreateDonation({
     mutationConfig: {
       onSuccess: (data) => {
-        addNotification({
-          type: 'success',
-          title: 'Discussion Created',
-        });
-        const vnpUrl = use
+        params.delete('modal');
+        setParams(params);
+        window.location.href = data.paymentUrl;
       },
       onError: (error) => {
         console.error('Mutation failed:', error);
@@ -65,6 +64,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
           <Form
             id="create-donation"
             onSubmit={(values) => {
+              console.log('Form values:', values);
               createDonationMutation.mutate({
                 data: values,
                 campaignId,
@@ -79,12 +79,14 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                   <Label htmlFor="isAnonymous" className="text-gray-900">
                     Quyên góp ẩn danh
                   </Label>
-                  <Switch
+
+                  <Input
                     id="isAnonymous"
-                    {...register('isAnonymous')}
+                    type="checkbox"
+                    registration={register('isAnonymous')}
                     checked={isChecked}
                     className="border border-gray-400 rounded-full"
-                    onCheckedChange={handleSwitchChange}
+                    onClick={() => handleSwitchChange(!isChecked)}
                   />
                 </div>
 
@@ -179,12 +181,12 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
         </p>
         <p className="text-gray-400">{formatDate(campaign.createdAt)}</p>
 
-        <div className="lg:grid lg:grid-cols-8 flex flex-col  gap-4 justify-center align-start">
+        <div className="lg:grid lg:grid-cols-8 flex flex-col gap-8   justify-center align-start">
           <div className="h-[24rem] w-full col-start-1 col-end-6">
             <img
               src={campaign.thumbnail}
               alt="No campaigns available"
-              className="h-full w-full object-contain"
+              className="h-full w-full object-conver rounded-xl"
             />
           </div>
           <div className="flex flex-col gap-4 col-start-6 col-end-9 bg-secondary-200 rounded-xl px-4 py-2">
@@ -256,6 +258,18 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
             >
               QUYÊN GÓP
             </Button>
+          </div>
+          <div className="col-start-1 col-end-6">
+            <MDPreview value={campaign.description} />
+          </div>
+          <div className="col-start-6 col-end-9">
+            <ErrorBoundary
+              fallback={
+                <div>Failed to load donations. Try to refresh the page.</div>
+              }
+            >
+              <Donations campaignId={campaign.id} />
+            </ErrorBoundary>
           </div>
         </div>
       </div>

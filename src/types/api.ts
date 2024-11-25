@@ -1,7 +1,7 @@
 import { ROLES } from './enum';
 
 export type BaseEntity = {
-  id: string;
+  id: number;
   createdAt: string;
 };
 
@@ -66,6 +66,7 @@ export type Donation = Entity<{
   campaignId: number;
   userId: number;
   amount: number;
+  name: string;
   isAnonymous: boolean;
   isPaid: boolean;
   status: number;
