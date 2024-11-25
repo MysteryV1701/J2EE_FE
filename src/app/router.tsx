@@ -89,7 +89,7 @@ const createAppRouter = (queryClient: QueryClient) =>
           path: 'recipients',
           lazy: async () => {
             const { RecipientsRoute } = await import(
-              './routes/app/admin/recipient.tsx'
+              './routes/app/admin/recipients.tsx'
             );
             return { Component: RecipientsRoute };
           },

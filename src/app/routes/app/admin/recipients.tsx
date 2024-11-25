@@ -1,8 +1,8 @@
 import { QueryClient } from '@tanstack/react-query';
 
 import { ContentLayout } from '@/components/layouts';
-import { getRecipientQueryOptions } from '@/features/recipient/api/get-recipient';
-import { RecipientList } from '@/features/recipient/components/recipient-list';
+import { getRecipientQueryOptions } from '@/features/recipients/api/get-recipient';
+import { RecipientList } from '@/features/recipients/components/recipient-list';
 import { Authorization } from '@/lib/authorization';
 import { ROLES } from '@/types/api';
 
