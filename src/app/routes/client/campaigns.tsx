@@ -2,7 +2,7 @@ import { ContentLayout } from '@/components/layouts';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { getCampaignsQueryOptions } from '@/features/campaign/api/get-campaigns';
 import { CampaignListGird } from '@/features/campaign/components/campaigns-list-grid';
-import { QueryClient, useQueryClient } from '@tanstack/react-query';
+import { QueryClient } from '@tanstack/react-query';
 import { LoaderFunctionArgs } from 'react-router-dom';
 
 export const campaignsLoader =
@@ -20,7 +20,7 @@ export const campaignsLoader =
     );
   };
 
-export const CampaignRoute = () => {
+export const CampaignsRoute = () => {
   const breadcrumbs = [
     {
       to: '/',
@@ -41,7 +41,7 @@ export const CampaignRoute = () => {
       <div className="mt-8 flex flex-col gap-2 font-nunito">
         <div className="flex items-center gap-2">
           <span className="w-fit-content font-dancing text-primary font-semibold text-2xl relative ">
-            Nơi chung tay góp sức thiện nghiện
+            Nơi chung tay góp sức thiện nguyện
           </span>
           <span className="w-32 h-[1px] bg-primary mt-3 md:block hidden"></span>
         </div>
@@ -58,7 +58,7 @@ export const CampaignRoute = () => {
           optio perspiciatis quod nihil.
         </span>
       </div>
-      <CampaignListGird />
+      <CampaignListGird pagination={true} />
     </ContentLayout>
   );
 };
