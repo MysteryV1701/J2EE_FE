@@ -36,11 +36,11 @@ const createAppRouter = (queryClient: QueryClient) =>
     {
       path: paths.campaigns.path,
       lazy: async () => {
-        const { CampaignRoute, campaignsLoader } = await import(
+        const { CampaignsRoute, campaignsLoader } = await import(
           './routes/client/campaigns.tsx'
         );
         return {
-          Component: CampaignRoute,
+          Component: CampaignsRoute,
           loader: campaignsLoader(queryClient),
         };
       },

@@ -63,7 +63,11 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
               <span className="text-gray-900 font-semibold">{progress}%</span>{' '}
             </p>
           </div>
-          <Link to={'/campaign/' + props.id} key={props.id} className="w-100">
+          <Link
+            to={'/campaigns/' + props.code}
+            key={props.code}
+            className="w-100"
+          >
             <Button
               buttonVariant="filled"
               buttonStyled={{
@@ -75,7 +79,7 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
               }}
             >
               Ủng hộ ngay
-            </Button>{' '}
+            </Button>
           </Link>
         </div>
       </div>

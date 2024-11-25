@@ -19,10 +19,8 @@ export const Breadcrumb: FunctionComponent<BreadcrumbProps> = (props) => {
       <ol className="list-none p-0 inline-flex">
         {props.items.map((content, index) => {
           return index == props.items.length - 1 ? (
-            <li className="flex items-center" key={index}>
-              <a href={content.url} className="text-gray-400">
-                {content.name}
-              </a>
+            <li className="flex items-center text-gray-400" key={index}>
+              {content.name}
             </li>
           ) : (
             <li className="flex items-center" key={index}>
