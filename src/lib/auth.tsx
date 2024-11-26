@@ -12,7 +12,7 @@ const getUser = async (): Promise<User> => {
   // const response = await api.get('/auth/me');
   const response = {
     data: {
-      id: '1',
+      id: 1,
       name: 'John Doe',
       status: 1,
       email: 'johndoe@example.com',

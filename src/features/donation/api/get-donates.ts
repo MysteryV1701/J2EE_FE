@@ -1,47 +1,54 @@
-import { infiniteQueryOptions, useInfiniteQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
-import { Donation, Meta } from '@/types/api';
+import { Donation } from '@/types/api';
 
-export const getDonations = ({
-  campaignId,
+export const getDonations = (
+  campaignId: number,
   page = 1,
-}: {
-  campaignId: number;
-  page?: number;
-}): Promise<{ data: Donation[]; meta: Meta }> => {
+  size = 10,
+): Promise<{
+  data: Donation[];
+  total: number;
+  size: number;
+  totalPages: number;
+}> => {
   return api.get(`/donations`, {
     params: {
       campaignId,
       page,
+      size,
     },
   });
 };
 
-export const getListDonationOfCampaignQueryOptions = (campaignId: number) => {
-  return infiniteQueryOptions({
-    queryKey: ['donations', campaignId],
-    queryFn: ({ pageParam = 0 }) => {
-      return getDonations({ campaignId, page: pageParam as number });
-    },
-    getNextPageParam: (lastPage) => {
-      if (lastPage?.meta?.page === lastPage?.meta?.totalPages) return undefined;
-      const nextPage = lastPage.meta.page + 1;
-      return nextPage;
-    },
-    initialPageParam: 0,
-  });
+export const getDonationsQueryOptions = ({
+  page,
+  size,
+  campaignId = 0,
+}: { page?: number; size?: number; campaignId?: number } = {}) => {
+  return {
+    queryKey: ['donations', { page, size, campaignId }],
+    queryFn: () => getDonations(campaignId, page, size),
+  };
 };
 
-type UseCommentsOptions = {
+type UseDonationsOptions = {
   campaignId: number;
   page?: number;
-  queryConfig?: QueryConfig<typeof getDonations>;
+  size?: number;
+  queryConfig?: QueryConfig<typeof getDonationsQueryOptions>;
 };
 
-export const useInfiniteComments = ({ campaignId }: UseCommentsOptions) => {
-  return useInfiniteQuery({
-    ...getListDonationOfCampaignQueryOptions(campaignId),
+export const useDonations = ({
+  queryConfig,
+  campaignId,
+  page,
+  size,
+}: UseDonationsOptions) => {
+  return useQuery({
+    ...getDonationsQueryOptions({ campaignId, page, size }),
+    ...queryConfig,
   });
 };
