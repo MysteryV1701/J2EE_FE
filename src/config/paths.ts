@@ -11,6 +11,14 @@ export const paths = {
     path: 'campaigns/:code',
     getHref: (code: string) => `/campaigns/${code}`,
   },
+  donation_result: {
+    path: 'donation-status',
+    getHref: (vnp_ResponseCode: string) => `/donation-status?vnp_ResponseCode=${vnp_ResponseCode}`,
+  },
+  donations: {
+    path: 'donations',
+    getHref: () => `/donations`,
+  },
   aboutUs: {
     path: 'about-us',
     getHref: () => '/about-us',

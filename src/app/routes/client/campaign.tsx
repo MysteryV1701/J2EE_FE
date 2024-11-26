@@ -8,7 +8,6 @@ import {
 import { CampaignView } from '@/features/campaign/components/campaign-view';
 import { CampaignListGird } from '@/features/campaign/components/campaigns-list-grid';
 import { QueryClient } from '@tanstack/react-query';
-import { ErrorBoundary } from 'react-error-boundary';
 import { LoaderFunctionArgs, useParams } from 'react-router-dom';
 
 export const campaignLoader =
@@ -17,12 +16,9 @@ export const campaignLoader =
     const code = params.code as string;
 
     const campaignQuery = getCampaignQueryOptions(code);
-    // const donatesQuery = getListDonationOfCampaignQueryOptions(campaignId);
     const promises = [
       queryClient.getQueryData(campaignQuery.queryKey) ??
         (await queryClient.fetchQuery(campaignQuery)),
-      // queryClient.getQueryData(donatesQuery.queryKey) ??
-      //   (await queryClient.fetchInfiniteQuery(donatesQuery)),
     ] as const;
     const [campaign] = await Promise.all(promises);
 
@@ -73,16 +69,6 @@ export const CampaignRoute = () => {
     <ContentLayout title="Campaign Page" description="Dann Charity">
       <Breadcrumb items={breadcrumbs} className="mt-8" />
       <CampaignView code={code} />
-      <div className="mt-8">
-        <ErrorBoundary
-          fallback={
-            <div>Failed to load donations. Try to refresh the page.</div>
-          }
-        >
-          <div className=""></div>
-          {/* <Donations campaignId={campaignId} /> */}
-        </ErrorBoundary>
-      </div>
       <CampaignListGird size={3} pagination={false} />
     </ContentLayout>
   );

@@ -1,7 +1,7 @@
 import { ROLES } from './enum';
 
 export type BaseEntity = {
-  id: string;
+  id: number;
   createdAt: string;
 };
 
@@ -28,8 +28,8 @@ export type User = Entity<{
   status: number;
 }>;
 export type AuthResponse = {
-  jwt: string;
-  user: User;
+  token_type: string;
+  access_token: string;
 };
 export type Comment = Entity<{
   body: string;
@@ -66,6 +66,7 @@ export type Donation = Entity<{
   campaignId: number;
   userId: number;
   amount: number;
+  name: string;
   isAnonymous: boolean;
   isPaid: boolean;
   status: number;

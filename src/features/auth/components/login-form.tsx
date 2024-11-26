@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useLogin, loginInputSchema } from '@/lib/auth';
-import React from 'react';
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -15,9 +14,6 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
-
-  const emailRef = React.useRef<HTMLInputElement>(null);
-  const passwordRef = React.useRef<HTMLInputElement>(null);
 
   return (
     <div className="flex flex-col gap-4">
@@ -76,14 +72,12 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             <Input
               type="email"
               label="Email Address"
-              ref={emailRef}
               error={formState.errors['email']}
               registration={register('email')}
             />
             <Input
               type="password"
               label="Password"
-              ref={passwordRef}
               error={formState.errors['password']}
               registration={register('password')}
             />
@@ -124,7 +118,7 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
             to={`/auth/register${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
             className="font-medium"
           >
-            Log In
+            Đăng ký tài khoản mới
           </Link>
         </Button>
       </div>

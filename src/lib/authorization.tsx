@@ -23,6 +23,7 @@ export const POLICIES = {
 
 export const useAuthorization = () => {
   const user = useUser();
+
   if (!user.data) {
     throw Error('User does not exist!');
   }

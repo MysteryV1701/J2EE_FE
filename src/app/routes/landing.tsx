@@ -1,7 +1,6 @@
 import { ContentLayout } from '@/components/layouts';
 import Button from '@/components/ui/button';
-import { CampaignContainer } from '@/components/ui/card';
-import { CampaignList } from '@/helpers/dataset';
+import { CampaignListGird } from '@/features/campaign/components/campaigns-list-grid';
 
 import { ShieldCheckIcon, BookOpenCheckIcon } from 'lucide-react';
 
@@ -32,13 +31,14 @@ export const LandingRoute = () => {
               Chung tay góp sức
             </h1>
             <h1 className="ml-12 font-dancing text-primary font-bold xl:text-6xl lg:text-5xl text-3xl">
-              Phát triển mầm non
+              Phát triển đất nước
             </h1>
           </div>
           <q className="font-dancing text-xl font-medium text-primary-600">
-            Để giúp đỡ trẻ em có cơ hội học tập tốt nhất và phát triển toàn diện
-            nhất trong môi trường an toàn, sạch sẽ, vui chơi, học tập. Hãy cùng
-            chúng tôi xây dựng một tương lai tươi sáng cho trẻ em Việt Nam.
+            Để giúp đỡ bạn sinh viên có cơ hội học tập tốt nhất và phát triển
+            toàn diện nhất trong môi trường an toàn, sạch sẽ, vui chơi, học tập.
+            Hãy cùng chúng tôi xây dựng một tương lai tươi sáng cho sinh viên
+            Việt Nam.
           </q>
           <Button
             buttonVariant="filled"
@@ -158,10 +158,10 @@ export const LandingRoute = () => {
           title="Help many children need to help"
           className="text-gray-800 font-semibold text-3xl font-nunito mt-2"
         >
-          Những hoàn cảnh cần sự giúp đỡ của các{' '}
+          Những hoàn cảnh cần sự giúp đỡ của các
           <q className="text-secondary-600 italic">người ương mầm</q> như bạn
         </h1>
-        <CampaignContainer campaigns={CampaignList}></CampaignContainer>
+        <CampaignListGird size={6} pagination={false} />
       </section>
       <section
         id="aboutUs"

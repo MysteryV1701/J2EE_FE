@@ -12,9 +12,7 @@ export const LoginRoute = () => {
     <AuthLayout title="Ương mầm tri thức">
       <LoginForm
         onSuccess={() =>
-          navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, {
-            replace: true,
-          })
+          navigate(redirectTo ? decodeURIComponent(redirectTo) : '/app')
         }
       />
     </AuthLayout>

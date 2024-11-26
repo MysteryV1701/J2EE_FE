@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 // import logo from '@/assets/logo.svg';
 import { Head } from '@/components/seo';
 import { Link } from '@/components/ui/link';
 import { useUser } from '@/lib/auth';
+import { paths } from '@/config/paths';
+import { ROLES } from '@/types/enum';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -14,16 +16,23 @@ type LayoutProps = {
 
 export const AuthLayout = ({ children, title }: LayoutProps) => {
   const user = useUser();
-  console.log(user);
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirectTo');
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user.data) {
-      navigate('/app', {
-        replace: true,
-      });
+    if (user.data) {
+      if (user.data.role_name === ROLES.ADMIN)
+        navigate(paths.app.dashboard.getHref(), {
+          replace: true,
+        });
+      if (user.data.role_name === ROLES.USER) {
+        navigate(paths.home.getHref(), {
+          replace: true,
+        });
+      }
     }
-  }, [user.data, navigate]);
+  }, [user.data, navigate, redirectTo]);
 
   return (
     <>
@@ -32,7 +41,10 @@ export const AuthLayout = ({ children, title }: LayoutProps) => {
         <div className="background-login"></div>
         <div className="sm:mx-auto sm:w-full sm:max-w-md" style={{ zIndex: 1 }}>
           <div className="flex justify-center">
-            <Link className="flex items-center text-white" to="/">
+            <Link
+              className="flex items-center text-white"
+              to={paths.home.getHref()}
+            >
               <div
                 className="flex h-16 shrink-0 items-center px-4 font-bold text-6xl font-dancing text-primary"
                 title="Logo DannCharity"

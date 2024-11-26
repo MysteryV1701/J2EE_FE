@@ -7,7 +7,7 @@ export const getCampaign = ({
   code,
 }: {
   code: string;
-}): Promise<{ data: CampaignView }> => {
+}): Promise<CampaignView> => {
   return api.get(`/campaigns/${code}`);
 };
 

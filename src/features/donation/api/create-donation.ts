@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { Donation } from '@/types/api';
 
 export const createDonationInputSchema = z.object({
   amount: z.string().min(1, 'Required'),
@@ -13,7 +12,7 @@ export const createDonationInputSchema = z.object({
 
 export type CreateDonationInput = z.infer<typeof createDonationInputSchema>;
 
-export const createDonation = ({
+export const createDonation = async ({
   data,
   campaignId,
   userId,
@@ -21,8 +20,15 @@ export const createDonation = ({
   data: CreateDonationInput;
   campaignId: number;
   userId?: string;
-}): Promise<Donation> => {
-  return api.post(`/donations`, { ...data, campaignId, userId });
+}): Promise<{code: string, paymentUrl: string}> => {
+  const response = await api
+    .post(`/donations`, { ...data, campaignId, userId })
+    .catch((error) => {
+      return error;
+    });
+  return api.get(
+    `/payment/vnp?amount=${response.amount}&donationId=${response.id}`,
+  );
 };
 
 type UseCreateDonationOptions = {

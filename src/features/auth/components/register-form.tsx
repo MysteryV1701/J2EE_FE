@@ -28,25 +28,25 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           <>
             <Input
               type="email"
-              label="Email Address"
+              label="Email"
               error={formState.errors['email']}
               registration={register('email')}
             />
             <Input
               type="text"
-              label="Name"
+              label="Họ và tên"
               error={formState.errors['name']}
               registration={register('name')}
             />
             <Input
               type="password"
-              label="Password"
+              label="Mật khẩu"
               error={formState.errors['password']}
               registration={register('password')}
             />
             <Input
               type="password"
-              label="Confirm Password"
+              label="Nhập lại mật khẩu"
               error={formState.errors['confirmPassword']}
               registration={register('confirmPassword')}
             />
@@ -64,7 +64,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
                 }}
                 buttonVariant="filled"
               >
-                Register
+                Đăng ký
               </Button>
             </div>
           </>
@@ -88,7 +88,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
             className="font-medium"
           >
-            Log In
+            Đăng nhập
           </Link>
         </Button>
       </div>
