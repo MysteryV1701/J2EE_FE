@@ -16,12 +16,9 @@ export const campaignLoader =
     const code = params.code as string;
 
     const campaignQuery = getCampaignQueryOptions(code);
-    // const donatesQuery = getListDonationOfCampaignQueryOptions(campaignId);
     const promises = [
       queryClient.getQueryData(campaignQuery.queryKey) ??
         (await queryClient.fetchQuery(campaignQuery)),
-      // queryClient.getQueryData(donatesQuery.queryKey) ??
-      //   (await queryClient.fetchInfiniteQuery(donatesQuery)),
     ] as const;
     const [campaign] = await Promise.all(promises);
 

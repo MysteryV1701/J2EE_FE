@@ -60,6 +60,29 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
+      path: paths.donation_result.path,
+      lazy: async () => {
+        const { DonationResultRoute } = await import(
+          './routes/client/donation-result.tsx'
+        );
+        return {
+          Component: DonationResultRoute,
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+
+    {
+      path: paths.aboutUs.path,
+      lazy: async () => {
+        const { AboutUsRoute } = await import('./routes/client/about-us.tsx');
+        return {
+          Component: AboutUsRoute,
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
       path: paths.app.root.path,
       element: (
         <ProtectedRoute>

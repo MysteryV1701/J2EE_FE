@@ -3,7 +3,6 @@ import { z } from 'zod';
 
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
-import { Donation } from '@/types/api';
 
 export const createDonationInputSchema = z.object({
   amount: z.string().min(1, 'Required'),
@@ -21,7 +20,7 @@ export const createDonation = async ({
   data: CreateDonationInput;
   campaignId: number;
   userId?: string;
-}): Promise<Donation> => {
+}): Promise<{code: string, paymentUrl: string}> => {
   const response = await api
     .post(`/donations`, { ...data, campaignId, userId })
     .catch((error) => {

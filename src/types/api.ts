@@ -28,8 +28,8 @@ export type User = Entity<{
   status: number;
 }>;
 export type AuthResponse = {
-  jwt: string;
-  user: User;
+  token_type: string;
+  access_token: string;
 };
 export type Comment = Entity<{
   body: string;
