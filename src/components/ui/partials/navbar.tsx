@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { Folder, Home, User2, ChevronDownIcon } from 'lucide-react';
+import { Folder, Home, User2, ChevronDownIcon, BookUser, University, ClipboardCheck, ChartBar } from 'lucide-react';
 import { useAuthorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
 
@@ -54,6 +54,11 @@ export const Navbar: React.FC = () => {
   const dashboardNavigation: SideNavigationItem[] = [
     { name: 'Dashboard', to: '/app', icon: Home },
     { name: 'Campaign', to: './campaign', icon: Folder },
+    { name: "Recipients", to: './app/recipients', icon: BookUser },
+    { name: "Educations", to: './app/educations', icon: University },
+    { name: "Financial Reporters", to: './app/financial-reporters', icon: ClipboardCheck },
+    { name: "Users", to: './app/users', icon: User2 },
+    { name: "Statistics", to: './app/statistics', icon: ChartBar}
   ];
 
   return (

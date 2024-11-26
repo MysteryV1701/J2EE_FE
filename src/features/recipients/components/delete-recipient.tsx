@@ -1,45 +1,33 @@
-import { useUser } from '@/lib/auth';
-import Button from '@/components/ui/button';
-import { ConfirmationDialog } from '@/components/ui/dialog';
-import { useDeleteRecipient } from '../api/delete-recipient';
-import { useNotifications } from '@/components/ui/notifications';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-type DeleteRecipientProps = {
-  id: string;
-}
+import { api } from '@/lib/api-client';
+import { MutationConfig } from '@/lib/react-query';
 
-export const DeleteRecipient = ({ id }: DeleteRecipientProps) => {
-  const user = useUser();
-  const { addNotification } = useNotifications();
-  const deleteRecipientMutation = useDeleteRecipient({
-    mutationConfig: {
-      onSuccess: () => {
-        addNotification({
-            type:'success',
-            title: 'Recipient Deleted',
-          });
-      },
+import { getRecipientsQueryOptions } from '../api/get-recipients';
+
+export const deleteRecipient = async ( recipientIds: string[]) => {
+  return api.delete(`/recipients`, { data: recipientIds  });
+};
+
+type UseDeleteRecipientsOptions = {
+  mutationConfig?: MutationConfig<typeof deleteRecipient>;
+};
+
+export const useDeleteRecipients = ({
+  mutationConfig,
+}: UseDeleteRecipientsOptions = {}) => {
+  const queryClient = useQueryClient();
+
+  const { onSuccess, ...restConfig } = mutationConfig || {};
+
+  return useMutation({
+    onSuccess: (...args) => {
+      queryClient.invalidateQueries({
+        queryKey: getRecipientsQueryOptions().queryKey,
+      });
+      onSuccess?.(...args);
     },
-  })
-
-  if (user.data?.id === id) return null;
-
-  return (
-    <ConfirmationDialog
-      icon="danger"
-      title="Delete Recipient"
-      body="Are you sure you want to delete this recipient?"
-      triggerButton={<Button buttonVariant="outlined">Delete</Button>}
-      confirmButton={
-        <Button
-          isLoading={deleteRecipientMutation.isPending}
-          type="button"
-          buttonVariant="outlined"
-          onClick={() => deleteRecipientMutation.mutate({ recipientId: id })}
-        >
-          Delete Recipient
-        </Button>
-      }
-    />
-  );
+    ...restConfig,
+    mutationFn: deleteRecipient,
+  });
 };

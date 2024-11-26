@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getRecipientQueryOptions } from './get-recipient';
+import { getRecipientsQueryOptions } from './get-recipients';
 
 export type DeleteRecipientDTO = {
   recipientId: string;
@@ -27,7 +27,7 @@ export const useDeleteRecipient = ({
   return useMutation({
     onSuccess: (...args) => {
       queryClient.invalidateQueries({
-        queryKey: getRecipientQueryOptions().queryKey,
+        queryKey: getRecipientsQueryOptions().queryKey,
       });
       if (onSuccess) {
         onSuccess(...args);

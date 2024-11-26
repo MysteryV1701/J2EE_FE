@@ -17,7 +17,7 @@ const getUser = async (): Promise<User> => {
       status: 1,
       email: 'johndoe@example.com',
       password: 'Password123!',
-      roleName: ROLES.USER,
+      roleName: ROLES.ADMIN,
       createdAt: '2023-09-25T10:00:00Z',
       updatedAt: '2023-09-25T12:00:00Z',
     },
