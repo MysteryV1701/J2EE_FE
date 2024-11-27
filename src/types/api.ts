@@ -76,7 +76,7 @@ export type FinancialReport = Entity<{
   totalReceived: number;
   totalRemain: number;
   campaignId: number;
-  personReceivedId: number;
+  recipientId: number;
 }>;
 
 export type Payment = Entity<{
@@ -88,8 +88,7 @@ export type Payment = Entity<{
 export type Recipient = Entity<{
   name: string;
   phone: number;
-  address: string;
-  status: number;
+  code: string;
 }>;
 
 export type Education = Entity<{
