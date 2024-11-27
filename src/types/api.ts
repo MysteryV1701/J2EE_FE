@@ -24,7 +24,7 @@ export type Role = Entity<{
 export type User = Entity<{
   name: string;
   email: string;
-  roleName: ROLES;
+  role_name: ROLES;
   status: number;
   avatar: string;
 }>;
