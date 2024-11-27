@@ -103,6 +103,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                   disabled={isChecked}
                   className={cn('!bg-gray-200', { 'bg-gray-200': isChecked })}
                   label="Tên của người quyên góp"
+                  value={user.data?.name}
                   error={formState.errors['name']}
                   registration={register('name')}
                 />
@@ -179,7 +180,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
           Liên hệ: {campaign?.education.phone ?? ''} -{' '}
           {campaign?.education.email ?? ''}
         </p>
-        <p className="text-gray-400">{formatDate(campaign.createdAt)}</p>
+        <p className="text-gray-400">{formatDate(campaign.createdDate)}</p>
 
         <div className="lg:grid lg:grid-cols-8 flex flex-col gap-8   justify-center align-start">
           <div className="h-[24rem] w-full col-start-1 col-end-6">
@@ -197,7 +198,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
               <div className="flex flex-row gap-2 items-center">
                 {campaign.owner.avatar ? (
                   <img
-                    src={campaign.owner.avater}
+                    src={campaign.owner.avatar}
                     className="h-12 w-12 rounded object-contain"
                   />
                 ) : (

@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useLogin, loginInputSchema } from '@/lib/auth';
+import { useGoogleLogin } from '@react-oauth/google';
 
 type LoginFormProps = {
   onSuccess: () => void;
@@ -11,6 +12,10 @@ type LoginFormProps = {
 export const LoginForm = ({ onSuccess }: LoginFormProps) => {
   const login = useLogin({
     onSuccess,
+  });
+  const loginWtihGoogle = useGoogleLogin({
+    onSuccess: (codeResponse) => console.log(codeResponse),
+    onError: (error) => console.log('Login Failed:', error),
   });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
@@ -29,6 +34,9 @@ export const LoginForm = ({ onSuccess }: LoginFormProps) => {
           ringWidth: 1,
         }}
         className="bg-white"
+        onClick={() => {
+          loginWtihGoogle();
+        }}
       >
         <div className="bg-white p-2 rounded-full">
           <svg className="w-4" viewBox="0 0 533.5 544.3">

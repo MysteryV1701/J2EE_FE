@@ -31,6 +31,7 @@ export const PaginatedNumbers: FunctionComponent<PaginationNumberProps> = ({
     if (index < maxPageNumberLimit + 1 && index >= minPageNumberLimit)
       return (
         <button
+          key={index}
           onClick={() => changePage(index)}
           className={`${
             page === index

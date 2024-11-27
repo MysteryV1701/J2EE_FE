@@ -2,7 +2,7 @@ import { ROLES } from './enum';
 
 export type BaseEntity = {
   id: number;
-  createdAt: string;
+  createdDate: string;
 };
 
 export type Entity<T> = {
@@ -26,6 +26,7 @@ export type User = Entity<{
   email: string;
   roleName: ROLES;
   status: number;
+  avatar: string;
 }>;
 export type AuthResponse = {
   token_type: string;
@@ -37,24 +38,27 @@ export type Comment = Entity<{
 }>;
 
 export type Campaign = Entity<{
-  categoryName: string;
-  createdId: number;
-  createdBy: string;
   name: string;
   code: string;
   description: string;
-  thumbnail: string;
   targetAmount: number;
   currentAmount: number;
+  thumbnail: string;
   startDate: Date;
   endDate: string;
+  accountNumber: string;
+  bankname: string;
   status: number;
+  categoryId: number;
+  categoryName: string;
+  createdId: number;
 }>;
 
 export type CampaignView = Entity<{
   education: Education;
-}> &
-  Campaign;
+  category: Category;
+  owner: User;
+}> & Campaign;
 
 export type Category = Entity<{
   name: string;
