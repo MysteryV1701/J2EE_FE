@@ -1,6 +1,7 @@
 import Button from '@/components/ui/button';
 import { formatPrice } from '@/helpers/utils';
 import { Campaign } from '@/types/api';
+import { CAMPAIGNSTATUS } from '@/types/enum';
 import { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -63,24 +64,46 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
               <span className="text-gray-900 font-semibold">{progress}%</span>{' '}
             </p>
           </div>
-          <Link
-            to={'/campaigns/' + props.code}
-            key={props.code}
-            className="w-100"
-          >
-            <Button
-              buttonVariant="filled"
-              buttonStyled={{
-                color: 'primary',
-                hPadding: 'lg',
-                size: 'md',
-                rounded: 'sm',
-                behavior: 'block',
-              }}
+          {props.status === CAMPAIGNSTATUS.APPROVED && (
+            <Link
+              to={'/campaigns/' + props.code}
+              key={props.code}
+              className="w-100"
             >
-              Ủng hộ ngay
-            </Button>
-          </Link>
+              <Button
+                buttonVariant="filled"
+                buttonStyled={{
+                  color: 'primary',
+                  hPadding: 'lg',
+                  size: 'md',
+                  rounded: 'sm',
+                  behavior: 'block',
+                }}
+              >
+                Ủng hộ ngay
+              </Button>
+            </Link>
+          )}
+          {props.status === CAMPAIGNSTATUS.COMPLETED && (
+            <Link
+              to={'/campaigns/' + props.code}
+              key={props.code}
+              className="w-100"
+            >
+              <Button
+                buttonVariant="filled"
+                buttonStyled={{
+                  color: 'primary',
+                  hPadding: 'lg',
+                  size: 'md',
+                  rounded: 'sm',
+                  behavior: 'block',
+                }}
+              >
+                Chiến dịch đã kết thúc
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

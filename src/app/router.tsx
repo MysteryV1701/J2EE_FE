@@ -47,6 +47,19 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
+      path: paths.campaignCategories.path,
+      lazy: async () => {
+        const { CampaignCategoryRoute, campaignCategoryLoader } = await import(
+          './routes/client/campaignCategory.tsx'
+        );
+        return {
+          Component: CampaignCategoryRoute,
+          loader: campaignCategoryLoader(queryClient),
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
       path: paths.campaign.path,
       lazy: async () => {
         const { CampaignRoute, campaignLoader } = await import(
@@ -129,6 +142,15 @@ const createAppRouter = (queryClient: QueryClient) =>
               './routes/app/admin/financial-reports.tsx'
             );
             return { Component: FinancialReportsRoute };
+          },
+        },
+        {
+          path: paths.app.campaigns.path,
+          lazy: async () => {
+            const { CampaignsRoute } = await import(
+              './routes/app/admin/campaign.tsx'
+            );
+            return { Component: CampaignsRoute };
           },
         },
       ],

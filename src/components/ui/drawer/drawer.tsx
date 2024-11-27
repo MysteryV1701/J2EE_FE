@@ -62,10 +62,11 @@ const DrawerContent = React.forwardRef<
       ref={ref}
       className={cn(drawerVariants({ side }), className)}
       {...props}
+      onInteractOutside={(event) => event.preventDefault()}
     >
       {children}
       <DrawerPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-        <Cross2Icon className="size-4" />
+        <Cross2Icon className="size-8" />
         <span className="sr-only">Close</span>
       </DrawerPrimitive.Close>
     </DrawerPrimitive.Content>
@@ -93,7 +94,7 @@ const DrawerFooter = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
+      'flex flex-col-reverse gap-2 sm:flex-row sm:justify-start sm:space-x-2',
       className,
     )}
     {...props}

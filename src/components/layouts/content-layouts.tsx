@@ -22,11 +22,9 @@ export const ContentLayout = ({
       {isDashboard ? (
         <>
           <Head title={title} description={description} />
-          <div className="px-4 py-8 relative">
-            <div className="">
-              <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
-            </div>
-            <div className="mx-auto px-4 py-6 sm:px-6 md:px-8">{children}</div>
+          <div className="px-4 py-4 relative">
+            <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
+            <div className="py-2">{children}</div>
           </div>
         </>
       ) : (

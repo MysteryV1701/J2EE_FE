@@ -11,6 +11,10 @@ export const paths = {
     path: 'campaigns/:code',
     getHref: (code: string) => `/campaigns/${code}`,
   },
+  campaignCategories: {
+    path: 'campaigns/category/:id',
+    getHref: (id: number) => `/campaigns/category/${id}`,
+  },
   donation_result: {
     path: 'donation-status',
     getHref: (vnp_ResponseCode: string) => `/donation-status?vnp_ResponseCode=${vnp_ResponseCode}`,
@@ -47,7 +51,7 @@ export const paths = {
       getHref: () => '/app',
     },
     campaigns: {
-      path: 'campaigns',
+      path: '/app/campaigns',
       getHref: () => '/app/campaigns',
     },
     campaign: {

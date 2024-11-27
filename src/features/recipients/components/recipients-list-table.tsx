@@ -8,8 +8,7 @@ import { useDeleteRecipients } from './delete-recipient';
 import { CreateRecipientForm } from './create-recipient-form';
 import { Modal } from '@/components/ui/modal';
 import { useNotifications } from '@/components/ui/notifications';
-import { useQueryClient } from '@tanstack/react-query'
-
+import { useQueryClient } from '@tanstack/react-query';
 
 interface RecipientListProps {
   size?: number;
@@ -34,7 +33,6 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     page,
     size: props.size,
   });
-
   const deleteRecipientsMutation = useDeleteRecipients({
     mutationConfig: {
       onSuccess: () => {
@@ -62,15 +60,14 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     setSelectedRecipients((prevSelected) =>
       prevSelected.includes(recipientId)
         ? prevSelected.filter((id) => id !== recipientId)
-        : [...prevSelected, recipientId]
+        : [...prevSelected, recipientId],
     );
   };
-  
+
   useEffect(() => {
     setPageNumberLimit(recipientQuery.data?.totalPages || 5);
     setMaxPageNumberLimit(recipientQuery.data?.totalPages || 5);
   }, [recipientQuery.data]);
-  
 
   if (recipientQuery.isLoading) {
     return (
@@ -84,7 +81,6 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     setPage(pageNumber);
   };
 
-  
   const recipients = recipientQuery.data?.data;
 
   if (!recipients || recipients.length === 0) {
@@ -97,7 +93,10 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
         )}
       >
         <div className="h-64 w-full">
-          <p className="h-full w-full object-contain"> No recipients available</p>
+          <p className="h-full w-full object-contain">
+            {' '}
+            No recipients available
+          </p>
         </div>
       </div>
     );
@@ -130,12 +129,17 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
           <CreateRecipientForm />
         </Modal.Body>
       </Modal.Frame>
-      <Modal.Frame open={isConfirmModalOpen} onClose={() => setIsConfirmModalOpen(false)}>
+      <Modal.Frame
+        open={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+      >
         <Modal.Head onClose={() => setIsConfirmModalOpen(false)}>
           <h2>Confirm Delete</h2>
         </Modal.Head>
         <Modal.Body>
-          <p className="text-red-600">Are you sure you want to delete the selected recipients?</p>
+          <p className="text-red-600">
+            Are you sure you want to delete the selected recipients?
+          </p>
           <Button
             buttonVariant="outlined"
             buttonStyled={{ color: 'primary', rounded: 'lg', size: 'lg' }}
@@ -150,7 +154,7 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
       <table className="min-w-full divide-y divide-gray-200">
         <thead>
           <tr>
-          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
               <input
                 type="checkbox"
                 onChange={(e) => {
@@ -191,7 +195,7 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
               <td className="px-6 py-4 whitespace-nowrap">{recipient.name}</td>
               <td className="px-6 py-4 whitespace-nowrap">{recipient.phone}</td>
               <td className="px-6 py-4 whitespace-nowrap">
-              <Button
+                <Button
                   buttonVariant="outlined"
                   onClick={() => handleSelectRecipient(recipient.id)}
                   isLoading={deleteRecipientsMutation.isPending}
@@ -229,4 +233,3 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     </div>
   );
 };
-

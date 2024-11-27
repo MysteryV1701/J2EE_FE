@@ -5,7 +5,7 @@ import { QueryConfig } from '@/lib/react-query';
 import { Recipient } from '@/types/api';
 
 export const getRecipients = (
-  page = 1,
+  page = 0,
   size = 10,
 ): Promise<{
   data: Recipient[];
@@ -13,7 +13,12 @@ export const getRecipients = (
   size: number;
   totalPages: number;
 }> => {
+  const accessToken = localStorage.getItem('accessToken');
+  console.log('accessToken', accessToken);
   return api.get(`/recipients`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     params: {
       page,
       size,

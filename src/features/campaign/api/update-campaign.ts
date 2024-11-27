@@ -8,8 +8,8 @@ import { Campaign } from '@/types/api';
 import { getCampaignQueryOptions } from './get-campaign';
 
 export const updateCampaignInputSchema = z.object({
-  title: z.string().min(1, 'Required'),
-  body: z.string().min(1, 'Required'),
+  name: z.string().min(1, 'Required'),
+  description: z.string().min(1, 'Required'),
 });
 
 export type UpdateCampaignInput = z.infer<typeof updateCampaignInputSchema>;
