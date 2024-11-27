@@ -71,7 +71,6 @@ const createAppRouter = (queryClient: QueryClient) =>
       },
       ErrorBoundary: AppRootErrorBoundary,
     },
-
     {
       path: paths.aboutUs.path,
       lazy: async () => {
@@ -130,8 +129,8 @@ const createAppRouter = (queryClient: QueryClient) =>
               './routes/app/admin/financial-reports.tsx'
             );
             return { Component: FinancialReportsRoute };
-          }
-        }
+          },
+        },
       ],
     },
     {
