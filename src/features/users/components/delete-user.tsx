@@ -6,7 +6,7 @@ import { useUser } from '@/lib/auth';
 import { useDeleteUser } from '../api/delete-user';
 
 type DeleteUserProps = {
-  id: string;
+  id: number;
 };
 
 export const DeleteUser = ({ id }: DeleteUserProps) => {

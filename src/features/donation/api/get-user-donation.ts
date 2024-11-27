@@ -5,7 +5,7 @@ import { QueryConfig } from '@/lib/react-query';
 import { Donation } from '@/types/api';
 
 export const getDonations = (
-  campaignId: number,
+  userId: number,
   page = 0,
   size = 10,
 ): Promise<{
@@ -16,7 +16,7 @@ export const getDonations = (
 }> => {
   return api.get(`/donations`, {
     params: {
-      campaignId,
+      userId,
       page,
       size,
     },
@@ -26,16 +26,16 @@ export const getDonations = (
 export const getDonationsQueryOptions = ({
   page,
   size,
-  campaignId = 0,
-}: { page?: number; size?: number; campaignId?: number } = {}) => {
+  userId = 0,
+}: { page?: number; size?: number; userId?: number } = {}) => {
   return {
-    queryKey: ['donations', { page, size, campaignId }],
-    queryFn: () => getDonations(campaignId, page, size),
+    queryKey: ['donations', { page, size, userId }],
+    queryFn: () => getDonations(userId, page, size),
   };
 };
 
 type UseDonationsOptions = {
-  campaignId: number;
+  userId: number;
   page?: number;
   size?: number;
   queryConfig?: QueryConfig<typeof getDonationsQueryOptions>;
@@ -43,12 +43,12 @@ type UseDonationsOptions = {
 
 export const useDonations = ({
   queryConfig,
-  campaignId,
+  userId,
   page,
   size,
 }: UseDonationsOptions) => {
   return useQuery({
-    ...getDonationsQueryOptions({ campaignId, page, size }),
+    ...getDonationsQueryOptions({ userId, page, size }),
     ...queryConfig,
   });
 };

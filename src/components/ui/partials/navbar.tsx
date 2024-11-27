@@ -5,7 +5,6 @@ import { AuthNavBar } from './navbar/auth-nav';
 
 export const Navbar: FunctionComponent = () => {
   const user = useUser();
-  console.log(user);
   if (user.data) return <AuthNavBar />;
   return <GuestNavBar />;
 };

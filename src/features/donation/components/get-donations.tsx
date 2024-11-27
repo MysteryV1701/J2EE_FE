@@ -19,7 +19,6 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
       </div>
     );
   }
-
   const donations = donationsQuery?.data?.data;
 
   if (!donations || donations.length === 0) {
@@ -37,14 +36,16 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
   }
 
   return (
-    <div className="px-4 py-2 border border-secondary-600 rounded-xl text-secondary-800">
-      <h6 className="text-lg font-semibold mb-2">Danh sách người ủng hộ</h6>
-      <div className="flex flex-col gap-2">
+    <div className="px-4 py-2 border border-secondary-600 rounded-xl text-secondary-800 min-h-[20rem]">
+      <h6 className="text-lg font-semibold mb-2 underline">
+        Danh sách người ủng hộ
+      </h6>
+      <div className="flex flex-col gap-2 text-secondary-900">
         {donations.map((donates) => {
           return (
             <div className="flex flex-row justify-between">
               <div className="text-base font-semibold">
-                {donates.name ?? 'Ẩn danh'}
+                {donates.name ? donates.name : 'Ẩn danh'}
               </div>
               <div className="text-base ">{formatPrice(donates.amount)}</div>
             </div>

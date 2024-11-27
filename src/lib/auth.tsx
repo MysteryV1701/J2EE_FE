@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/prefer-as-const */
 /* eslint-disable react-refresh/only-export-components */
 import { configureAuth } from 'react-query-auth';
@@ -15,15 +16,35 @@ const getUser = async (): Promise<User | null> => {
     return null;
   }
   try {
-    return api.get('/auth/me', {
+    return await api.get('/auth/me', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    if (error.response && error.response.status === 400) {
-      console.error('Invalid token:', error.response.data.detail);
+    if (error.response) {
+      if (error.response.status === 400) {
+        console.error('Invalid token:', error.response.data.detail);
+      } else if (error.response.status === 401) {
+        try {
+          const refreshResponse = await api.post('/auth/refresh-token');
+          const newAccessToken = refreshResponse.data.access_token;
+          // Lưu lại token mới
+          sessionStorage.setItem('access_token', newAccessToken);
+
+          // Thử lại yêu cầu sau khi refresh token
+          return await api.get('/auth/me', {
+            headers: {
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+          });
+        } catch (refreshError: any) {
+          console.error('Failed to refresh token:', refreshError);
+          sessionStorage.removeItem('access_token');
+        }
+      } else {
+        console.error('Error fetching user data:', error.response.data);
+      }
     } else {
       console.error('Error fetching user data:', error);
     }

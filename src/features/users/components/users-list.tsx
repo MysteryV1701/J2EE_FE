@@ -35,13 +35,13 @@ export const UsersList = () => {
         },
         {
           title: 'Role',
-          field: 'roleName',
+          field: 'role_name',
         },
         {
           title: 'Created At',
-          field: 'createdAt',
-          Cell({ entry: { createdAt } }) {
-            return <span>{formatDate(createdAt)}</span>;
+          field: 'createdDate',
+          Cell({ entry: { createdDate } }) {
+            return <span>{formatDate(createdDate)}</span>;
           },
         },
         {
