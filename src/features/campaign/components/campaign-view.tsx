@@ -17,6 +17,7 @@ import { useUser } from '@/lib/auth';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Donations } from '@/features/donation/components/get-donations';
 import { MDPreview } from '@/components/ui/md-preview';
+import { CAMPAIGNSTATUS } from '@/types/enum';
 
 interface CampaignViewProps {
   code: string;
@@ -183,7 +184,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
         <p className="text-gray-400">{formatDate(campaign.createdDate)}</p>
 
         <div className="lg:grid lg:grid-cols-8 flex flex-col gap-8   justify-center align-start">
-          <div className="h-[24rem] w-full col-start-1 col-end-6">
+          <div className="w-full col-start-1 col-end-6">
             <img
               src={campaign.thumbnail}
               alt="No campaigns available"
@@ -194,7 +195,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
             <div className="uppercase text-xl font-semibold text-secondary-800">
               Thông tin quyên góp
             </div>
-            <div className="flex-1 bg-secondary-300 rounded-xl p-4 ">
+            <div className="flex-1 bg-secondary-300 rounded-xl p-4 flex flex-col gap-2">
               <div className="flex flex-row gap-2 items-center">
                 {campaign.owner.avatar ? (
                   <img
@@ -210,6 +211,17 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
                   </p>
                   <p className="text-sm font-medium text-secondary-800">
                     {campaign.owner.email}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-row gap-2 items-center">
+                <UserIcon className="text-secondary-800 border-2 border-secondary-800 rounded-[50%]"></UserIcon>
+                <div className="">
+                  <p className="text-base font-semibold text-secondary-800">
+                    {campaign.education.name}
+                  </p>
+                  <p className="text-sm font-medium text-secondary-800">
+                    {campaign.education.email}
                   </p>
                 </div>
               </div>
@@ -244,21 +256,37 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
                 </span>
               </div>
             </div>
-
-            <Button
-              buttonStyled={{
-                color: 'primary',
-                rounded: 'lg',
-                size: 'md',
-                vPadding: 'md',
-                behavior: 'block',
-              }}
-              buttonVariant="filled"
-              className="justify-self-end"
-              onClick={() => setParams({ ...params, modal: 'true' })}
-            >
-              QUYÊN GÓP
-            </Button>
+            {campaign.status === CAMPAIGNSTATUS.APPROVED && (
+              <Button
+                buttonStyled={{
+                  color: 'primary',
+                  rounded: 'lg',
+                  size: 'md',
+                  vPadding: 'md',
+                  behavior: 'block',
+                }}
+                buttonVariant="filled"
+                className="justify-self-end"
+                onClick={() => setParams({ ...params, modal: 'true' })}
+              >
+                QUYÊN GÓP
+              </Button>
+            )}
+            {campaign.status === CAMPAIGNSTATUS.COMPLETED && (
+              <Button
+                buttonStyled={{
+                  color: 'primary',
+                  rounded: 'lg',
+                  size: 'md',
+                  vPadding: 'md',
+                  behavior: 'block',
+                }}
+                buttonVariant="filled"
+                className="justify-self-end"
+              >
+                Chiến dịch đã kết thúc
+              </Button>
+            )}
           </div>
           <div className="col-start-1 col-end-6">
             <MDPreview value={campaign.description} />

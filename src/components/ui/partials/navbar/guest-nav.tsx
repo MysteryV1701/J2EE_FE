@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
 import { cn } from '@/helpers/cn';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +12,7 @@ import Button from '../../button';
 import { Logo } from '../../logo';
 import { paths } from '@/config/paths';
 import { ChevronDownIcon } from 'lucide-react';
+import { useCategories } from '@/features/category/api/get-categories';
 
 type SideNavigationItem = {
   name: string;
@@ -23,18 +23,17 @@ type SideNavigationItem = {
 
 export const GuestNavBar: FunctionComponent = () => {
   const navigate = useNavigate();
+  const categories = useCategories({});
   const generalNavigation: SideNavigationItem[] = [
     { name: 'Trang chủ', to: paths.home.path },
     { name: 'Chiến Dịch Gây Quỹ', to: paths.campaigns.path },
     {
       name: 'Hoàn Cảnh Gây Quỹ',
       to: './',
-      dropdown: [
-        { name: 'Trang thiết bị', to: '/campaign/equipment' },
-        { name: 'Hoàn cảnh khó khăn', to: '/campaign/dif' },
-        { name: 'Học sinh nghèo vượt khó', to: '/campaign/pstudent' },
-        { name: 'Học sinh vùng cao', to: '/campaign/other' },
-      ],
+      dropdown: categories?.data?.map((category) => ({
+        name: category.name,
+        to: paths.campaignCategories.getHref(category.id),
+      })),
     },
     { name: 'Về chúng tôi', to: paths.aboutUs.path },
     { name: 'Đăng nhập', to: paths.auth.login.path },

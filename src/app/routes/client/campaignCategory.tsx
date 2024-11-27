@@ -1,26 +1,32 @@
 import { ContentLayout } from '@/components/layouts';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
+import { paths } from '@/config/paths';
 import { getCampaignsQueryOptions } from '@/features/campaign/api/get-campaigns';
 import { CampaignListGird } from '@/features/campaign/components/campaigns-list-grid';
+import { useCategory } from '@/features/category/api/get-category';
 import { QueryClient } from '@tanstack/react-query';
-import { LoaderFunctionArgs } from 'react-router-dom';
+import { LoaderFunctionArgs, useParams } from 'react-router-dom';
 
-export const campaignsLoader =
+export const campaignCategoryLoader =
   (queryClient: QueryClient) =>
-  async ({ request }: LoaderFunctionArgs) => {
+  async ({ params, request }: LoaderFunctionArgs) => {
+    const categoryId = Number(params.id);
     const url = new URL(request.url);
-    const categoryId = Number(url.searchParams.get('categoryId') || 0);
     const page = Number(url.searchParams.get('page') || 0);
-
     const query = getCampaignsQueryOptions({ categoryId, page });
-
     return (
       queryClient.getQueryData(query.queryKey) ??
       (await queryClient.fetchQuery(query))
     );
   };
 
-export const CampaignsRoute = () => {
+export const CampaignCategoryRoute = () => {
+  const params = useParams();
+  const categoryId = Number(params.id);
+  const category = useCategory({
+    id: categoryId,
+  });
+  console.log(category);
   const breadcrumbs = [
     {
       to: '/',
@@ -33,6 +39,12 @@ export const CampaignsRoute = () => {
       title: 'Chiến Dịch Gây Quỹ',
       name: 'Chiến Dịch Gây Quỹ',
       url: '/campaign',
+    },
+    {
+      to: paths.campaignCategories.getHref(categoryId),
+      title: category.data?.name || '',
+      name: category.data?.name || '',
+      url: paths.campaignCategories.getHref(categoryId),
     },
   ];
   return (
@@ -49,7 +61,10 @@ export const CampaignsRoute = () => {
           title="Help many children need to help"
           className="text-gray-800 font-semibold text-3xl w-1/2"
         >
-          Các chiến dịch gây quỹ
+          Các chiến dịch có{' '}
+          <q className="text-4xl font-semibold text-secondary-800 font-dancing">
+            {category.data?.name}
+          </q>
         </h1>
         <span className="text-gray-600 text-base w-1/2">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam totam
@@ -58,7 +73,7 @@ export const CampaignsRoute = () => {
           optio perspiciatis quod nihil.
         </span>
       </div>
-      <CampaignListGird pagination={true} />
+      <CampaignListGird pagination={true} categoryId={category.data?.id} />
     </ContentLayout>
   );
 };

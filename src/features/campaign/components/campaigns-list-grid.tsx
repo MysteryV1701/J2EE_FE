@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import { paths } from '@/config/paths';
 
 interface CampaignListGirdProps {
+  categoryId?: number;
   size?: number;
   pagination?: boolean;
 }
@@ -23,6 +24,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
 
   const campaignQuery = useCampaigns({
     queryConfig: {},
+    categoryId: props.categoryId ?? 0,
     page,
     size: props.size,
   });
@@ -68,7 +70,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
       <div
         className={cn(
           props.pagination
-            ? 'flex min-h-screen w-full items-center justify-center'
+            ? 'flex w-full items-center justify-center'
             : 'py-12',
         )}
       >
@@ -87,7 +89,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
     <div
       className={cn(
         props.pagination
-          ? 'mt-8 min-h-screen flex flex-col gap-4'
+          ? 'mt-8 flex flex-col gap-4'
           : 'py-12 flex flex-col gap-8',
       )}
     >

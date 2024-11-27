@@ -10,7 +10,7 @@ const TableElement = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="relative w-full overflow-auto">
+  <div className="relative w-full overflow-auto border border-gray-400 rounded-[5px]">
     <table
       ref={ref}
       className={cn('w-full caption-bottom text-sm', className)}
@@ -24,7 +24,7 @@ const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn('[&_tr]:border-b', className)} {...props} />
+  <thead ref={ref} className={cn('[&_tr]:border-b ', className)} {...props} />
 ));
 TableHeader.displayName = 'TableHeader';
 
@@ -62,7 +62,7 @@ const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      'border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
+      'border-b border-gray-400 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
       className,
     )}
     {...props}
@@ -77,7 +77,7 @@ const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      'h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+      'h-10 px-2 text-left align-middle font-semibold text-center text-muted-foreground bg-gray-300 border-r border-gray-400 [&:last-of-type]:border-r-0 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
       className,
     )}
     {...props}
@@ -92,7 +92,7 @@ const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      'p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
+      'p-2 border-r border-gray-400 align-middle [&:last-of-type]:border-r-0 [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]',
       className,
     )}
     {...props}
@@ -106,7 +106,7 @@ const TableCaption = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <caption
     ref={ref}
-    className={cn('mt-4 text-sm text-muted-foreground', className)}
+    className={cn(' mt-4 text-sm text-muted-foreground', className)}
     {...props}
   />
 ));
@@ -124,8 +124,9 @@ export {
 };
 
 type TableColumn<Entry> = {
-  title: string;
-  field: keyof Entry;
+  title: string | React.ReactElement;
+  field: keyof Entry | string;
+  className?: string;
   Cell?({ entry }: { entry: Entry }): React.ReactElement;
 };
 
@@ -144,26 +145,33 @@ export const Table = <Entry extends BaseEntity>({
     return (
       <div className="flex h-80 flex-col items-center justify-center bg-white text-gray-500">
         <ArchiveX className="size-16" />
-        <h4>No Entries Found</h4>
+        <h4>Không có dữ liệu</h4>
       </div>
     );
   }
+
   return (
     <>
       <TableElement>
         <TableHeader>
           <TableRow>
             {columns.map((column, index) => (
-              <TableHead key={column.title + index}>{column.title}</TableHead>
+              <TableHead key={`${column.title}${index}`}>
+                {column.title}
+              </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((entry, entryIndex) => (
             <TableRow key={entry?.id || entryIndex}>
-              {columns.map(({ Cell, field, title }, columnIndex) => (
-                <TableCell key={title + columnIndex}>
-                  {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
+              {columns.map(({ Cell, field, title, className }, columnIndex) => (
+                <TableCell key={`${title}${columnIndex}`} className={className}>
+                  {Cell ? (
+                    <Cell entry={entry} />
+                  ) : (
+                    `${entry[field as keyof Entry]}`
+                  )}
                 </TableCell>
               ))}
             </TableRow>
