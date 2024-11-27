@@ -13,8 +13,9 @@ export const getRecipients = (
   size: number;
   totalPages: number;
 }> => {
-  const accessToken = localStorage.getItem('accessToken');
-  console.log('accessToken', accessToken);
+  const accessToken = sessionStorage.getItem('access_token');
+  console.log(accessToken);
+ 
   return api.get(`/recipients`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -22,6 +23,9 @@ export const getRecipients = (
     params: {
       page,
       size,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

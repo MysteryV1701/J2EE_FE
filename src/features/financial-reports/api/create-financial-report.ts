@@ -21,7 +21,7 @@ export const createFinancialReport = ({
 }: {
   data: CreateFinancialReportInput;
 }): Promise<FinancialReport> => {
-  return api.post(`/financial-reports`, data);
+  return api.post(`/financial-report`, data);
 };
 
 type UseCreateFinancialReportOptions = {

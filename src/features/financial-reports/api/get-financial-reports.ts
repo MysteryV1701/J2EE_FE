@@ -13,7 +13,7 @@ export const getFinancialReports = (
   size: number;
   totalPages: number;
 }> => {
-  return api.get(`/financial-reports`, {
+  return api.get(`/financial-report`, {
     params: {
       page,
       size,
@@ -26,7 +26,7 @@ export const getFinancialReportsQueryOptions = ({
   size,
 }: { page?: number; size?: number } = {}) => {
   return {
-    queryKey: ['financial-reports', { page, size }],
+    queryKey: ['financial-report', { page, size }],
     queryFn: () => getFinancialReports(page, size),
   };
 };

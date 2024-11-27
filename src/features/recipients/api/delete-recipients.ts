@@ -6,7 +6,7 @@ import { MutationConfig } from '@/lib/react-query';
 import { getRecipientsQueryOptions } from './get-recipients';
 
 export type DeleteRecipientDTO = {
-  recipientId: string;
+  recipientId: number;
 };
 
 export const deleteRecipient = ({ recipientId }: DeleteRecipientDTO) => {
