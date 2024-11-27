@@ -62,6 +62,10 @@ export const paths = {
       path: 'profile',
       getHref: () => '/app/profile',
     },
+    category: {
+      path: 'categories',
+      getHref: () => '/app/categories',
+    },
     recipient: {
       path: 'recipients',
       getHref: () => '/app/recipients',

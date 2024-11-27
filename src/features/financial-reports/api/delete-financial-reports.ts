@@ -3,10 +3,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-import { getFinancialReportsQueryOptions } from '../api/get-financial-reports';
+import { getFinancialReportsQueryOptions } from './get-financial-reports';
 
 export const deleteFinancialReport = async ( financialReportIds: string[]) => {
-  return api.delete(`/financial-reports`, { data: financialReportIds  });
+  return api.delete(`/financial-report`, { data: financialReportIds  });
 };
 
 type UseDeleteFinancialReportsOptions = {

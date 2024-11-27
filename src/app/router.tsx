@@ -114,6 +114,15 @@ const createAppRouter = (queryClient: QueryClient) =>
           },
         },
         {
+          path: paths.app.category.path,
+          lazy: async () => {
+            const { CategoriesRoute } = await import(
+              './routes/app/admin/categories.tsx'
+            );
+            return { Component: CategoriesRoute };
+          },
+        },
+        {
           path: paths.app.recipient.path,
           lazy: async () => {
             const { RecipientsRoute } = await import(
