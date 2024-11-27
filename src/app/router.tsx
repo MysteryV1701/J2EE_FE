@@ -114,6 +114,24 @@ const createAppRouter = (queryClient: QueryClient) =>
             return { Component: DashboardRoute };
           },
         },
+        {
+          path: paths.app.recipient.path,
+          lazy: async () => {
+            const { RecipientsRoute } = await import(
+              './routes/app/admin/recipients.tsx'
+            );
+            return { Component: RecipientsRoute };
+          },
+        },
+        {
+          path: paths.app.financialReport.path,
+          lazy: async () => {
+            const { FinancialReportsRoute } = await import(
+              './routes/app/admin/financial-reports.tsx'
+            );
+            return { Component: FinancialReportsRoute };
+          }
+        }
       ],
     },
     {
