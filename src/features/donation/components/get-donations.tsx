@@ -43,7 +43,7 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
       <div className="flex flex-col gap-2 text-secondary-900">
         {donations.map((donates) => {
           return (
-            <div className="flex flex-row justify-between">
+            <div className="flex flex-row justify-between" key={donates.id}>
               <div className="text-base font-semibold">
                 {donates.name ? donates.name : 'Ẩn danh'}
               </div>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+
 import { Folder, Home, User2, ChevronDownIcon,  BookUser, University, ClipboardCheck, ChartBar, Layers } from 'lucide-react';
+
 import { useAuthorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
 
@@ -18,6 +20,7 @@ import Button from '../../button';
 import { useLogout } from '@/lib/auth';
 import { Logo } from '../../logo';
 import { paths } from '@/config/paths';
+import { useCategories } from '@/features/category/api/get-categories';
 
 type SideNavigationItem = {
   name: string;
@@ -29,6 +32,7 @@ type SideNavigationItem = {
 export const AuthNavBar: React.FC = () => {
   const { checkAccess } = useAuthorization();
   const navigate = useNavigate();
+  const categories = useCategories({});
   const logout = useLogout();
   const isAdmin = checkAccess({ allowedRoles: [ROLES.ADMIN] });
   const isOr = checkAccess({ allowedRoles: [ROLES.OR] });
@@ -39,12 +43,10 @@ export const AuthNavBar: React.FC = () => {
     {
       name: 'Hoàn Cảnh Gây Quỹ',
       to: './',
-      dropdown: [
-        { name: 'Trang thiết bị', to: '/campaign/equipment' },
-        { name: 'Hoàn cảnh khó khăn', to: '/campaign/dif' },
-        { name: 'Học sinh nghèo vượt khó', to: '/campaign/pstudent' },
-        { name: 'Học sinh vùng cao', to: '/campaign/other' },
-      ],
+      dropdown: categories?.data?.map((category) => ({
+        name: category.name,
+        to: paths.campaignCategories.getHref(category.id),
+      })),
     },
     { name: 'Về chúng tôi', to: paths.aboutUs.path },
   ];
@@ -58,6 +60,18 @@ export const AuthNavBar: React.FC = () => {
     { name: "Financial Reporters", to: './app/financial-reports', icon: ClipboardCheck },
     { name: "Users", to: './app/users', icon: User2 },
     { name: "Statistics", to: './app/statistics', icon: ChartBar}
+
+    { name: 'Campaign', to: paths.app.campaigns.path, icon: Folder },
+    { name: 'Categories', to: './app/categories', icon: Layers},
+    { name: 'Recipients', to: './app/recipients', icon: BookUser },
+    { name: 'Educations', to: './app/educations', icon: University },
+    {
+      name: 'Financial Reporters',
+      to: './app/financial-reporters',
+      icon: ClipboardCheck,
+    },
+    { name: 'Users', to: './app/users', icon: User2 },
+    { name: 'Statistics', to: './app/statistics', icon: ChartBar },
   ];
 
   return (

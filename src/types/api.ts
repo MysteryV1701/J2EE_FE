@@ -1,4 +1,4 @@
-import { ROLES } from './enum';
+import { CAMPAIGNSTATUS, ROLES } from './enum';
 
 export type BaseEntity = {
   id: number;
@@ -48,7 +48,7 @@ export type Campaign = Entity<{
   endDate: string;
   accountNumber: string;
   bankname: string;
-  status: number;
+  status: CAMPAIGNSTATUS;
   categoryId: number;
   categoryName: string;
   createdId: number;

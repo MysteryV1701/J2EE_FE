@@ -48,8 +48,8 @@ export const FormDrawer = ({
       }}
     >
       <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
-      <DrawerContent className="flex max-w-[800px] flex-col justify-between sm:max-w-[540px]">
-        <div className="flex flex-col">
+      <DrawerContent className="flex max-w-1/2 flex-col justify-between sm:max-w-[54rem] bg-gray-100">
+        <div className="flex flex-col flex-1">
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
           </DrawerHeader>

@@ -5,7 +5,7 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { getCampaignsQueryOptions } from './get-campaigns';
 
-export const deleteCampaign = ({ campaignId }: { campaignId: string }) => {
+export const deleteCampaign = ({ campaignId }: { campaignId: number }) => {
   return api.delete(`/campaigns/${campaignId}`);
 };
 

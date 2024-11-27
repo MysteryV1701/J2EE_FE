@@ -15,8 +15,11 @@ export const getRecipients = (
 }> => {
   const accessToken = sessionStorage.getItem('access_token');
   console.log(accessToken);
-  
+ 
   return api.get(`/recipients`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
     params: {
       page,
       size,
