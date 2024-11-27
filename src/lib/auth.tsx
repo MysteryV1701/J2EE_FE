@@ -16,7 +16,7 @@ const getUser = async (): Promise<User | null> => {
     return null;
   }
   try {
-    return api.get('/auth/me', {
+    return await api.get('/auth/me', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
