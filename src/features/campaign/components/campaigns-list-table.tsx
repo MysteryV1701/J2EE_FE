@@ -1,12 +1,13 @@
 import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
-import { formatDate } from '@/helpers/utils';
+import { formatDate, formatPrice } from '@/helpers/utils';
 import { useCampaigns } from '../api/get-campaigns';
-import { DeleteCampaign } from './delete-campaigns';
+import { DeleteCampaign } from './delete-campaign';
 import { useState } from 'react';
 import { paths } from '@/config/paths';
 import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
+import { UpdateCampaign } from './update-campaign';
 
 export const CampaignListTable = () => {
   const campaignQuery = useCampaigns({ page: 0 });
@@ -96,14 +97,14 @@ export const CampaignListTable = () => {
           },
         },
         {
-          title: 'Sô tiền hiện tại',
-          field: 'currentAmount',
-          className: 'text-center',
-        },
-        {
-          title: 'Số tiền mục tiêu',
-          field: 'targetAmount',
-          className: 'text-center',
+          title: 'Quá trình',
+          field: 'Progess',
+          className: 'text-center min-w-20',
+          Cell({ entry: { currentAmount, targetAmount } }) {
+            return (
+              <span>{Math.floor((currentAmount / targetAmount) * 100)}%</span>
+            );
+          },
         },
         {
           title: 'Thuộc nhóm',
@@ -120,9 +121,14 @@ export const CampaignListTable = () => {
         },
         {
           title: '',
-          field: 'id',
-          Cell({ entry: { id } }) {
-            return <DeleteCampaign id={id} />;
+          field: 'actions',
+          Cell({ entry: { id, code } }) {
+            return (
+              <div className="flex gap-2">
+                <UpdateCampaign code={code} />
+                <DeleteCampaign id={id} />
+              </div>
+            );
           },
         },
       ]}
