@@ -118,7 +118,8 @@ export const { useUser, useLogin, useLogout, useRegister, AuthLoader } =
 export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
   const location = useLocation();
-  if (!user.data || user.data.roleName !== ROLES.ADMIN) {
+  if (!user.data || user.data.role_name !== ROLES.ADMIN) {
+    sessionStorage.removeItem('access_token');
     return (
       <Navigate
         to={`/auth/login?redirectTo=${encodeURIComponent(location.pathname)}`}
@@ -126,6 +127,5 @@ export const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
       />
     );
   }
-
   return children;
 };

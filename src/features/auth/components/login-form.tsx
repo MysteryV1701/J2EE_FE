@@ -1,17 +1,27 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useLogin, loginInputSchema } from '@/lib/auth';
 import { useGoogleLogin } from '@react-oauth/google';
+import { paths } from '@/config/paths';
+import { ROLES } from '@/types/enum';
 
-type LoginFormProps = {
-  onSuccess: () => void;
-};
-
-export const LoginForm = ({ onSuccess }: LoginFormProps) => {
+export const LoginForm = () => {
+  const navigate = useNavigate();
   const login = useLogin({
-    onSuccess,
+    onSuccess: (data) => {
+      if (data?.role_name === ROLES.ADMIN || data?.role_name === ROLES.OR) {
+        navigate(redirectTo || paths.app.dashboard.getHref(), {
+          replace: true,
+        });
+      }
+      if (data?.role_name === ROLES.USER) {
+        navigate(redirectTo || paths.home.getHref(), {
+          replace: true,
+        });
+      }
+    },
   });
   const loginWtihGoogle = useGoogleLogin({
     onSuccess: (codeResponse) => console.log(codeResponse),
