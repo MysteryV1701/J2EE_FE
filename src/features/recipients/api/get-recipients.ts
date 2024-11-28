@@ -14,11 +14,11 @@ export const getRecipients = async (
   totalPages: number;
 }> => {
   const accessToken = sessionStorage.getItem('access_token');
-  console.log(accessToken);
  
   return await api.get(`/recipients`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
+      'Access-Control-Allow-Origin': 'http://localhost:3000'
     },
     params: {
       page,

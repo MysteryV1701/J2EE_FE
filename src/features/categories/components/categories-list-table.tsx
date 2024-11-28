@@ -6,7 +6,6 @@ import { Table } from '@/components/ui/table';
 import { paths } from '@/config/paths';
 import { CreateCategoryForm } from './create-category-form';
 import Button from '@/components/ui/button';
-import { Modal } from '@/components/ui/modal';
 import { DeleteCategories } from './delete-categories';
 import { UpdateCategory } from './update-category';
 import { CATEGORIESSTATUS } from '@/types/enum';
@@ -25,7 +24,7 @@ export const CategoriesListTable: FunctionComponent<CategoriesListProps> = (
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-
+  
 
   const categoriesQuery = useCategories({
     queryConfig: {},
@@ -77,8 +76,6 @@ export const CategoriesListTable: FunctionComponent<CategoriesListProps> = (
   const categories = categoriesQuery.data?.data;
 
   if (!categories) return null;
-
-  console.log(Array.from(selectedRows));
   
 
   return (

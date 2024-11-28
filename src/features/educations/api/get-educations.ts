@@ -14,6 +14,10 @@ export const getEducations = (
   totalPages: number;
 }> => {
   return api.get(`/educations`, {
+    headers: {
+      Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
+      'Content-Type': 'application/json',
+    },
     params: {
       page,
       size,

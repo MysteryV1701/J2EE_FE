@@ -14,7 +14,6 @@ export const getFinancialReports = (
   totalPages: number;
 }> => {
   const accessToken = sessionStorage.getItem('access_token');
-  console.log(accessToken);
   
   return api.get(`/financial-report`, {
     params: {

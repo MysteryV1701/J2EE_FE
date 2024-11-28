@@ -70,7 +70,7 @@ export const EducationListTable: FunctionComponent<EducationListProps> = (
           <div className="h-64 w-full">
             <p className="h-full w-full object-contain">
               {' '}
-              No Educations available
+              Không có trường học nào tồn tại
             </p>
           </div>
         </div>

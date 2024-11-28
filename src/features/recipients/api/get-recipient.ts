@@ -8,7 +8,13 @@ export const getRecipient = ({
 }: {
   id: number;
 }): Promise<{data: Recipient}> => {
-  return api.get(`/recipients/${id}`);
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.get(`/recipients/${id}`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 export const getRecipientQueryOptions = (id: number) => {

@@ -36,7 +36,7 @@ export const CreateFinancialReportForm = () => {
             buttonStyled={{ color: 'primary', rounded: 'lg', size: 'lg' }}
             className="width-fit-content"
           >
-            Create FinancialReport
+            Tạo báo cáo tài chính
           </Button>
         }
         title="Tạo người nhận"

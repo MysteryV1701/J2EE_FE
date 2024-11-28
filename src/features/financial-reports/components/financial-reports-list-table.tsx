@@ -48,45 +48,40 @@ export const FinancialReportListTable: FunctionComponent<FinancialReportListProp
       </div>
     );
   }
-  
+
   const financialReports = financialReportQuery.data?.data;
 
   if (!financialReports || financialReports.length === 0) {
     return (
-      <div
-        className={cn(
-          props.pagination
-            ? 'flex min-h-screen w-full items-center justify-center'
-            : 'py-12',
-        )}
-      >
-       <Button> 
-        <CreateFinancialReportForm />
-      </Button>
-      <Modal.Frame open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <Modal.Head onClose={() => setIsModalOpen(false)}>
-          <h2>Create Financial report</h2>
-        </Modal.Head>
-        <Modal.Body>
+      <>
+        <Button>
           <CreateFinancialReportForm />
-        </Modal.Body>
-      </Modal.Frame>
-        <div className="h-64 w-full">
-          <p className="h-full w-full object-contain"> No Financial reports available</p>
+        </Button>
+        <div
+          className={cn(
+            props.pagination
+              ? 'flex min-h-screen w-full items-center justify-center'
+              : 'py-12',
+          )}
+        >
+
+          <div className="h-64 w-full">
+            <p className="h-full w-full object-contain"> Không có báo cáo tài chính nào tồn tại</p>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 
   return (
     <>
-    <div className="flex justify-end space-x-4 mb-4">
-      <Button> 
-        <CreateFinancialReportForm />
-      </Button>
-      <Button>
-        <DeleteFinancialReports financialReportIds={Array.from(selectedRows)}/>
-      </Button>
+      <div className="flex justify-end space-x-4 mb-4">
+        <Button>
+          <CreateFinancialReportForm />
+        </Button>
+        <Button>
+          <DeleteFinancialReports financialReportIds={Array.from(selectedRows)} />
+        </Button>
       </div>
       <Table
         data={financialReports}

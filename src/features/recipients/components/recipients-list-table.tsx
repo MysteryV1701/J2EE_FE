@@ -70,7 +70,7 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
           <div className="h-64 w-full">
             <p className="h-full w-full object-contain">
               {' '}
-              No recipients available
+              Không có người nhận nào tồn tại
             </p>
           </div>
         </div>
