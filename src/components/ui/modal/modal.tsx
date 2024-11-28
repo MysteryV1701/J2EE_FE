@@ -85,7 +85,7 @@ const Head: FunctionComponent<{
   children: React.ReactNode;
   onClose: () => void;
 }> = ({ children, onClose }) => (
-  <div className="flex flex-row justify-between px-4 py-2 bg-gray-300 text-gray-900">
+  <div className="flex flex-row justify-between px-4 py-2 bg-gray-300 text-gray-900 z-[100]">
     <h1 className="text-lg font-semibold ">{children}</h1>
     <Button
       buttonVariant="outlined"

@@ -4,8 +4,13 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { User } from '@/types/api';
 
-export const getUsers = (): Promise<{ data: User[] }> => {
-  return api.get(`/users`);
+export const getUsers = (): Promise<User[]> => {
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.get(`/users`,{
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 };
 
 export const getUsersQueryOptions = () => {
