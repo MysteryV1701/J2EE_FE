@@ -2,8 +2,8 @@ import { createEducationInputSchema, useCreateEducation } from '../api/create-ed
 import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input} from '@/components/ui/form';
+import { EDUCATIONSTATUS, ROLES } from '@/types/enum';
+import { Form, FormDrawer, Input, Select} from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -29,6 +29,12 @@ export const CreateEducationForm = () => {
       },
     },
   });
+
+  const statusOptions = [
+    { label: 'Đang hoạt động', value: EDUCATIONSTATUS.ACTIVE },
+    { label: 'Dừng hoạt động', value: EDUCATIONSTATUS.INACTIVE },
+  ];
+
 
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
@@ -95,11 +101,12 @@ export const CreateEducationForm = () => {
                   error={formState.errors['address']}
                   registration={register('address')}
                 />
-                <Input
-                  label="Trạng thái"
-                  error={formState.errors['status']}
-                  registration={register('status')}
-                  />
+                <Select
+                options={statusOptions}
+                label="Trạng thái"
+                error={formState.errors['status']}
+                registration={register('status')}
+              />
             </div>
           )}        
         </Form>

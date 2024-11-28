@@ -1,10 +1,10 @@
 import { Pen } from 'lucide-react';
 
 import Button from '@/components/ui/button';
-import { Form, FormDrawer, Input, Textarea } from '@/components/ui/form';
+import { Form, FormDrawer, Input, Select, Textarea } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/enum';
+import { EDUCATIONSTATUS, ROLES } from '@/types/enum';
 
 import { useEducation } from '../api/get-education';
 import {
@@ -31,7 +31,6 @@ export const UpdateEducation = ({ id }: UpdateEducationProps) => {
     });
 
     const education = educationQuery?.data;
-    
 
     return (
         <Authorization allowedRoles={[ROLES.ADMIN]}>
@@ -95,12 +94,6 @@ export const UpdateEducation = ({ id }: UpdateEducationProps) => {
                                 label="Địa chỉ"
                                 error={formState.errors['address']}
                                 registration={register('address')}
-                            />
-                            <Input
-                                label="Trạng thái"
-                                type = "number"
-                                error={formState.errors['status']}
-                                registration={register('status')}
                             />
                         </div>
                     )}

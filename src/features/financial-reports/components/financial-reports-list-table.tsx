@@ -126,12 +126,12 @@ export const FinancialReportListTable: FunctionComponent<FinancialReportListProp
             field: 'totalRemain',
           },
           {
-            title: 'Mã chiến dịch',
-            field: 'campaignId',
+            title: 'Tên chiến dịch',
+            field: 'campaignName',
           },
           {
-            title: 'Mã người nhận',
-            field: 'recipientId',
+            title: 'Tên người nhận',
+            field: 'recipientName',
           },
         ]}
       />

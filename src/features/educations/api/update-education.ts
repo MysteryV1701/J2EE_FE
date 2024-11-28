@@ -8,11 +8,11 @@ import { Education } from '@/types/api';
 import { getEducationQueryOptions } from './get-education';
 
 export const updateEducationInputSchema = z.object({
-  name: z.string().min(1, 'Required'),
-  email: z.string().min(1, 'Required'),
-  phone: z.string().min(1, 'Required'),
-  address: z.string().min(1, 'Required'),
-  status: z.number().min(0, 'Status must be a positive number'),
+    name: z.string().min(1, 'Required'),
+    email: z.string().min(1, 'Required').email(),
+    phone: z.string().min(1, 'Required').regex(/^0\d{1,11}$/, 'Invalid phone number'),
+    address: z.string().min(1, 'Required'), 
+    status: z.number().min(0, 'Status must be a positive number'),
 });
 
 export type UpdateEducationInput = z.infer<typeof updateEducationInputSchema>;

@@ -4,12 +4,16 @@ import { useNotifications } from '@/components/ui/notifications';
 import { useNavigate } from 'react-router-dom';
 import { Authorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input } from '@/components/ui/form';
+import { Form, FormDrawer, Input, Select } from '@/components/ui/form';
+import { useCampaigns } from '@/features/campaign/api/get-campaigns';
+import { useRecipients } from '@/features/recipients/api/get-recipients';
 
 
 export const CreateFinancialReportForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
+  const campaign = useCampaigns({});
+  const recipient = useRecipients({});
 
   const createFinancialReportMutation = useCreateFinancialReport({
     mutationConfig: {
@@ -83,18 +87,38 @@ export const CreateFinancialReportForm = () => {
                 error={formState.errors['totalRemain']}
                 registration={register('totalRemain', { valueAsNumber: true })}
               />
-              <Input
-                type = "number"
-                label="Mã chiến dịch"
-                error={formState.errors['campaignId']}
-                registration={register('campaignId', { valueAsNumber: true })}
-              />
-              <Input
-                type = "number"
-                label="Mã người nhận"
-                error={formState.errors['recipientId']}
-                registration={register('recipientId', { valueAsNumber: true })}
-              />
+              <Select
+                  label="Tên chiến dịch"
+                  options={
+                    campaign.data?.data.map((item) => ({
+                      label: item.name,
+                      value: item.id,
+                    })) || []
+                  }
+                  defaultValue={campaign.data?.data[0]?.id}
+                  registration={{
+                    ...register('campaignId', {
+                      setValueAs: (value) => Number(value),
+                    }),
+                  }}
+                  error={formState.errors['campaignId']}
+                />
+              <Select
+                  label="Tên người nhận"
+                  options={
+                    recipient.data?.data.map((item) => ({
+                      label: item.name,
+                      value: item.id,
+                    })) || []
+                  }
+                  defaultValue={recipient.data?.data[0]?.id}
+                  registration={{
+                    ...register('recipientId', {
+                      setValueAs: (value) => Number(value),
+                    }),
+                  }}
+                  error={formState.errors['recipientId']}
+                />
               </div>
           )}
         </Form>

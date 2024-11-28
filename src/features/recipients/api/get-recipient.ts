@@ -12,7 +12,6 @@ export const getRecipient = ({
   return api.get(`/recipients/${id}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
     },
   });
 };

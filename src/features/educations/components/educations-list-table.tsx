@@ -10,6 +10,7 @@ import { Table } from '@/components/ui/table';
 import { CreateEducationForm } from './create-education-form';
 import { DeleteEducations } from './delete-education';
 import { UpdateEducation } from './update-education';
+import { EDUCATIONSTATUS } from '@/types/enum';
 
 
 interface EducationListProps {
@@ -42,6 +43,17 @@ export const EducationListTable: FunctionComponent<EducationListProps> = (
     page,
     size: props.size,
   });
+
+  const getEducationStatusText = (status: EDUCATIONSTATUS): string => {
+    switch (status) {
+      case EDUCATIONSTATUS.INACTIVE:
+        return 'Dừng hoạt động';
+      case EDUCATIONSTATUS.ACTIVE:
+        return 'Đang hoạt động';
+      default:
+        return 'Unknown';
+    }
+  }
 
   if (educationQuery.isLoading) {
     return (
@@ -81,13 +93,13 @@ export const EducationListTable: FunctionComponent<EducationListProps> = (
 
   return (
     <>
-    <div className="flex justify-end space-x-4 mb-4">
-      <Button>
-        <CreateEducationForm />
-      </Button>
-      <Button
-      > <DeleteEducations educationIds={Array.from(selectedRows)} />
-      </Button>
+      <div className="flex justify-end space-x-4 mb-4">
+        <Button>
+          <CreateEducationForm />
+        </Button>
+        <Button
+        > <DeleteEducations educationIds={Array.from(selectedRows)} />
+        </Button>
       </div>
       <Table
         data={educations}
@@ -140,6 +152,21 @@ export const EducationListTable: FunctionComponent<EducationListProps> = (
             field: 'address',
           },
           {
+            title: 'Trạng thái',
+            field: 'status',
+            Cell({ entry: { status } }) {
+              const statusColor =
+                status === EDUCATIONSTATUS.ACTIVE
+                  ? 'text-success'
+                  : status === EDUCATIONSTATUS.INACTIVE
+                    ? 'text-danger'
+                    : '';
+
+
+              return <span className={cn(statusColor)}>{getEducationStatusText(status)}</span>;
+            },
+          },
+          {
             title: 'Thời gian tạo',
             field: 'createdDate',
             className: 'text-center',
@@ -150,10 +177,10 @@ export const EducationListTable: FunctionComponent<EducationListProps> = (
           {
             title: '',
             field: 'actions',
-            Cell({ entry: { id} }) {
+            Cell({ entry: { id } }) {
               return (
                 <div className="flex gap-2">
-                  <UpdateEducation id = {id} />
+                  <UpdateEducation id={id} />
                 </div>
               );
             },

@@ -16,10 +16,9 @@ export const getRecipients = async (
   const accessToken = sessionStorage.getItem('access_token');
  
   return await api.get(`/recipients`, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      'Access-Control-Allow-Origin': 'http://localhost:3000'
-    },
+    // headers: {
+    //   Authorization: `Bearer ${accessToken}`,
+    // },
     params: {
       page,
       size,

@@ -62,11 +62,11 @@ export const AuthNavBar: React.FC = () => {
   const dashboardNavigation: SideNavigationItem[] = [
     { name: 'Thống kê', to: '/app', icon: Home },
     { name: 'Chiến dịch', to: paths.app.campaigns.path, icon: Folder },
-    { name: 'Thế loại', to: './app/categories', icon: Layers },
-    { name: 'Recipients', to: './app/recipients', icon: BookUser },
-    { name: 'Educations', to: './app/educations', icon: University },
+    { name: 'Thế loại', to: paths.app.category.path, icon: Layers },
+    { name: 'Người nhận', to: paths.app.recipient.path, icon: BookUser },
+    { name: 'Trường học', to: paths.app.education.path, icon: University },
     {
-      name: 'Financial Reporters',
+      name: 'Báo cáo tài chính',
       to: paths.app.financialReport.path,
       icon: ClipboardCheck,
     },

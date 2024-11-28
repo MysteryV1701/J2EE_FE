@@ -22,7 +22,6 @@ export const getFinancialReports = (
     },
     headers: {
       Authorization: `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
     },
   });
 };

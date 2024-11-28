@@ -3,7 +3,7 @@ import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
 import { CATEGORIESSTATUS, ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input, Select} from '@/components/ui/form';
+import { Form, FormDrawer, Input, Select, Textarea} from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
 import { useCategories } from '../api/get-categories';
 
@@ -85,7 +85,7 @@ export const CreateCategoryForm = () => {
                 error={formState.errors['name']}
                 registration={register('name')}
               />
-              <Input
+              <Textarea
                 label="Mô tả"
                 error={formState.errors['description']}
                 registration={register('description')}
