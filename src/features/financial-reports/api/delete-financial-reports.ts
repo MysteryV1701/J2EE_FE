@@ -5,8 +5,12 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { getFinancialReportsQueryOptions } from './get-financial-reports';
 
-export const deleteFinancialReport = async ( financialReportIds: string[]) => {
-  return api.delete(`/financial-report`, { data: financialReportIds  });
+export const deleteFinancialReport = async ( financialReportIds: number[]) => {
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.delete(`/financial-report`, { data: financialReportIds, headers: {
+    Authorization: `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+  },  }, );
 };
 
 type UseDeleteFinancialReportsOptions = {

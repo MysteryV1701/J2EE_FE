@@ -4,7 +4,7 @@ import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { Recipient } from '@/types/api';
 
-export const getRecipients = (
+export const getRecipients = async (
   page = 0,
   size = 10,
 ): Promise<{
@@ -16,16 +16,13 @@ export const getRecipients = (
   const accessToken = sessionStorage.getItem('access_token');
   console.log(accessToken);
  
-  return api.get(`/recipients`, {
+  return await api.get(`/recipients`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
     params: {
       page,
       size,
-    },
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
     },
   });
 };

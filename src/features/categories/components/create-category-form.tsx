@@ -1,24 +1,25 @@
-import { createRecipientInputSchema, useCreateRecipient } from '../api/create-recipients';
+import { createCategoryInputSchema, useCreateCategory } from '../api/create-category';
 import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input} from '@/components/ui/form';
+import { CATEGORIESSTATUS, ROLES } from '@/types/enum';
+import { Form, FormDrawer, Input, Select} from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
+import { useCategories } from '../api/get-categories';
 
 
-export const CreateRecipientForm = () => {
+export const CreateCategoryForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
 
-  const createRecipientMutation = useCreateRecipient({
+  const createCategoryMutation = useCreateCategory({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: 'Recipient Created',
+          title: 'Loại từ thiện được tạo thành công',
         });
-        navigate('/app/recipients');
+        window.location.reload();
       },
       onError: (error) => {
         addNotification({
@@ -30,63 +31,70 @@ export const CreateRecipientForm = () => {
     },
   });
 
+  const statusOptions = [
+    { label: 'Đang hoạt động', value: CATEGORIESSTATUS.ACTIVE },
+    { label: 'Dừng hoạt động', value: CATEGORIESSTATUS.INACTIVE },
+  ];
+
+
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
-      <FormDrawer isDone={createRecipientMutation.isSuccess}
+      <FormDrawer isDone={createCategoryMutation.isSuccess}
         triggerButton={
           <Button
             buttonVariant="filled"
             buttonStyled={{ color: 'primary', rounded: 'lg', size: 'lg' }}
             className="width-fit-content"
           >
-            Tạo người nhận
+            Tạo loại từ thiện
           </Button>
         }
-        title="Tạo người nhận"
+        title="Tạo loại từ thiện"
         submitButton={
           <Button
-            form="create-recipient"
+            form="create-category"
             type="submit"
             buttonVariant="filled"
             buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}
-            isLoading={createRecipientMutation.isPending}
+            isLoading={createCategoryMutation.isPending}
           >
             Submit
           </Button>
         }
       >
         <Form
-          id="create-recipient"
+          id="create-category"
           onSubmit={(values) => {
-            createRecipientMutation.mutate({
+            createCategoryMutation.mutate({
               data: values,
             });
           }}
           options={{
             defaultValues: {
               name: "",
-              code: "",
-              phone: "",
+              description: "",
+              status: 1,
             }
           }}
-          schema={createRecipientInputSchema}
+          schema={createCategoryInputSchema}
         >
           {({ register, formState }) => (
             <div className="py-4 flex-1">
               <Input
-                label="Tên người nhận"
+                label="Tên loại"
                 error={formState.errors['name']}
                 registration={register('name')}
               />
               <Input
-                label="Code"
-                error={formState.errors['code']}
-                registration={register('code')}
+                label="Mô tả"
+                error={formState.errors['description']}
+                registration={register('description')}
               />
-              <Input
-                label="Số điện thoại"
-                error={formState.errors['phone']}
-                registration={register('phone')}
+              <Select
+                options={statusOptions}
+                label="Trạng thái"
+                error={formState.errors['status']}
+                registration={register('status')}
               />
             </div>
           )}        

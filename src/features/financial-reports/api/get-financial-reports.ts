@@ -13,10 +13,17 @@ export const getFinancialReports = (
   size: number;
   totalPages: number;
 }> => {
+  const accessToken = sessionStorage.getItem('access_token');
+  console.log(accessToken);
+  
   return api.get(`/financial-report`, {
     params: {
       page,
       size,
+    },
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
     },
   });
 };

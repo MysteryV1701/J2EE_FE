@@ -21,7 +21,13 @@ export const updateCategory = ({
   data: UpdateCategoryInput;
   id: number;
 }): Promise<Category> => {
-  return api.patch(`/Category/${id}`, data);
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.put(`/categories/${id}`, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 type UseUpdateCategoryOptions = {

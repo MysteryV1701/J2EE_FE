@@ -22,7 +22,14 @@ export const createEducation = ({
 }: {
     data: CreateEducationInput;
 }): Promise<Education> => {
-    return api.post(`/educations`, data);
+    const accessToken = sessionStorage.getItem('access_token');
+    
+    return api.post(`/educations`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
 };
 
 type UseCreateEducationOptions = {

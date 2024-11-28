@@ -5,19 +5,22 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { getRecipientsQueryOptions } from './get-recipients';
 
-export type DeleteRecipientDTO = {
-  recipientId: number;
-};
-
-export const deleteRecipient = ({ recipientId }: DeleteRecipientDTO) => {
-  return api.delete(`/recipients/${recipientId}`);
+export const deleteRecipients = async ( recipientIds: number[]) => {
+  const accessToken = sessionStorage.getItem('access_token');
+  await api.delete(`/recipients`, {
+    data: recipientIds,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 type UseDeleteRecipientOptions = {
-  mutationConfig?: MutationConfig<typeof deleteRecipient>;
+  mutationConfig?: MutationConfig<typeof deleteRecipients>;
 };
 
-export const useDeleteRecipient = ({
+export const useDeleteRecipients = ({
   mutationConfig,
 }: UseDeleteRecipientOptions = {}) => {
   const queryClient = useQueryClient();
@@ -33,7 +36,7 @@ export const useDeleteRecipient = ({
         onSuccess(...args);
       }
     },
-    mutationFn: deleteRecipient,
+    mutationFn: deleteRecipients,
     ...restConfig,
   });
 };

@@ -22,7 +22,7 @@ export const FinancialReportsLoader =
 
 export const FinancialReportsRoute = () => {
   return (
-    <ContentLayout title="FinancialReports" description="" isDashboard>
+    <ContentLayout title="Báo cáo tài chính" description="" isDashboard>
         <FinancialReportListTable />
     </ContentLayout>
   );

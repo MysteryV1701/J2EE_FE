@@ -127,6 +127,15 @@ const createAppRouter = (queryClient: QueryClient) =>
           },
         },
         {
+          path: paths.app.education.path,
+          lazy: async () => {
+            const { EducationsRoute } = await import(
+              './routes/app/admin/educations.tsx'
+            );
+            return { Component: EducationsRoute };
+          },
+        },
+        {
           path: paths.app.category.path,
           lazy: async () => {
             const { CategoriesRoute } = await import(

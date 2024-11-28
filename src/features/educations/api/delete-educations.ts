@@ -5,12 +5,19 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { getEducationsQueryOptions } from '../api/get-educations';
 
-export const deleteEducation = async ( educationIds: string[]) => {
-  return api.delete(`/educations`, { data: educationIds  });
+export const deleteEducations = async ( educationIds: number[]) => {
+  const accessToken = sessionStorage.getItem('access_token');
+  await api.delete(`/educations`, {
+    data: educationIds,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 type UseDeleteEducationsOptions = {
-  mutationConfig?: MutationConfig<typeof deleteEducation>;
+  mutationConfig?: MutationConfig<typeof deleteEducations>;
 };
 
 export const useDeleteEducations = ({
@@ -28,6 +35,6 @@ export const useDeleteEducations = ({
       onSuccess?.(...args);
     },
     ...restConfig,
-    mutationFn: deleteEducation,
+    mutationFn: deleteEducations,
   });
 };

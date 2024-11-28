@@ -7,7 +7,7 @@ export const getCategory = ({
   id,
 }: {
   id: number;
-}): Promise<{data: Category}> => {
+}): Promise<Category> => {
   return api.get(`/categories/${id}`);
 };
 
