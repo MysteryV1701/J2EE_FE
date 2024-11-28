@@ -27,6 +27,7 @@ export type User = Entity<{
   role_name: ROLES;
   status: number;
   avatar: string;
+  provider: string;
 }>;
 export type AuthResponse = {
   token_type: string;

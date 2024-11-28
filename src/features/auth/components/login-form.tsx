@@ -1,11 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useLogin, loginInputSchema } from '@/lib/auth';
-import { useGoogleLogin } from '@react-oauth/google';
 import { paths } from '@/config/paths';
 import { ROLES } from '@/types/enum';
+import { GoogleLogin } from '@react-oauth/google';
+import { api } from '@/lib/api-client';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
@@ -23,16 +25,38 @@ export const LoginForm = () => {
       }
     },
   });
-  const loginWtihGoogle = useGoogleLogin({
-    onSuccess: (codeResponse) => console.log(codeResponse),
-    onError: (error) => console.log('Login Failed:', error),
-  });
+  const handleSuccess = async (response: any) => {
+    await api
+      .post(
+        '/auth/login/oauth2/google',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${response.credential}`,
+          },
+        },
+      )
+      .then((res: any) => {
+        sessionStorage.setItem('access_token', res.access_token);
+        navigate(paths.home.getHref(), {
+          replace: true,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleError = () => {
+    console.error('Login Failed');
+  };
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
 
   return (
     <div className="flex flex-col gap-4">
-      <Button
+      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+      {/* <Button
         buttonVariant="outlined"
         buttonStyled={{
           behavior: 'block',
@@ -44,9 +68,6 @@ export const LoginForm = () => {
           ringWidth: 1,
         }}
         className="bg-white"
-        onClick={() => {
-          loginWtihGoogle();
-        }}
       >
         <div className="bg-white p-2 rounded-full">
           <svg className="w-4" viewBox="0 0 533.5 544.3">
@@ -69,7 +90,7 @@ export const LoginForm = () => {
           </svg>
         </div>
         <span className="ml-4 ">Đăng nhập bằng Google</span>
-      </Button>
+      </Button> */}
       <div className="relative text-center">
         <div className="absolute inset-0 flex items-center">
           <div className="w-full border-t border-gray-400"></div>

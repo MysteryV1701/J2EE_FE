@@ -14,11 +14,13 @@ import {
 
 import { Progress } from '../ui/progress';
 import { Navbar } from '../ui/partials/navbar';
+import { useNavigate } from 'react-router-dom';
+import { paths } from '@/config/paths';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = useUser();
   const logout = useLogout();
-
+  const navigate = useNavigate();
   return (
     <div className="flex min-h-screen w-full flex-col">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-60 flex-col border-r bg-primary-900 sm:flex">
@@ -68,7 +70,10 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
               <DropdownMenuSeparator /> */}
               <DropdownMenuItem
                 className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
-                onClick={() => logout.mutate({})}
+                onClick={() => {
+                  logout.mutate({});
+                  navigate(paths.auth.login.getHref());
+                }}
               >
                 Sign Out
               </DropdownMenuItem>

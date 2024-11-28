@@ -7,6 +7,7 @@ import { Label } from './label';
 type FieldWrapperProps = {
   label?: string;
   className?: string;
+  button?: React.ReactNode;
   children: React.ReactNode;
   error?: FieldError | undefined;
 };
@@ -17,12 +18,14 @@ export type FieldWrapperPassThroughProps = Omit<
 >;
 
 export const FieldWrapper = (props: FieldWrapperProps) => {
-  const { label, error, children } = props;
+  const { label, className, button, error, children } = props;
   return (
-    <div>
+    <div className={className}>
       <Label>
-        {label}
-        <div className="mt-1">{children}</div>
+        <div className="flex flex-row justify-between">
+          {label} {button}
+        </div>
+        <div className="mt-2">{children}</div>
       </Label>
       <Error errorMessage={error?.message} />
     </div>

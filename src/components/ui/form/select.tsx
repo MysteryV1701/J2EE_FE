@@ -13,7 +13,7 @@ type Option = {
 type SelectFieldProps = FieldWrapperPassThroughProps & {
   options: Option[];
   className?: string;
-  defaultValue?: string;
+  defaultValue?: number;
   registration: Partial<UseFormRegisterReturn>;
 };
 
@@ -28,6 +28,15 @@ export const Select = (props: SelectFieldProps) => {
           className,
         )}
         defaultValue={defaultValue}
+        onChange={(e) => {
+          const value = e.target.value;
+          if (registration?.onChange) {
+            registration.onChange({
+              ...e,
+              target: { ...e.target, value: Number(value) },
+            });
+          }
+        }}
         {...registration}
       >
         {options.map(({ label, value }) => (
