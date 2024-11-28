@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { AuthResponse, User } from '@/types/api';
 import { ROLES } from '@/types/enum';
 import { api } from './api-client';
+import axios from 'axios';
 
 const getUser = async (): Promise<User | null> => {
   const accessToken = sessionStorage.getItem('access_token');
@@ -22,37 +23,19 @@ const getUser = async (): Promise<User | null> => {
       },
     });
   } catch (error: any) {
-    if (error.response) {
-      if (error.response.status === 400) {
-        console.error('Invalid token:', error.response.data.detail);
-      } else if (error.response.status === 401) {
-        try {
-          const refreshResponse = await api.post('/auth/refresh-token');
-          const newAccessToken = refreshResponse.data.access_token;
-          // Lưu lại token mới
-          sessionStorage.setItem('access_token', newAccessToken);
-
-          // Thử lại yêu cầu sau khi refresh token
-          return await api.get('/auth/me', {
-            headers: {
-              Authorization: `Bearer ${newAccessToken}`,
-            },
-          });
-        } catch (refreshError: any) {
-          console.error('Failed to refresh token:', refreshError);
-          sessionStorage.removeItem('access_token');
-        }
-      } else {
-        console.error('Error fetching user data:', error.response.data);
-      }
+    if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data || error.message;
+      console.log('Error fetching user data:', errorData);
     } else {
-      console.error('Error fetching user data:', error);
+      console.error('Non-Axios error:', error);
     }
+
     return null;
   }
 };
 
 const logout = (): Promise<void> => {
+  sessionStorage.removeItem('access_token');
   return api.post('/auth/logout');
 };
 

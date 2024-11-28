@@ -1,8 +1,16 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-
-import { Folder, Home, User2, ChevronDownIcon,  BookUser, University, ClipboardCheck, ChartBar, Layers } from 'lucide-react';
+import {
+  Folder,
+  Home,
+  User2,
+  ChevronDownIcon,
+  BookUser,
+  University,
+  ClipboardCheck,
+  Layers,
+} from 'lucide-react';
 
 import { useAuthorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
@@ -52,18 +60,17 @@ export const AuthNavBar: React.FC = () => {
   ];
 
   const dashboardNavigation: SideNavigationItem[] = [
-    { name: 'Dashboard', to: paths.app.root.path, icon: Home },
-    { name: 'Campaign', to: paths.app.campaigns.path, icon: Folder },
-    { name: 'Categories', to: paths.app.category.path, icon: Layers},
-    { name: 'Recipients', to: paths.app.recipient.path, icon: BookUser },
-    { name: 'Educations', to: paths.app.education.path, icon: University },
+    { name: 'Thống kê', to: '/app', icon: Home },
+    { name: 'Chiến dịch', to: paths.app.campaigns.path, icon: Folder },
+    { name: 'Thế loại', to: './app/categories', icon: Layers },
+    { name: 'Recipients', to: './app/recipients', icon: BookUser },
+    { name: 'Educations', to: './app/educations', icon: University },
     {
       name: 'Financial Reporters',
       to: paths.app.financialReport.path,
       icon: ClipboardCheck,
     },
-    { name: 'Users', to: './app/users', icon: User2 },
-    { name: 'Statistics', to: './app/statistics', icon: ChartBar },
+    { name: 'Tài khoản', to: './app/users', icon: User2 },
   ];
 
   return (
@@ -146,7 +153,10 @@ export const AuthNavBar: React.FC = () => {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
-                onClick={() => logout.mutate({})}
+                onClick={() => {
+                  logout.mutate();
+                  navigate(paths.home.getHref());
+                }}
               >
                 Đăng xuất
               </DropdownMenuItem>
