@@ -107,18 +107,6 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
-      path: paths.notification.path,
-      lazy: async () => {
-        const { NotificationRoute } = await import(
-          './routes/client/notification.tsx'
-        );
-        return {
-          Component: NotificationRoute,
-        };
-      },
-      ErrorBoundary: AppRootErrorBoundary,
-    },
-    {
       path: paths.donations.path,
       lazy: async () => {
         const { DonationsRoute } = await import(

@@ -12,7 +12,6 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const registering = useRegister({ onSuccess });
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get('redirectTo');
-
   return (
     <div className="flex flex-col gap-4">
       <Form

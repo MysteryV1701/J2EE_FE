@@ -159,13 +159,6 @@ export const AuthNavBar: React.FC = () => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => navigate(paths.notification.getHref())}
-                className={cn('block px-4 py-2 text-sm text-gray-700')}
-              >
-                Thông báo
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
                 className={cn('block px-4 py-2 text-sm text-gray-700 w-full')}
                 onClick={() => {
                   logout.mutate();
