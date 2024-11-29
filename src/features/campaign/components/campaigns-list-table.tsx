@@ -2,7 +2,6 @@ import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/helpers/utils';
 import { useCampaigns } from '../api/get-campaigns';
-import { DeleteCampaign } from './delete-campaign';
 import { useState } from 'react';
 import { paths } from '@/config/paths';
 import { cn } from '@/helpers/cn';
@@ -13,7 +12,6 @@ import { CreateCampaign } from './create-campaign';
 export const CampaignListTable = () => {
   const campaignQuery = useCampaigns({ page: 0 });
   const [page, setPage] = useState(0);
-  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
   if (campaignQuery.isLoading) {
     return (
@@ -22,17 +20,6 @@ export const CampaignListTable = () => {
       </div>
     );
   }
-  const handleCheckboxChange = (id: number) => {
-    setSelectedRows((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(id)) {
-        newSet.delete(id);
-      } else {
-        newSet.add(id);
-      }
-      return newSet;
-    });
-  };
   const campaigns = campaignQuery.data?.data;
 
   if (!campaigns) return null;
@@ -48,32 +35,6 @@ export const CampaignListTable = () => {
           rootUrl: paths.app.campaigns.getHref(),
         }}
         columns={[
-          {
-            title: (
-              <input
-                type="checkbox"
-                onChange={(e) => {
-                  if (e.target.checked) {
-                    const allIds = campaigns.map((campaign) => campaign.id);
-                    setSelectedRows(new Set(allIds));
-                  } else {
-                    setSelectedRows(new Set());
-                  }
-                }}
-              />
-            ),
-            field: 'checkbox',
-            className: 'w-10 text-center',
-            Cell({ entry: { id } }) {
-              return (
-                <input
-                  type="checkbox"
-                  checked={selectedRows.has(id)}
-                  onChange={() => handleCheckboxChange(id)}
-                />
-              );
-            },
-          },
           {
             title: 'Tên chiến dịch',
             field: 'name',
@@ -125,11 +86,10 @@ export const CampaignListTable = () => {
           {
             title: '',
             field: 'actions',
-            Cell({ entry: { id, code } }) {
+            Cell({ entry: { code } }) {
               return (
                 <div className="flex gap-2">
                   <UpdateCampaign code={code} />
-                  <DeleteCampaign id={id} />
                 </div>
               );
             },

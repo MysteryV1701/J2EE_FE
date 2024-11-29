@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Pen } from 'lucide-react';
 import Button from '@/components/ui/button';
 import {
@@ -68,9 +69,42 @@ export const CreateCampaign: FunctionComponent = () => {
       >
         <Form
           id="create-campaign"
-          onSubmit={(values) => {
-            console.log(values);
-            createCampaignMutation.mutate({ data: values });
+          onSubmit={async (values) => {
+            const createData = {
+              name: values.name,
+              description: values.description,
+              targetAmount: Number(values.targetAmount),
+              currentAmount: 0,
+              bankName: values.bankName,
+              accountNumber: values.accountNumber,
+              startDate: values.startDate,
+              endDate: values.endDate,
+              categoryId: values.categoryId,
+              educationId: values.educationId,
+              createdId: user.data?.id,
+              thumbnail: '',
+            };
+            const formData = new FormData();
+            for (const key in values) {
+              if (key === 'thumbnail') {
+                formData.append(
+                  'file',
+                  (values[key] as unknown as FileList)[0],
+                );
+                break;
+              }
+            }
+            try {
+              const response = await api.post('/upload', formData, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+              createData.thumbnail = response.url;
+            } catch (error) {
+              console.error(error);
+            }
+            createCampaignMutation.mutate({ data: createData });
           }}
           options={{
             defaultValues: {
@@ -85,33 +119,13 @@ export const CreateCampaign: FunctionComponent = () => {
               categoryId: 0,
               educationId: 0,
               createdId: user.data?.id,
-              thumbnail: '',
+              thumbnail: null as unknown as File,
             },
           }}
           schema={createCampaignInputSchema}
         >
           {({ register, formState, watch, setValue }) => {
             const descriptionValue = watch('description');
-            const handleFileChange = async (
-              event: React.ChangeEvent<HTMLInputElement>,
-            ) => {
-              if (event.target.files?.[0]) {
-                const file = event.target.files[0];
-                const formData = new FormData();
-                formData.append('file', file);
-                formData.append('fileName', file.name);
-                try {
-                  const response = await api.post('/upload', formData, {
-                    headers: {
-                      'Content-Type': 'multipart/form-data',
-                    },
-                  });
-                  console.log(response);
-                } catch (error) {
-                  console.error('Error uploading file:', error);
-                }
-              }
-            };
             return (
               <div className="py-4 flex-1 flex flex-col gap-4">
                 <Input
@@ -169,16 +183,19 @@ export const CreateCampaign: FunctionComponent = () => {
                     registration={register('accountNumber')}
                   />
                 </div>
-                {/* <Input
+                <Input
                   label="Thumbnail"
                   type="file"
-                  hidden
                   accept="image/*"
                   error={formState.errors['thumbnail']}
                   registration={register('thumbnail')}
-                  onChange={handleFileChange}
-                /> */}
-                <input type="file" onChange={handleFileChange} />
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setValue('thumbnail', file);
+                    }
+                  }}
+                />
                 <Select
                   label="Thể loại chiến dịch"
                   options={
@@ -190,7 +207,7 @@ export const CreateCampaign: FunctionComponent = () => {
                   defaultValue={category.data?.[0]?.id}
                   registration={{
                     ...register('categoryId', {
-                      setValueAs: (value) => Number(value),
+                      setValueAs: (value: any) => Number(value),
                     }),
                   }}
                   error={formState.errors['categoryId']}
@@ -206,7 +223,7 @@ export const CreateCampaign: FunctionComponent = () => {
                   defaultValue={educations.data?.data?.[0]?.id}
                   registration={{
                     ...register('educationId', {
-                      setValueAs: (value) => Number(value),
+                      setValueAs: (value: any) => Number(value),
                     }),
                   }}
                   error={formState.errors['educationId']}
