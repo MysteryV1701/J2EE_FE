@@ -14,7 +14,6 @@ import {
   useUpdateCampaign,
 } from '../api/update-campaign';
 import { MDPreview } from '@/components/ui/md-preview';
-Categories } from '@/features/category/api/get-categories';
 
 import { FunctionComponent } from 'react';
 import { formatDate, formatToISO } from '@/helpers/utils';

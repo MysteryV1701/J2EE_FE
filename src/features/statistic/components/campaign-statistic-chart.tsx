@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCampaignStatistic } from '../api/get-campaign-statistic';
 import { StatisticBarChart } from './chart-bar';
 import { Select } from '@/components/ui/form';
-import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { CAMPAIGNSTATUS } from '@/types/enum';
 import { useCategories } from '@/features/categories/api/get-categories';
 import { Input } from '@/components/ui/form';
 import { differenceInMonths, format, subMonths } from 'date-fns';
 import ExportStatisticButton from './export-statistic';
+import { Table } from '@/components/ui/table';
+import { formatDate } from '@/helpers/utils';
+import { cn } from '@/helpers/cn';
 
 const CampaignStatisticChart = () => {
   const { addNotification } = useNotifications();
@@ -24,10 +26,11 @@ const CampaignStatisticChart = () => {
     endDate: format(defaultEndDate, 'yyyy-MM-dd'),
   });
 
+
   const handleChange = (field: string, value: any) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
   };
-
+    
   const { data, isLoading, error, refetch } = useCampaignStatistic({
     request: {
       categoryId: Number(formValues.categoryId),
@@ -40,13 +43,11 @@ const CampaignStatisticChart = () => {
     },
   });
 
+  console.log(data?.data);
+  
+
   useEffect(() => {
-    refetch();
-  }, []);
-
-  const handleSubmit = () => {
-
-    const startDate = formValues.startDate
+    const startDate = formValues.startDate;
     const endDate = formValues.endDate;
 
     if (endDate < startDate) {
@@ -54,7 +55,8 @@ const CampaignStatisticChart = () => {
         type: 'error',
         title: 'Error',
         message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
-      })
+      });
+      return;
     }
 
     if (differenceInMonths(endDate, startDate) > 12) {
@@ -63,7 +65,6 @@ const CampaignStatisticChart = () => {
         title: 'Error',
         message: 'Khoảng thời gian không được quá 12 tháng',
       });
-
       return;
     }
 
@@ -73,25 +74,42 @@ const CampaignStatisticChart = () => {
         title: 'Error',
         message: 'Category ID is required',
       });
-
-
       return;
     }
-    console.log(formValues);
     refetch();
-  };
+  }, [formValues, refetch, addNotification]);
 
   const statusOptions = [
-    { label: 'COMPLETED', value: CAMPAIGNSTATUS.COMPLETED },
-    { label: 'PENDING', value: CAMPAIGNSTATUS.PENDING },
-    { label: 'APPROVED', value: CAMPAIGNSTATUS.APPROVED },
-    { label: 'REJECTED', value: CAMPAIGNSTATUS.REJECTED },
+    { label: 'Đã hoàn thành', value: CAMPAIGNSTATUS.COMPLETED },
+    { label: 'Bị từ chối', value: CAMPAIGNSTATUS.REJECTED },
   ];
 
   return (
     <div className="p-4">
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <Input
+          label="Ngày bắt đầu"
+          type='date'
+          value={formValues.startDate}
+          registration={{
+            onChange: async (e) => {
+              handleChange('startDate', e.target.value);
+              return true;
+            }
+          }}
+        />
+        <Input
+          label="Ngày kết thúc"
+          type='date'
+          value={formValues.endDate}
+          registration={{
+            onChange: async (e) => {
+              handleChange('endDate', e.target.value);
+              return true;
+            }
+          }}
+        />
         <Select
           label="Thể loại chiến dịch"
           options={categories.data?.data.map((item) => ({
@@ -117,32 +135,8 @@ const CampaignStatisticChart = () => {
             }
           }}
         />
-        <Input
-          label="Ngày bắt đầu"
-          type='date'
-          value={formValues.startDate}
-          registration={{
-            onChange: async (e) => {
-              handleChange('startDate', e.target.value);
-              return true;
-            }
-          }}
-        />
-        <Input
-          label="Ngày kết thúc"
-          type='date'
-          value={formValues.endDate}
-          registration={{
-            onChange: async (e) => {
-              handleChange('endDate', e.target.value);
-              return true;
-            }
-          }}
-        />
       </div>
       <div className="flex justify-end space-x-4 mb-4">
-        <Button onClick={handleSubmit} className="mb-4" buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}>Thống kê dữ liệu</Button>
-
         <ExportStatisticButton request={{
           categoryId: Number(formValues.categoryId),
           status: formValues.status,
@@ -154,6 +148,63 @@ const CampaignStatisticChart = () => {
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
       {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} /> : <p>Không có dữ liệu phù hợp</p>}
+
+      <Table
+        data={data?.data || []}
+        columns={[
+          {
+            title: 'Tên chiến dịch',
+            field: 'campaigns.name',
+          },
+          {
+            title: 'Người tạo',
+            field: 'owner',
+          },
+          {
+            title: 'Số tiền mục tiêu',
+            field: 'campaigns.targetAmount',
+          },
+          {
+            title: 'Số tiền hiện tại',
+            field: 'currentAmount',
+          },
+          {
+            title: 'Ngày bắt đầu',
+            field: 'startDate',
+            className: 'text-center',
+            Cell({ entry: { startDate } }) {
+              return <span>{formatDate(startDate)}</span>;
+            },
+          },
+          {
+            title: 'Ngày kết thúc',
+            field: 'endDate',
+            className: 'text-center',
+            Cell({ entry: { endDate } }) {
+              return <span>{formatDate(endDate)}</span>;
+            },
+          },
+          {
+            title: 'Trạng thái',
+            field: 'status',
+            className: 'text-center font-semibold',
+            Cell({ entry: { status } }) {
+              const statusColor =
+                status === CAMPAIGNSTATUS.APPROVED
+                  ? 'text-success'
+                  : status === CAMPAIGNSTATUS.REJECTED
+                    ? 'text-danger'
+                    : 'text-default';
+
+              return <span className={cn(statusColor)}>{status}</span>;
+            },
+          },
+          {
+            title: 'Số lượt quyên góp',
+            field: 'totalDonations',
+          },
+        ]}
+        />
     </div>
   );
 };
