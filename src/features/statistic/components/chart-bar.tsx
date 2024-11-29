@@ -41,6 +41,7 @@ export const StatisticBarChart = ({ data, totalCampaigns }: StatisticBarChartPro
         margin={{ top: 50, right: 50, bottom: 50, left: 60 }}
         padding={0.3}
         valueScale={{ type: 'linear' }}
+        colors={{ scheme: 'nivo' }}
         indexScale={{ type: 'band', round: true }}
         axisBottom={{
           legend: 'Thời gian',
@@ -53,10 +54,12 @@ export const StatisticBarChart = ({ data, totalCampaigns }: StatisticBarChartPro
           legendOffset: -50,
           tickValues: tickValues,
         }}
-        tooltip={({ id, value, color }) => (
-          <strong style={{ color }}>
-            {id}: {value}
-          </strong>
+        tooltip={({ indexValue, value, color }) => (
+          <div style={{ padding: '5px', color: color, background: '#fff' }}>
+            <strong>{indexValue}</strong>
+            <br />
+            Số lượng chiến dịch: {value}
+          </div>
         )}
       />
     </div>

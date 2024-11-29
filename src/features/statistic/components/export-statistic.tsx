@@ -21,6 +21,8 @@ const ExportStatisticButton: React.FC<{ request: StatisticRequest }> = ({ reques
         title: 'Error',
         message: 'Failed to export file',
       });
+      console.log('Error:', error);
+      
     }
   };
 
