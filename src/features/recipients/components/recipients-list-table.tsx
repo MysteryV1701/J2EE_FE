@@ -11,6 +11,8 @@ import { Authorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
 import { paths } from '@/config/paths';
 
+import { useSearchParams } from 'react-router-dom';
+import { Pagination } from '@/components/ui/pagination';
 
 interface RecipientListProps {
   size?: number;
@@ -20,7 +22,12 @@ interface RecipientListProps {
 export const RecipientListTable: FunctionComponent<RecipientListProps> = (
   props,
 ) => {
-  const [page, setPage] = useState(0);
+
+  const [searchParams] = useSearchParams();
+  const [page, setPage] = useState(+(searchParams.get('page') || 0));
+  const [pageNumberLimit, setPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
   const handleCheckboxChange = (id: number) => {
@@ -41,6 +48,11 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     size: 10,
   });
 
+  useEffect(() => {
+    setPageNumberLimit(recipientQuery.data?.totalPages || 5);
+    setMaxPageNumberLimit(recipientQuery.data?.totalPages || 5);
+  }, [recipientQuery.data]);
+
   if (recipientQuery.isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
@@ -48,7 +60,27 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
       </div>
     );
   }
+  const changePage = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
 
+  const incrementPage = () => {
+    setPage(page + 1);
+    if (page + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+  const decrementPage = () => {
+    setPage(page - 1);
+    if ((page - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+    if (page - 1 === 0) {
+      return null;
+    }
+  };
   const recipients = recipientQuery.data?.data;
   if (!recipients || recipients.length === 0) {
     return (
@@ -88,11 +120,6 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     </div>
       <Table
         data={recipients}
-        pagination={{
-          totalPages: recipientQuery.data?.totalPages ?? 1,
-          currentPage: page,
-          rootUrl: paths.app.recipient.getHref(),
-        }}
         columns={[
           {
             title: (
@@ -141,6 +168,16 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
             },
           },
         ]}
+      />
+      <Pagination
+        totalPages={recipientQuery.data?.totalPages || 5}
+        pageSize={recipientQuery.data?.size || 5}
+        page={page}
+        changePage={changePage}
+        incrementPage={incrementPage}
+        decrementPage={decrementPage}
+        minPageNumberLimit={minPageNumberLimit}
+        maxPageNumberLimit={maxPageNumberLimit}
       />
     </>
   );

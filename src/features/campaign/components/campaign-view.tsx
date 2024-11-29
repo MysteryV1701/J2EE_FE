@@ -65,12 +65,19 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
           <Form
             id="create-donation"
             onSubmit={(values) => {
-              console.log('Form values:', values);
+              values.amount = Number(values.amount);
               createDonationMutation.mutate({
                 data: values,
                 campaignId,
-                userId: user.data?.id ?? null,
+                userId: user.data?.id,
               });
+            }}
+            options={{
+              defaultValues: {
+                amount: Number(10000),
+                name: user.data?.name,
+                isAnonymous: false,
+              },
             }}
             schema={createDonationInputSchema}
           >
@@ -87,6 +94,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                     registration={register('isAnonymous')}
                     checked={isChecked}
                     className="border border-gray-400 rounded-full"
+                    classNameParent="p-0"
                     onClick={() => handleSwitchChange(!isChecked)}
                   />
                 </div>
@@ -104,7 +112,6 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                   disabled={isChecked}
                   className={cn('!bg-gray-200', { 'bg-gray-200': isChecked })}
                   label="Tên của người quyên góp"
-                  value={user.data?.name}
                   error={formState.errors['name']}
                   registration={register('name')}
                 />
@@ -120,7 +127,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                   }}
                   buttonVariant="filled"
                 >
-                  Quyên góp
+                  Quyên góp qua VNPay
                 </Button>
               </>
             )}

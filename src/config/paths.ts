@@ -23,6 +23,14 @@ export const paths = {
     path: 'donations',
     getHref: () => `/donations`,
   },
+  my_campaign: {
+    path: 'my_campaign',
+    getHref: () => `/my_campaign`,
+  },
+  notification: {
+    path: 'notification',
+    getHref: () => `/notification`,
+  },
   aboutUs: {
     path: 'about-us',
     getHref: () => '/about-us',

@@ -1,15 +1,15 @@
 import { ContentLayout } from '@/components/layouts';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { paths } from '@/config/paths';
-import { MyDonations } from '@/features/donation/components/my-donations';
-// export const campaignsLoader =
+
+// export const notificationLoader =
 //   (queryClient: QueryClient) =>
 //   async ({ request }: LoaderFunctionArgs) => {
 //     const url = new URL(request.url);
+//     const categoryId = Number(url.searchParams.get('categoryId') || 0);
+//     const page = Number(url.searchParams.get('page') || 0);
 
-//     const page = Number(url.searchParams.get('page') || 1);
-
-//     const query = getCampaignsQueryOptions({ page });
+//     const query = getCampaignsQueryOptions({ categoryId, page });
 
 //     return (
 //       queryClient.getQueryData(query.queryKey) ??
@@ -17,7 +17,7 @@ import { MyDonations } from '@/features/donation/components/my-donations';
 //     );
 //   };
 
-export const DonationsRoute = () => {
+export const NotificationRoute = () => {
   const breadcrumbs = [
     {
       to: paths.home.path,
@@ -26,19 +26,19 @@ export const DonationsRoute = () => {
       url: paths.home.path,
     },
     {
-      to: paths.donations.path,
-      title: 'Lịch sử quyên góp của tôi',
-      name: 'Lịch sử quyên góp của tôi',
-      url: paths.donations.path,
+      to: paths.notification.path,
+      title: 'Thông báo',
+      name: 'Thông báo',
+      url: paths.notification.path,
     },
   ];
   return (
-    <ContentLayout title="Donation Page" description="Dann Charity">
+    <ContentLayout title="Campaign Page" description="Dann Charity">
       <Breadcrumb items={breadcrumbs} className="mt-8" />
       <div className="mt-8 flex flex-col gap-2 font-nunito">
         <div className="flex items-center gap-2">
           <span className="w-fit-content font-dancing text-primary font-semibold text-2xl relative ">
-            Cảm ơn bạn đã tham gia quyên góp
+            Nơi chung tay góp sức thiện nguyện
           </span>
           <span className="w-32 h-[1px] bg-primary mt-3 md:block hidden"></span>
         </div>
@@ -46,7 +46,7 @@ export const DonationsRoute = () => {
           title="Help many children need to help"
           className="text-gray-800 font-semibold text-3xl w-1/2"
         >
-          Lịch sử uỷ quyền góp của tôi
+          Danh sách thông báo
         </h1>
         <span className="text-gray-600 text-base w-1/2">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam totam
@@ -55,7 +55,6 @@ export const DonationsRoute = () => {
           optio perspiciatis quod nihil.
         </span>
       </div>
-      <MyDonations />
     </ContentLayout>
   );
 };

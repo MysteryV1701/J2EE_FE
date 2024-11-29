@@ -1,8 +1,12 @@
 import { default as dayjs } from 'dayjs';
 
 export const formatDate = (date: string) =>
-  dayjs(date).format(' D/MM/YYYY h:mm:ss');
+  dayjs(date).format('D/MM/YYYY h:mm:ss');
 
+export const formatToISO = (dateString: string | undefined): string | undefined  => {
+  if (!dateString) return undefined;
+  return dayjs(dateString).format("YYYY-MM-DDTHH:mm:ss");
+}
 export const formatPrice = (price: number) => {
   const formatter = new Intl.NumberFormat('vi-VN', {
     style: 'currency',

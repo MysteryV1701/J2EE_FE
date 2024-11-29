@@ -85,11 +85,47 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
+      path: paths.my_campaign.path,
+      lazy: async () => {
+        const { MyCampaignsRoute } = await import(
+          './routes/client/my-campaign.tsx'
+        );
+        return {
+          Component: MyCampaignsRoute,
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
       path: paths.aboutUs.path,
       lazy: async () => {
         const { AboutUsRoute } = await import('./routes/client/about-us.tsx');
         return {
           Component: AboutUsRoute,
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
+      path: paths.notification.path,
+      lazy: async () => {
+        const { NotificationRoute } = await import(
+          './routes/client/notification.tsx'
+        );
+        return {
+          Component: NotificationRoute,
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
+      path: paths.donations.path,
+      lazy: async () => {
+        const { DonationsRoute } = await import(
+          './routes/client/donations.tsx'
+        );
+        return {
+          Component: DonationsRoute,
         };
       },
       ErrorBoundary: AppRootErrorBoundary,
