@@ -10,7 +10,8 @@ import { Table } from '@/components/ui/table';
 import { CreateEducationForm } from './create-education-form';
 import { DeleteEducations } from './delete-education';
 import { UpdateEducation } from './update-education';
-import { EDUCATIONSTATUS } from '@/types/enum';
+import { EDUCATIONSTATUS, ROLES } from '@/types/enum';
+import { Authorization } from '@/lib/authorization';
 
 
 interface EducationListProps {
@@ -97,9 +98,11 @@ export const EducationListTable: FunctionComponent<EducationListProps> = (
         <Button>
           <CreateEducationForm />
         </Button>
+        <Authorization allowedRoles={[ROLES.ADMIN]}>
         <Button
         > <DeleteEducations educationIds={Array.from(selectedRows)} />
         </Button>
+        </Authorization>
       </div>
       <Table
         data={educations}

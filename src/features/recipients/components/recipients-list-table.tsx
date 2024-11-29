@@ -7,6 +7,10 @@ import { CreateRecipientForm } from './create-recipient-form';
 import { formatDate } from '@/helpers/utils';
 import { Table } from '@/components/ui/table';
 import { DeleteRecipienties } from './delete-recipient';
+import { Authorization } from '@/lib/authorization';
+import { ROLES } from '@/types/enum';
+import { paths } from '@/config/paths';
+
 import { useSearchParams } from 'react-router-dom';
 import { Pagination } from '@/components/ui/pagination';
 
@@ -18,6 +22,7 @@ interface RecipientListProps {
 export const RecipientListTable: FunctionComponent<RecipientListProps> = (
   props,
 ) => {
+
   const [searchParams] = useSearchParams();
   const [page, setPage] = useState(+(searchParams.get('page') || 0));
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
@@ -104,12 +109,15 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
 
   return (
     <>
-      <div className="flex justify-end space-x-4 mb-4">
-        <CreateRecipientForm />
-        <Button>
-          <DeleteRecipienties recipientIds={Array.from(selectedRows)} />
-        </Button>
-      </div>
+    <div className="flex justify-end space-x-4 mb-4">
+      <CreateRecipientForm />
+      <Authorization allowedRoles={[ROLES.ADMIN]}>
+      <Button
+      >
+        <DeleteRecipienties recipientIds={Array.from(selectedRows)}/>
+      </Button>
+      </Authorization>
+    </div>
       <Table
         data={recipients}
         columns={[

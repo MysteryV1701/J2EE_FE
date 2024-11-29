@@ -72,7 +72,7 @@ export const CreateRecipientForm = () => {
           schema={createRecipientInputSchema}
         >
           {({ register, formState }) => (
-            <div className="py-4 flex-1">
+            <div className="py-4 flex-1 flex flex-col gap-4">
               <Input
                 label="Tên người nhận"
                 error={formState.errors['name']}

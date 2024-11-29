@@ -8,8 +8,9 @@ import { CreateCategoryForm } from './create-category-form';
 import Button from '@/components/ui/button';
 import { DeleteCategories } from './delete-categories';
 import { UpdateCategory } from './update-category';
-import { CATEGORIESSTATUS } from '@/types/enum';
+import { CATEGORIESSTATUS, ROLES } from '@/types/enum';
 import { cn } from '@/helpers/cn';
+import { Authorization } from '@/lib/authorization';
 
 
 interface CategoriesListProps {
@@ -82,9 +83,11 @@ export const CategoriesListTable: FunctionComponent<CategoriesListProps> = (
     <>
     <div className="flex justify-end space-x-4 mb-4">
       <CreateCategoryForm />
+      <Authorization allowedRoles={[ROLES.ADMIN]}>
       <Button>
         <DeleteCategories categoryIds={Array.from(selectedRows)} />
       </Button>
+      </Authorization>
       </div>
       <Table
         data={categories}

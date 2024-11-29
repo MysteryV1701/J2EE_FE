@@ -3,7 +3,7 @@ import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
 import { EDUCATIONSTATUS, ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input, Select} from '@/components/ui/form';
+import { Form, FormDrawer, Input, Select } from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -80,7 +80,7 @@ export const CreateEducationForm = () => {
           schema={createEducationInputSchema}
         >
           {({ register, formState }) => (
-            <div className="py-4 flex-1">
+            <div className="py-4 flex-1 flex flex-col gap-4">
               <Input
                 label="Tên trường"
                 error={formState.errors['name']}
@@ -95,20 +95,21 @@ export const CreateEducationForm = () => {
                 label="Email"
                 error={formState.errors['email']}
                 registration={register('email')}
-                />
-                <Input
-                  label="Địa chỉ"
-                  error={formState.errors['address']}
-                  registration={register('address')}
-                />
-                <Select
+              />
+
+              <Input
+                label="Địa chỉ"
+                error={formState.errors['address']}
+                registration={register('address')}
+              />
+              <Select
                 options={statusOptions}
                 label="Trạng thái"
                 error={formState.errors['status']}
                 registration={register('status')}
               />
             </div>
-          )}        
+          )}
         </Form>
       </FormDrawer>
     </Authorization>

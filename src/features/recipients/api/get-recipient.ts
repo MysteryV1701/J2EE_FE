@@ -7,7 +7,7 @@ export const getRecipient = ({
   id,
 }: {
   id: number;
-}): Promise<{data: Recipient}> => {
+}): Promise<Recipient> => {
   const accessToken = sessionStorage.getItem('access_token');
   return api.get(`/recipients/${id}`, {
     headers: {

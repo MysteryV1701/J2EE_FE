@@ -1,13 +1,14 @@
 import { ContentLayout } from '@/components/layouts';
+import CampaignStatisticChart from '@/features/statistic/components/campaign-statistic-chart';
 
 export const DashboardRoute = () => {
   return (
     <ContentLayout
-      title="Dashboard"
+      title="Thống kê"
       description="Admin of Happly Life Site"
       isDashboard
     >
-      <div className=""></div>
+      <CampaignStatisticChart />
     </ContentLayout>
   );
 };

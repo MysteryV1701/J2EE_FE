@@ -74,7 +74,7 @@ export const CreateFinancialReportForm = () => {
           schema={ createFinancialReportInputSchema }
         >
           {({ register, formState }) => (
-            <div className="py-4 flex-1">
+            <div className="py-4 flex-1 flex flex-col gap-4">
               <Input
                 type = "number"
                 label="Tổng số tiền nhận được"

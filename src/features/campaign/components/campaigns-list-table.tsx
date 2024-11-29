@@ -2,6 +2,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/helpers/utils';
 import { useCampaigns } from '../api/get-campaigns';
+
 import { useEffect, useState } from 'react';
 import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
@@ -10,10 +11,12 @@ import { Pagination } from '@/components/ui/pagination';
 
 export const CampaignListTable = () => {
   const [page, setPage] = useState(0);
+
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const campaignQuery = useCampaigns({ page });
+
 
   useEffect(() => {
     setPageNumberLimit(campaignQuery.data?.totalPages || 5);
@@ -26,6 +29,7 @@ export const CampaignListTable = () => {
       </div>
     );
   }
+
   const changePage = (pageNumber: number) => {
     setPage(pageNumber);
   };
