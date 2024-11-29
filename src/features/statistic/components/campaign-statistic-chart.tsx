@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCampaignStatistic } from '../api/get-campaign-statistic';
 import { StatisticBarChart } from './chart-bar';
 import { Select } from '@/components/ui/form';
@@ -7,17 +7,21 @@ import { useNotifications } from '@/components/ui/notifications';
 import { CAMPAIGNSTATUS } from '@/types/enum';
 import { useCategories } from '@/features/categories/api/get-categories';
 import { Input } from '@/components/ui/form';
-import { differenceInMonths, format } from 'date-fns';
+import { differenceInMonths, format, subMonths } from 'date-fns';
 import ExportStatisticButton from './export-statistic';
 
 const CampaignStatisticChart = () => {
   const { addNotification } = useNotifications();
-  const categories = useCategories({page: 0});
+  const categories = useCategories({ page: 0 });
+
+  const defaultEndDate = new Date();
+  const defaultStartDate = subMonths(defaultEndDate, 12);
+
   const [formValues, setFormValues] = useState({
     categoryId: 1,
     status: CAMPAIGNSTATUS.COMPLETED,
-    startDate: format(new Date(), 'yyyy-MM-dd'),
-    endDate: format(new Date(), 'yyyy-MM-dd'),
+    startDate: format(defaultStartDate, 'yyyy-MM-dd'),
+    endDate: format(defaultEndDate, 'yyyy-MM-dd'),
   });
 
   const handleChange = (field: string, value: any) => {
@@ -36,17 +40,30 @@ const CampaignStatisticChart = () => {
     },
   });
 
+  useEffect(() => {
+    refetch();
+  }, []);
+
   const handleSubmit = () => {
+
     const startDate = formValues.startDate
     const endDate = formValues.endDate;
 
-    if (differenceInMonths(startDate, endDate) > 12) { 
+    if (endDate < startDate) {
+      addNotification({
+        type: 'error',
+        title: 'Error',
+        message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
+      })
+    }
+
+    if (differenceInMonths(endDate, startDate) > 12) {
       addNotification({
         type: 'error',
         title: 'Error',
         message: 'Khoảng thời gian không được quá 12 tháng',
       });
-      
+
       return;
     }
 
@@ -56,8 +73,8 @@ const CampaignStatisticChart = () => {
         title: 'Error',
         message: 'Category ID is required',
       });
-      
-      
+
+
       return;
     }
     console.log(formValues);
@@ -123,18 +140,20 @@ const CampaignStatisticChart = () => {
           }}
         />
       </div>
-      <Button onClick={handleSubmit} className="mb-4" buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}>Thống kê dữ liệu</Button>
+      <div className="flex justify-end space-x-4 mb-4">
+        <Button onClick={handleSubmit} className="mb-4" buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}>Thống kê dữ liệu</Button>
 
-      <ExportStatisticButton request={{
-        categoryId: Number(formValues.categoryId),
-        status: formValues.status,
-        startDate: `${formValues.startDate} 00:00:00`,
-        endDate: `${formValues.endDate} 00:00:00`,
-      }} />
-      
+        <ExportStatisticButton request={{
+          categoryId: Number(formValues.categoryId),
+          status: formValues.status,
+          startDate: `${formValues.startDate} 00:00:00`,
+          endDate: `${formValues.endDate} 00:00:00`,
+        }} />
+      </div>
+
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns}/> : <p>Không có dữ liệu phù hợp</p>}
+      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} /> : <p>Không có dữ liệu phù hợp</p>}
     </div>
   );
 };
