@@ -99,7 +99,7 @@ export type Recipient = Entity<{
 export type Education = Entity<{
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   address: string;
   status: number;
 }>;

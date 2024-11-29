@@ -67,16 +67,20 @@ export const paths = {
       getHref: () => '/app/profile',
     },
     category: {
-      path: 'categories',
+      path: '/app/categories',
       getHref: () => '/app/categories',
     },
     recipient: {
-      path: 'recipients',
+      path: '/app/recipients',
       getHref: () => '/app/recipients',
     },
     financialReport: {
-      path: 'financial-reports',
+      path: '/app/financial-reports',
       getHref: () => '/app/financial-reports',
+    },
+    education: {
+      path: '/app/educations',
+      getHref: () => '/app/educations',
     }
   },
 } as const;

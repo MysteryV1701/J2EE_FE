@@ -9,3 +9,13 @@ export enum CAMPAIGNSTATUS {
   REJECTED = 'REJECTED',
   COMPLETED = 'COMPLETED',
 }
+
+export enum CATEGORIESSTATUS {
+  ACTIVE = 1,
+  INACTIVE = 0,
+}
+
+export enum EDUCATIONSTATUS {
+  ACTIVE = 1,
+  INACTIVE = 0,
+}

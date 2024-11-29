@@ -10,7 +10,7 @@ import { getRecipientsQueryOptions } from './get-recipients';
 export const createRecipientInputSchema = z.object({
     code: z.string().min(1, 'Required'),
     name: z.string().min(1, 'Required'),
-    phone: z.string().min(1, 'Required'),
+    phone: z.string().min(1, 'Required').regex(/^0\d{1,11}$/, 'Invalid phone number'),
 });
 
 export type CreateRecipientInput = z.infer<typeof createRecipientInputSchema>;

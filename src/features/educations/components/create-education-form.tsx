@@ -1,24 +1,24 @@
-import { createRecipientInputSchema, useCreateRecipient } from '../api/create-recipients';
+import { createEducationInputSchema, useCreateEducation } from '../api/create-education';
 import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input} from '@/components/ui/form';
+import { EDUCATIONSTATUS, ROLES } from '@/types/enum';
+import { Form, FormDrawer, Input, Select} from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
 
 
-export const CreateRecipientForm = () => {
+export const CreateEducationForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
 
-  const createRecipientMutation = useCreateRecipient({
+  const createEducationMutation = useCreateEducation({
     mutationConfig: {
       onSuccess: () => {
         addNotification({
           type: 'success',
-          title: 'Recipient Created',
+          title: 'Education Created',
         });
-        navigate('/app/recipients');
+        navigate('/app/educations');
       },
       onError: (error) => {
         addNotification({
@@ -30,63 +30,82 @@ export const CreateRecipientForm = () => {
     },
   });
 
+  const statusOptions = [
+    { label: 'Đang hoạt động', value: EDUCATIONSTATUS.ACTIVE },
+    { label: 'Dừng hoạt động', value: EDUCATIONSTATUS.INACTIVE },
+  ];
+
+
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
-      <FormDrawer isDone={createRecipientMutation.isSuccess}
+      <FormDrawer isDone={createEducationMutation.isSuccess}
         triggerButton={
           <Button
             buttonVariant="filled"
             buttonStyled={{ color: 'primary', rounded: 'lg', size: 'lg' }}
             className="width-fit-content"
           >
-            Tạo người nhận
+            Tạo trường học
           </Button>
         }
-        title="Tạo người nhận"
+        title="Tạo trường học"
         submitButton={
           <Button
-            form="create-recipient"
+            form="create-education"
             type="submit"
             buttonVariant="filled"
             buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}
-            isLoading={createRecipientMutation.isPending}
+            isLoading={createEducationMutation.isPending}
           >
             Submit
           </Button>
         }
       >
         <Form
-          id="create-recipient"
+          id="create-education"
           onSubmit={(values) => {
-            createRecipientMutation.mutate({
+            createEducationMutation.mutate({
               data: values,
             });
           }}
           options={{
             defaultValues: {
               name: "",
-              code: "",
               phone: "",
+              email: "",
+              address: "",
+              status: 1,
             }
           }}
-          schema={createRecipientInputSchema}
+          schema={createEducationInputSchema}
         >
           {({ register, formState }) => (
             <div className="py-4 flex-1">
               <Input
-                label="Tên người nhận"
+                label="Tên trường"
                 error={formState.errors['name']}
                 registration={register('name')}
-              />
-              <Input
-                label="Code"
-                error={formState.errors['code']}
-                registration={register('code')}
               />
               <Input
                 label="Số điện thoại"
                 error={formState.errors['phone']}
                 registration={register('phone')}
+              />
+              <Input
+                label="Email"
+                error={formState.errors['email']}
+                registration={register('email')}
+                />
+                <Input
+                  label="Địa chỉ"
+                  error={formState.errors['address']}
+                  registration={register('address')}
+                />
+                <Select
+                options={statusOptions}
+                label="Trạng thái"
+                error={formState.errors['status']}
+                registration={register('status')}
               />
             </div>
           )}        

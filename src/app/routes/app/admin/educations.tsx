@@ -1,18 +1,18 @@
 import { QueryClient } from '@tanstack/react-query';
 
 import { ContentLayout } from '@/components/layouts';
-import { getFinancialReportsQueryOptions } from '@/features/financial-reports/api/get-financial-reports'
-import { FinancialReportListTable } from '@/features/financial-reports/components/financial-reports-list-table';
+import { getEducationsQueryOptions } from '@/features/educations/api/get-educations';
+import { EducationListTable } from '@/features/educations/components/educations-list-table';
 import { LoaderFunctionArgs } from 'react-router-dom';
 
-export const FinancialReportsLoader =
+export const EducationsLoader =
   (queryClient: QueryClient) =>
   async ({ request }: LoaderFunctionArgs) => {
     const url = new URL(request.url);
 
     const page = Number(url.searchParams.get('page') || 1);
 
-    const query = getFinancialReportsQueryOptions({ page });
+    const query = getEducationsQueryOptions({ page });
 
     return (
       queryClient.getQueryData(query.queryKey) ??
@@ -20,10 +20,10 @@ export const FinancialReportsLoader =
     );
   };
 
-export const FinancialReportsRoute = () => {
+export const EducationsRoute = () => {
   return (
-    <ContentLayout title="Báo cáo tài chính" description="" isDashboard>
-        <FinancialReportListTable />
+    <ContentLayout title="Danh sách trường học" description="" isDashboard>
+        <EducationListTable />
     </ContentLayout>
   );
 };

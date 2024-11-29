@@ -21,7 +21,13 @@ export const createFinancialReport = ({
 }: {
   data: CreateFinancialReportInput;
 }): Promise<FinancialReport> => {
-  return api.post(`/financial-report`, data);
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.post(`/financial-report`, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 type UseCreateFinancialReportOptions = {

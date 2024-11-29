@@ -22,7 +22,7 @@ export const CategoriesLoader =
 
 export const CategoriesRoute = () => {
   return (
-    <ContentLayout title="Categorys" description="" isDashboard>
+    <ContentLayout title="Danh sách các loại từ thiện" description="" isDashboard>
         <CategoriesListTable />
     </ContentLayout>
   );

@@ -9,9 +9,9 @@ import { getEducationsQueryOptions } from './get-educations';
 
 export const createEducationInputSchema = z.object({
     name: z.string().min(1, 'Required'),
-    email: z.string().min(1, 'Required'),
-    phone: z.string().min(1, 'Required'),
-    address: z.string().min(1, 'Required'),
+    email: z.string().min(1, 'Required').email(),
+    phone: z.string().min(1, 'Required').regex(/^\+?[1-9]\d{1,14}$/, 'Invalid phone number'),
+    address: z.string().min(1, 'Required'), 
     status: z.number().min(0, 'Status must be a positive number'),
 });
 
@@ -22,7 +22,14 @@ export const createEducation = ({
 }: {
     data: CreateEducationInput;
 }): Promise<Education> => {
-    return api.post(`/educations`, data);
+    const accessToken = sessionStorage.getItem('access_token');
+    
+    return api.post(`/educations`, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
 };
 
 type UseCreateEducationOptions = {

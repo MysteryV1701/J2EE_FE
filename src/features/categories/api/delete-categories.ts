@@ -5,17 +5,24 @@ import { MutationConfig } from '@/lib/react-query';
 
 import { getCategoriesQueryOptions } from '../api/get-categories';
 
-export const deleteCategory = async ( categoryIds: string[]) => {
-  return api.delete(`/categories`, { data: categoryIds  });
+export const deleteCategories =  ( categoryIds: number[]) => {
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.delete(`/categories`, {
+    data: categoryIds,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
-type UseDeleteCategorysOptions = {
-  mutationConfig?: MutationConfig<typeof deleteCategory>;
+type UseDeleteCategoriesOptions = {
+  mutationConfig?: MutationConfig<typeof deleteCategories>;
 };
 
-export const useDeleteCategorys = ({
+export const useDeleteCategories = ({
   mutationConfig,
-}: UseDeleteCategorysOptions = {}) => {
+}: UseDeleteCategoriesOptions = {}) => {
   const queryClient = useQueryClient();
 
   const { onSuccess, ...restConfig } = mutationConfig || {};
@@ -28,6 +35,6 @@ export const useDeleteCategorys = ({
       onSuccess?.(...args);
     },
     ...restConfig,
-    mutationFn: deleteCategory,
+    mutationFn: deleteCategories,
   });
 };

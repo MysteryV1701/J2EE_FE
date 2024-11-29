@@ -19,7 +19,13 @@ export const createCategory = ({
 }: {
   data: CreateCategoryInput;
 }): Promise<Category> => {
-  return api.post(`/categories`, data);
+  const accessToken = sessionStorage.getItem('access_token');
+  return api.post(`/categories`, data, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+    },
+  });
 };
 
 type UseCreateCategoryOptions = {

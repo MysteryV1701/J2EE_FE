@@ -7,7 +7,7 @@ export const getEducation = ({
   id,
 }: {
   id: number;
-}): Promise<{data: Education}> => {
+}): Promise<Education> => {
   return api.get(`/educations/${id}`);
 };
 

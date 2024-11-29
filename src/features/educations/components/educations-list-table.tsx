@@ -1,22 +1,24 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import { useRecipients } from '../api/get-recipients';
+import { useEducations } from '../api/get-educations';
 import Button from '@/components/ui/button';
 import { cn } from '@/helpers/cn';
 import { Spinner } from '@/components/ui/spinner';
-import { CreateRecipientForm } from './create-recipient-form';
 import { Modal } from '@/components/ui/modal';
 import { paths } from '@/config/paths';
 import { formatDate } from '@/helpers/utils';
 import { Table } from '@/components/ui/table';
-import { DeleteRecipienties } from './delete-recipient';
+import { CreateEducationForm } from './create-education-form';
+import { DeleteEducations } from './delete-education';
+import { UpdateEducation } from './update-education';
+import { EDUCATIONSTATUS } from '@/types/enum';
 
 
-interface RecipientListProps {
+interface EducationListProps {
   size?: number;
   pagination?: boolean;
 }
 
-export const RecipientListTable: FunctionComponent<RecipientListProps> = (
+export const EducationListTable: FunctionComponent<EducationListProps> = (
   props,
 ) => {
   const [page, setPage] = useState(0);
@@ -36,13 +38,24 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     });
   };
 
-  const recipientQuery = useRecipients({
+  const educationQuery = useEducations({
     queryConfig: {},
     page,
     size: props.size,
   });
 
-  if (recipientQuery.isLoading) {
+  const getEducationStatusText = (status: EDUCATIONSTATUS): string => {
+    switch (status) {
+      case EDUCATIONSTATUS.INACTIVE:
+        return 'Dừng hoạt động';
+      case EDUCATIONSTATUS.ACTIVE:
+        return 'Đang hoạt động';
+      default:
+        return 'Unknown';
+    }
+  }
+
+  if (educationQuery.isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
         <Spinner size="lg" />
@@ -50,14 +63,13 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     );
   }
 
-  const recipients = recipientQuery.data?.data;
+  const educations = educationQuery.data?.data;
 
-  if (!recipients || recipients.length === 0) {
+  if (!educations || educations.length === 0) {
     return (
       <>
-      
         <Button>
-         <CreateRecipientForm />
+          <CreateEducationForm />
         </Button>
 
         <div
@@ -70,7 +82,7 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
           <div className="h-64 w-full">
             <p className="h-full w-full object-contain">
               {' '}
-              Không có người nhận nào tồn tại
+              Không có trường học nào tồn tại
             </p>
           </div>
         </div>
@@ -81,19 +93,20 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
 
   return (
     <>
-    <div className="flex justify-end space-x-4 mb-4">
-      <CreateRecipientForm />
-      <Button
-      >
-        <DeleteRecipienties recipientIds={Array.from(selectedRows)}/>
-      </Button>
-    </div>
+      <div className="flex justify-end space-x-4 mb-4">
+        <Button>
+          <CreateEducationForm />
+        </Button>
+        <Button
+        > <DeleteEducations educationIds={Array.from(selectedRows)} />
+        </Button>
+      </div>
       <Table
-        data={recipients}
+        data={educations}
         pagination={{
-          totalPages: recipientQuery.data?.totalPages ?? 1,
+          totalPages: educationQuery.data?.totalPages ?? 1,
           currentPage: page,
-          rootUrl: paths.app.recipient.getHref(),
+          rootUrl: paths.app.education.getHref(),
         }}
         columns={[
           {
@@ -102,7 +115,7 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
                 type="checkbox"
                 onChange={(e) => {
                   if (e.target.checked) {
-                    const allIds = recipients.map((recipient) => recipient.id);
+                    const allIds = educations.map((education) => education.id);
                     setSelectedRows(new Set(allIds));
                   } else {
                     setSelectedRows(new Set());
@@ -123,16 +136,35 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
             },
           },
           {
-            title: 'Tên người nhận',
+            title: 'Tên trường',
             field: 'name',
           },
           {
-            title: 'Code',
-            field: 'code',
+            title: 'Email',
+            field: 'email',
           },
           {
             title: 'Số điện thoại',
             field: 'phone',
+          },
+          {
+            title: 'Địa chỉ',
+            field: 'address',
+          },
+          {
+            title: 'Trạng thái',
+            field: 'status',
+            Cell({ entry: { status } }) {
+              const statusColor =
+                status === EDUCATIONSTATUS.ACTIVE
+                  ? 'text-success'
+                  : status === EDUCATIONSTATUS.INACTIVE
+                    ? 'text-danger'
+                    : '';
+
+
+              return <span className={cn(statusColor)}>{getEducationStatusText(status)}</span>;
+            },
           },
           {
             title: 'Thời gian tạo',
@@ -140,6 +172,17 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
             className: 'text-center',
             Cell({ entry: { createdDate } }) {
               return <span>{formatDate(createdDate)}</span>;
+            },
+          },
+          {
+            title: '',
+            field: 'actions',
+            Cell({ entry: { id } }) {
+              return (
+                <div className="flex gap-2">
+                  <UpdateEducation id={id} />
+                </div>
+              );
             },
           },
         ]}

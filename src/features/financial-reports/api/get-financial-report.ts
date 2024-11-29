@@ -8,7 +8,7 @@ export const getFinancialReport = ({
 }: {
   id: number;
 }): Promise<{data: FinancialReport}> => {
-  return api.get(`/financial-reports/${id}`);
+  return api.get(`/financial-report/${id}`);
 };
 
 export const getFinancialReportQueryOptions = (id: number) => {

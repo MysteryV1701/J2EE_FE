@@ -22,7 +22,7 @@ export const RecipientsLoader =
 
 export const RecipientsRoute = () => {
   return (
-    <ContentLayout title="Recipients" description="" isDashboard>
+    <ContentLayout title="Danh sách người nhận" description="" isDashboard>
         <RecipientListTable />
     </ContentLayout>
   );
