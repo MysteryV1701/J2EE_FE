@@ -26,7 +26,10 @@ const PaginationContent = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <ul
     ref={ref}
-    className={cn('flex flex-row items-center gap-1', className)}
+    className={cn(
+      'flex flex-row items-center gap-2 bg-secondary-200 p-2 rounded-md ',
+      className,
+    )}
     {...props}
   />
 ));
@@ -48,7 +51,6 @@ type PaginationLinkProps = {
 const PaginationLink = ({
   className,
   isActive,
-  buttonStyled,
   children,
   href,
   ...props
@@ -57,7 +59,8 @@ const PaginationLink = ({
     to={href as string}
     aria-current={isActive ? 'page' : undefined}
     className={cn(
-      buttonStyled,
+      isActive ? 'bg-secondary-600' : 'bg-secondary-300',
+      'flex flex-row items-center px-3 py-2 hover:bg-secondary-600 transition duration-300 rounded-md',
       className,
     )}
     {...props}
@@ -73,8 +76,8 @@ const PaginationPrevious = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to previous page"
-    buttonStyled = {{ size: "md" }}
-    className={cn('gap-1 pl-2.5', className)}
+    buttonStyled={{ size: 'md' }}
+    className={cn('gap-1 pl-2.5 ', className)}
     {...props}
   >
     <ChevronLeftIcon className="size-4" />
@@ -89,8 +92,8 @@ const PaginationNext = ({
 }: React.ComponentProps<typeof PaginationLink>) => (
   <PaginationLink
     aria-label="Go to next page"
-    buttonStyled = {{ size: "md" }}
-    className={cn('gap-1 pr-2.5', className)}
+    buttonStyled={{ size: 'md' }}
+    className={cn('gap-1 pr-2.5 ', className)}
     {...props}
   >
     <span>Next</span>
@@ -128,55 +131,38 @@ export type TablePaginationProps = {
   totalPages: number;
   currentPage: number;
   rootUrl: string;
+  pageActive: number;
 };
 
 export const TablePagination = ({
   totalPages,
   currentPage,
   rootUrl,
+  pageActive,
 }: TablePaginationProps) => {
   const createHref = (page: number) => `${rootUrl}?page=${page}`;
 
   return (
-    <Pagination className="justify-end py-8">
+    <Pagination className="justify-center py-8">
       <PaginationContent>
-        {currentPage > 1 && (
+        {currentPage > 0 && (
           <PaginationItem>
             <PaginationPrevious href={createHref(currentPage - 1)} />
           </PaginationItem>
         )}
-        {currentPage > 2 && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        {currentPage > 1 && (
-          <PaginationItem>
-            <PaginationLink href={createHref(currentPage - 1)}>
-              {currentPage - 1}
+        {Array.from({ length: totalPages }, (_, index) => index).map((page) => (
+          <PaginationItem key={page}>
+            <PaginationLink
+              href={createHref(page)}
+              isActive={page === pageActive}
+            >
+              {page + 1}
             </PaginationLink>
           </PaginationItem>
-        )}
-        <PaginationItem className="rounded-sm bg-gray-200">
-          <PaginationLink href={createHref(currentPage)}>
-            {currentPage}
-          </PaginationLink>
-        </PaginationItem>
-        {totalPages > currentPage && (
+        ))}
+        {currentPage < totalPages - 1 && (
           <PaginationItem>
-            <PaginationLink href={createHref(currentPage + 1)}>
-              {currentPage + 1}
-            </PaginationLink>
-          </PaginationItem>
-        )}
-        {totalPages > currentPage + 1 && (
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-        )}
-        {currentPage < totalPages && (
-          <PaginationItem>
-            <PaginationNext href={createHref(totalPages)} />
+            <PaginationNext href={createHref(totalPages - 1)} />
           </PaginationItem>
         )}
       </PaginationContent>

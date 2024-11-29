@@ -4,8 +4,6 @@ import Button from '@/components/ui/button';
 import { cn } from '@/helpers/cn';
 import { Spinner } from '@/components/ui/spinner';
 import { CreateRecipientForm } from './create-recipient-form';
-import { Modal } from '@/components/ui/modal';
-import { paths } from '@/config/paths';
 import { formatDate } from '@/helpers/utils';
 import { Table } from '@/components/ui/table';
 import { DeleteRecipienties } from './delete-recipient';
@@ -21,9 +19,11 @@ interface RecipientListProps {
 export const RecipientListTable: FunctionComponent<RecipientListProps> = (
   props,
 ) => {
-  const [page, setPage] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [searchParams] = useSearchParams();
+  const [page, setPage] = useState(+(searchParams.get('page') || 0));
+  const [pageNumberLimit, setPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
 
   const handleCheckboxChange = (id: number) => {
@@ -41,8 +41,13 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
   const recipientQuery = useRecipients({
     queryConfig: {},
     page,
-    size: props.size,
+    size: 10,
   });
+
+  useEffect(() => {
+    setPageNumberLimit(recipientQuery.data?.totalPages || 5);
+    setMaxPageNumberLimit(recipientQuery.data?.totalPages || 5);
+  }, [recipientQuery.data]);
 
   if (recipientQuery.isLoading) {
     return (
@@ -51,15 +56,33 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
       </div>
     );
   }
+  const changePage = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
 
+  const incrementPage = () => {
+    setPage(page + 1);
+    if (page + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+  const decrementPage = () => {
+    setPage(page - 1);
+    if ((page - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+    if (page - 1 === 0) {
+      return null;
+    }
+  };
   const recipients = recipientQuery.data?.data;
-
   if (!recipients || recipients.length === 0) {
     return (
       <>
-      
         <Button>
-         <CreateRecipientForm />
+          <CreateRecipientForm />
         </Button>
 
         <div
@@ -77,7 +100,6 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
           </div>
         </div>
       </>
-
     );
   }
 
@@ -94,11 +116,6 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     </div>
       <Table
         data={recipients}
-        pagination={{
-          totalPages: recipientQuery.data?.totalPages ?? 1,
-          currentPage: page,
-          rootUrl: paths.app.recipient.getHref(),
-        }}
         columns={[
           {
             title: (
@@ -147,6 +164,16 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
             },
           },
         ]}
+      />
+      <Pagination
+        totalPages={recipientQuery.data?.totalPages || 5}
+        pageSize={recipientQuery.data?.size || 5}
+        page={page}
+        changePage={changePage}
+        incrementPage={incrementPage}
+        decrementPage={decrementPage}
+        minPageNumberLimit={minPageNumberLimit}
+        maxPageNumberLimit={maxPageNumberLimit}
       />
     </>
   );

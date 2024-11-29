@@ -1,7 +1,15 @@
-import { Pen } from 'lucide-react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { LucideFilePenLine } from 'lucide-react';
 
 import Button from '@/components/ui/button';
-import { Form, FormDrawer, Input, Label, Textarea } from '@/components/ui/form';
+import {
+  Form,
+  FormDrawer,
+  Input,
+  Label,
+  Select,
+  Textarea,
+} from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
@@ -13,6 +21,7 @@ import {
 } from '../api/update-campaign';
 import { MDPreview } from '@/components/ui/md-preview';
 import { FunctionComponent, useState } from 'react';
+import { useCategories } from '@/features/category/api/get-categories';
 
 type UpdateCampaignProps = {
   code: string;
@@ -24,6 +33,7 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
   const { addNotification } = useNotifications();
   const [isPreview, setIsPreview] = useState(false);
   const campaignQuery = useCampaign({ code });
+  const category = useCategories({});
   const updateCampaignMutation = useUpdateCampaign({
     mutationConfig: {
       onSuccess: () => {
@@ -42,8 +52,11 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
       <FormDrawer
         isDone={updateCampaignMutation.isSuccess}
         triggerButton={
-          <Button buttonVariant="outlined">
-            <Pen className="size-4 text-info-700" />
+          <Button
+            buttonVariant="outlined"
+            buttonStyled={{ vPadding: 'lg', hPadding: 'lg' }}
+          >
+            <LucideFilePenLine className="size-5 text-info-700" />
           </Button>
         }
         title="Cập nhật chiến dịch"
@@ -71,6 +84,16 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
             defaultValues: {
               name: campaign?.name ?? '',
               description: campaign?.description ?? '',
+              targetAmount: campaign?.targetAmount ?? 0,
+              currentAmount: campaign?.currentAmount ?? 0,
+              startDate: campaign?.startDate ?? '',
+              endDate: campaign?.endDate ?? '',
+              bankname: campaign?.bankname ?? '',
+              accountNumber: campaign?.accountNumber ?? '',
+              categoryId: campaign?.categoryId ?? 0,
+              educationId: campaign?.education.id ?? 0,
+              createdId: campaign?.createdId ?? 0,
+              thumbnail: campaign?.thumbnail ?? '',
             },
           }}
           schema={updateCampaignInputSchema}
@@ -84,6 +107,98 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
                   error={formState.errors['name']}
                   registration={register('name')}
                 />
+                <div className="flex md:flex-row flex-col gap-4">
+                  <Input
+                    label="Số tiền mục tiêu"
+                    type="number"
+                    className="bg-gray-50"
+                    classNameParent="flex-1"
+                    error={formState.errors['targetAmount']}
+                    registration={register('targetAmount')}
+                  />
+                  <Input
+                    label="Sô tiền hiện tại"
+                    type="number"
+                    disabled
+                    classNameParent="flex-1"
+                    error={formState.errors['currentAmount']}
+                    registration={register('currentAmount')}
+                  />
+                </div>
+                <div className="flex md:flex-row flex-col gap-4">
+                  <Input
+                    label="Ngày bắt đầu"
+                    type="date"
+                    classNameParent="flex-1"
+                    error={formState.errors['startDate']}
+                    registration={register('startDate')}
+                  />
+                  <Input
+                    label="Ngày kết thúc"
+                    type="date"
+                    classNameParent="flex-1"
+                    error={formState.errors['endDate']}
+                    registration={register('endDate')}
+                  />
+                </div>
+                <div className="flex md:flex-row flex-col gap-4">
+                  <Input
+                    label="Ngân hàng nhận tiền"
+                    type="text"
+                    classNameParent="flex-1"
+                    error={formState.errors['bankname']}
+                    registration={register('bankname')}
+                  />
+                  <Input
+                    label="Tài khoản nhận tiền"
+                    type="number"
+                    classNameParent="flex-1"
+                    error={formState.errors['accountNumber']}
+                    registration={register('accountNumber')}
+                  />
+                </div>
+                <Input
+                  label="Thumbnail"
+                  type="file"
+                  accept="image/*"
+                  error={formState.errors['thumbnail']}
+                  registration={register('thumbnail')}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setValue('thumbnail', file);
+                    }
+                  }}
+                />
+                <Select
+                  label="Thể loại chiến dịch"
+                  options={
+                    category.data?.map((item) => ({
+                      label: item.name,
+                      value: item.id,
+                    })) || []
+                  }
+                  defaultValue={category.data?.[0]?.id}
+                  registration={{
+                    ...register('categoryId', {
+                      setValueAs: (value: any) => Number(value),
+                    }),
+                  }}
+                  error={formState.errors['categoryId']}
+                />
+                <div className="flex flex-col gap-4 border border-gray-400 p-2">
+                  <Label>Đại diện giáo dục</Label>
+                  <div className="flex md:flex-row flex-col gap-4">
+                    <Input
+                      label="Đại diện giáo dục"
+                      type="number"
+                      classNameParent="flex-1"
+                      error={formState.errors['categoryId']}
+                      registration={register('categoryId')}
+                    />
+                  </div>
+                </div>
+
                 {!isPreview && (
                   <Textarea
                     label="Mô tả"
