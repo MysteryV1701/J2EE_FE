@@ -1,8 +1,10 @@
 import { ContentLayout } from '@/components/layouts';
 import Button from '@/components/ui/button';
+import { paths } from '@/config/paths';
 import { CampaignListGird } from '@/features/campaign/components/campaigns-list-grid';
 
 import { ShieldCheckIcon, BookOpenCheckIcon } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const LandingRoute = () => {
   return (
@@ -53,7 +55,16 @@ export const LandingRoute = () => {
             style={{ width: 'fit-content' }}
             className="mt-2 font-dancing "
           >
-            Chung tay góp sức
+            <Link
+              to={
+                paths.campaigns.path.startsWith('/')
+                  ? paths.campaigns.path
+                  : `/${paths.campaigns.path}`
+              }
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            >
+              Chung tay góp sức
+            </Link>
           </Button>
         </div>
         <div className="flex align-center justify-center">

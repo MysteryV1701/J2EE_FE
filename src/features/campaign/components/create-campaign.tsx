@@ -104,6 +104,7 @@ export const CreateCampaign: FunctionComponent = () => {
             } catch (error) {
               console.error(error);
             }
+            console.log(createData);
             createCampaignMutation.mutate({ data: createData });
           }}
           options={{

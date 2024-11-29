@@ -73,25 +73,39 @@ export const MyDonations: FunctionComponent = () => {
         columns={[
           {
             title: 'Chiến dịch',
-            field: 'name',
+            field: 'campaignName',
           },
           {
-            title: 'Mô tả',
-            field: 'description',
+            title: 'Trạng thái',
+            field: 'isPaid',
+            Cell({ entry: { isPaid } }) {
+              return isPaid === true ? (
+                <span className="font-semibold text-success">
+                  Thanh toán thành công
+                </span>
+              ) : (
+                <span className="font-semibold text-danger">
+                  Thanh toán thất bại
+                </span>
+              );
+            },
           },
           {
-            title: 'Thuộc nhóm',
-            field: 'categoryName',
-            className: 'text-center',
+            title: 'Số tiền',
+            field: 'amount',
+            className: 'text-start',
+            Cell({ entry: { amount } }) {
+              return <span>{formatPrice(amount)}</span>;
+            },
           },
           {
             title: 'Đường dẫn tới chiến dịch',
             field: 'campaignId',
             className: 'text-center',
-            Cell({ entry: { campaignId } }) {
+            Cell({ entry: { campaignCode } }) {
               return (
                 <a
-                  href={paths.campaign.getHref(campaignId.toString())}
+                  href={paths.campaign.getHref(campaignCode)}
                   className="text-secondary-600 hover:underline font-semibold transition duration-500"
                 >
                   Đường dẫn tới chiến dịch

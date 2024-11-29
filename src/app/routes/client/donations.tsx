@@ -2,20 +2,6 @@ import { ContentLayout } from '@/components/layouts';
 import { Breadcrumb } from '@/components/ui/breadcrumb';
 import { paths } from '@/config/paths';
 import { MyDonations } from '@/features/donation/components/my-donations';
-// export const campaignsLoader =
-//   (queryClient: QueryClient) =>
-//   async ({ request }: LoaderFunctionArgs) => {
-//     const url = new URL(request.url);
-
-//     const page = Number(url.searchParams.get('page') || 1);
-
-//     const query = getCampaignsQueryOptions({ page });
-
-//     return (
-//       queryClient.getQueryData(query.queryKey) ??
-//       (await queryClient.fetchQuery(query))
-//     );
-//   };
 
 export const DonationsRoute = () => {
   const breadcrumbs = [
@@ -46,7 +32,7 @@ export const DonationsRoute = () => {
           title="Help many children need to help"
           className="text-gray-800 font-semibold text-3xl w-1/2"
         >
-          Lịch sử uỷ quyền góp của tôi
+          Lịch sử quyên góp của tôi
         </h1>
         <span className="text-gray-600 text-base w-1/2">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam totam
