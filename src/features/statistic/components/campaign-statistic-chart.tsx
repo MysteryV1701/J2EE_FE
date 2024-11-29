@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { useCampaignStatistic } from '../api/get-campaign-statistic';
 import { StatisticBarChart } from './chart-bar';
@@ -26,11 +27,10 @@ const CampaignStatisticChart = () => {
     endDate: format(defaultEndDate, 'yyyy-MM-dd'),
   });
 
-
   const handleChange = (field: string, value: any) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
   };
-    
+
   const { data, isLoading, error, refetch } = useCampaignStatistic({
     request: {
       categoryId: Number(formValues.categoryId),
@@ -42,9 +42,7 @@ const CampaignStatisticChart = () => {
       enabled: false,
     },
   });
-
-  console.log(data?.data);
-  
+  const tableData = data?.data;
 
   useEffect(() => {
     const startDate = formValues.startDate;
@@ -86,36 +84,37 @@ const CampaignStatisticChart = () => {
 
   return (
     <div className="p-4">
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
         <Input
           label="Ngày bắt đầu"
-          type='date'
+          type="date"
           value={formValues.startDate}
           registration={{
             onChange: async (e) => {
               handleChange('startDate', e.target.value);
               return true;
-            }
+            },
           }}
         />
         <Input
           label="Ngày kết thúc"
-          type='date'
+          type="date"
           value={formValues.endDate}
           registration={{
             onChange: async (e) => {
               handleChange('endDate', e.target.value);
               return true;
-            }
+            },
           }}
         />
         <Select
           label="Thể loại chiến dịch"
-          options={categories.data?.data.map((item) => ({
-            label: item.name,
-            value: item.id,
-          })) || []}
+          options={
+            categories.data?.data.map((item) => ({
+              label: item.name,
+              value: item.id,
+            })) || []
+          }
           defaultValue={Number(formValues.categoryId)}
           registration={{
             onChange: async (e) => {
@@ -132,29 +131,41 @@ const CampaignStatisticChart = () => {
             onChange: async (e) => {
               handleChange('status', e.target.value);
               return true;
-            }
+            },
           }}
         />
       </div>
       <div className="flex justify-end space-x-4 mb-4">
-        <ExportStatisticButton request={{
-          categoryId: Number(formValues.categoryId),
-          status: formValues.status,
-          startDate: `${formValues.startDate} 00:00:00`,
-          endDate: `${formValues.endDate} 00:00:00`,
-        }} />
+        <ExportStatisticButton
+          request={{
+            categoryId: Number(formValues.categoryId),
+            status: formValues.status,
+            startDate: `${formValues.startDate} 00:00:00`,
+            endDate: `${formValues.endDate} 00:00:00`,
+          }}
+        />
       </div>
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} /> : <p>Không có dữ liệu phù hợp</p>}
+      {data && data.data.length > 0 ? (
+        <StatisticBarChart
+          data={tableData || undefined}
+          totalCampaigns={data.totalCampaigns}
+        />
+      ) : (
+        <p>Không có dữ liệu phù hợp</p>
+      )}
 
       <Table
-        data={data?.data || []}
+        data={tableData || []}
         columns={[
           {
             title: 'Tên chiến dịch',
-            field: 'campaigns.name',
+            field: 'name',
+            Cell({ entry: { campaigns } }) {
+              return <span>{campaigns.name}</span>;
+            },
           },
           {
             title: 'Người tạo',
@@ -162,49 +173,60 @@ const CampaignStatisticChart = () => {
           },
           {
             title: 'Số tiền mục tiêu',
-            field: 'campaigns.targetAmount',
+            field: 'targetAmount',
+            Cell({ entry: { campaigns } }) {
+              return <span>{campaigns.targetAmount}</span>;
+            },
           },
           {
             title: 'Số tiền hiện tại',
             field: 'currentAmount',
+            Cell({ entry: { campaigns } }) {
+              return <span>{campaigns.currentAmount}</span>;
+            },
           },
           {
             title: 'Ngày bắt đầu',
             field: 'startDate',
             className: 'text-center',
-            Cell({ entry: { startDate } }) {
-              return <span>{formatDate(startDate)}</span>;
+            Cell({ entry: { campaigns } }) {
+              return <span>{formatDate(campaigns.startDate)}</span>;
             },
           },
           {
             title: 'Ngày kết thúc',
             field: 'endDate',
             className: 'text-center',
-            Cell({ entry: { endDate } }) {
-              return <span>{formatDate(endDate)}</span>;
+            Cell({ entry: { campaigns } }) {
+              return <span>{formatDate(campaigns.endDate)}</span>;
             },
           },
           {
             title: 'Trạng thái',
             field: 'status',
             className: 'text-center font-semibold',
-            Cell({ entry: { status } }) {
+            Cell({ entry: { campaigns } }) {
               const statusColor =
-                status === CAMPAIGNSTATUS.APPROVED
+                campaigns.status === CAMPAIGNSTATUS.APPROVED
                   ? 'text-success'
-                  : status === CAMPAIGNSTATUS.REJECTED
+                  : campaigns.status === CAMPAIGNSTATUS.REJECTED
                     ? 'text-danger'
                     : 'text-default';
 
-              return <span className={cn(statusColor)}>{status}</span>;
+              return (
+                <span className={cn(statusColor)}>{campaigns.status}</span>
+              );
             },
           },
           {
             title: 'Số lượt quyên góp',
             field: 'totalDonations',
+            Cell({ entry: { totalDonations } }) {
+              return <span>{totalDonations}</span>;
+            },
           },
         ]}
-        />
+      />
     </div>
   );
 };
