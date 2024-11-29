@@ -2,17 +2,26 @@ import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/helpers/utils';
 import { useCampaigns } from '../api/get-campaigns';
-import { useState } from 'react';
-import { paths } from '@/config/paths';
+
+import { useEffect, useState } from 'react';
 import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
 import { UpdateCampaign } from './update-campaign';
-import { CreateCampaign } from './create-campaign';
+import { Pagination } from '@/components/ui/pagination';
 
 export const CampaignListTable = () => {
-  const campaignQuery = useCampaigns({ page: 0 });
   const [page, setPage] = useState(0);
 
+  const [pageNumberLimit, setPageNumberLimit] = useState(5);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
+  const campaignQuery = useCampaigns({ page });
+
+
+  useEffect(() => {
+    setPageNumberLimit(campaignQuery.data?.totalPages || 5);
+    setMaxPageNumberLimit(campaignQuery.data?.totalPages || 5);
+  }, [campaignQuery.data]);
   if (campaignQuery.isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
@@ -20,20 +29,35 @@ export const CampaignListTable = () => {
       </div>
     );
   }
-  const campaigns = campaignQuery.data?.data;
 
+  const changePage = (pageNumber: number) => {
+    setPage(pageNumber);
+  };
+
+  const incrementPage = () => {
+    setPage(page + 1);
+    if (page + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+  const decrementPage = () => {
+    setPage(page - 1);
+    if ((page - 1) % pageNumberLimit === 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
+    if (page - 1 === 0) {
+      return null;
+    }
+  };
+  const campaigns = campaignQuery.data?.data;
   if (!campaigns) return null;
 
   return (
     <div className="flex flex-col gap-4">
-      <CreateCampaign />
       <Table
         data={campaigns}
-        pagination={{
-          totalPages: campaignQuery.data?.totalPages ?? 1,
-          currentPage: page,
-          rootUrl: paths.app.campaigns.getHref(),
-        }}
         columns={[
           {
             title: 'Tên chiến dịch',
@@ -95,6 +119,16 @@ export const CampaignListTable = () => {
             },
           },
         ]}
+      />
+      <Pagination
+        totalPages={campaignQuery.data?.totalPages || 5}
+        pageSize={campaignQuery.data?.size || 5}
+        page={page}
+        changePage={changePage}
+        incrementPage={incrementPage}
+        decrementPage={decrementPage}
+        minPageNumberLimit={minPageNumberLimit}
+        maxPageNumberLimit={maxPageNumberLimit}
       />
     </div>
   );

@@ -6,6 +6,7 @@ import { Donation } from '@/types/api';
 
 export const getDonations = (
   campaignId: number,
+  userId: number,
   page = 0,
   size = 10,
 ): Promise<{
@@ -14,28 +15,31 @@ export const getDonations = (
   size: number;
   totalPages: number;
 }> => {
-  return api.get(`/donations`, {
-    params: {
-      campaignId,
-      page,
-      size,
-    },
-  });
+  const params: { page: number; size: number; campaignId?: number; userId?: number } = { page, size };
+  if(campaignId !== 0) {
+    params.campaignId = campaignId;
+  }
+  if(userId !== 0) {
+    params.userId = userId;
+  }
+  return api.get(`/donations`, {params});
 };
 
 export const getDonationsQueryOptions = ({
   page,
   size,
   campaignId = 0,
-}: { page?: number; size?: number; campaignId?: number } = {}) => {
+  userId = 0,
+}: { page?: number; size?: number; campaignId?: number, userId?:number } = {}) => {
   return {
-    queryKey: ['donations', { page, size, campaignId }],
-    queryFn: () => getDonations(campaignId, page, size),
+    queryKey: ['donations', { page, size, campaignId , userId}],
+    queryFn: () => getDonations(campaignId, userId, page, size),
   };
 };
 
 type UseDonationsOptions = {
-  campaignId: number;
+  campaignId?: number;
+  userId?: number;
   page?: number;
   size?: number;
   queryConfig?: QueryConfig<typeof getDonationsQueryOptions>;
@@ -44,11 +48,12 @@ type UseDonationsOptions = {
 export const useDonations = ({
   queryConfig,
   campaignId,
+  userId,
   page,
   size,
 }: UseDonationsOptions) => {
   return useQuery({
-    ...getDonationsQueryOptions({ campaignId, page, size }),
+    ...getDonationsQueryOptions({ campaignId, userId, page, size }),
     ...queryConfig,
   });
 };

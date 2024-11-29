@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
 export const createDonationInputSchema = z.object({
-  amount: z.string().min(1, 'Required'),
+  amount: z.number().min(10000, 'Tối thiểu 10,000 VND'),
   name: z.string(),
   isAnonymous: z.boolean(),
 });
@@ -19,7 +19,7 @@ export const createDonation = async ({
 }: {
   data: CreateDonationInput;
   campaignId: number;
-  userId?: string;
+  userId?:number;
 }): Promise<{code: string, paymentUrl: string}> => {
   const response = await api
     .post(`/donations`, { ...data, campaignId, userId })
