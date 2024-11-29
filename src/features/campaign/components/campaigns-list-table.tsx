@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
 import { UpdateCampaign } from './update-campaign';
-import { CreateCampaign } from './create-campaign';
 import { Pagination } from '@/components/ui/pagination';
 
 export const CampaignListTable = () => {
@@ -49,12 +48,10 @@ export const CampaignListTable = () => {
     }
   };
   const campaigns = campaignQuery.data?.data;
-
   if (!campaigns) return null;
 
   return (
     <div className="flex flex-col gap-4">
-      <CreateCampaign />
       <Table
         data={campaigns}
         columns={[

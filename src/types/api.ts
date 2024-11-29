@@ -45,10 +45,10 @@ export type Campaign = Entity<{
   targetAmount: number;
   currentAmount: number;
   thumbnail: string;
-  startDate: Date;
+  startDate: string;
   endDate: string;
   accountNumber: string;
-  bankname: string;
+  bankName: string;
   status: CAMPAIGNSTATUS;
   categoryId: number;
   categoryName: string;

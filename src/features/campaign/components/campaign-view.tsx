@@ -65,6 +65,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
           <Form
             id="create-donation"
             onSubmit={(values) => {
+              values.amount = Number(values.amount);
               createDonationMutation.mutate({
                 data: values,
                 campaignId,
@@ -73,7 +74,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
             }}
             options={{
               defaultValues: {
-                amount: '0',
+                amount: Number(10000),
                 name: user.data?.name,
                 isAnonymous: false,
               },

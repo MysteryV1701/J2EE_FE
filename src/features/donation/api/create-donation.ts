@@ -5,7 +5,7 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
 export const createDonationInputSchema = z.object({
-  amount: z.string().min(1, 'Required'),
+  amount: z.number().min(10000, 'Tối thiểu 10,000 VND'),
   name: z.string(),
   isAnonymous: z.boolean(),
 });

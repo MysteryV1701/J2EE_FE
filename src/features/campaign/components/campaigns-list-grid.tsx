@@ -7,6 +7,7 @@ import { cn } from '@/helpers/cn';
 import Button from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { paths } from '@/config/paths';
+import { CAMPAIGNSTATUS } from '@/types/enum';
 
 interface CampaignListGirdProps {
   categoryId?: number;
@@ -26,6 +27,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
     queryConfig: {},
     categoryId: props.categoryId ?? 0,
     page,
+    status: CAMPAIGNSTATUS.APPROVED,
     size: props.size,
   });
 

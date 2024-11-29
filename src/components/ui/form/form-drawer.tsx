@@ -33,6 +33,7 @@ export const FormDrawer = ({
   React.useEffect(() => {
     if (isDone) {
       close();
+      window.location.reload();
     }
   }, [isDone, close]);
 
@@ -48,12 +49,12 @@ export const FormDrawer = ({
       }}
     >
       <DrawerTrigger asChild>{triggerButton}</DrawerTrigger>
-      <DrawerContent className="flex max-w-1/2 flex-col justify-between sm:max-w-[54rem] bg-gray-100">
-        <div className="flex flex-col flex-1">
+      <DrawerContent className="flex max-w-1/2 flex-col justify-between sm:max-w-[54rem] bg-gray-100 ">
+        <div className="flex flex-col flex-1 overflow-hidden">
           <DrawerHeader>
             <DrawerTitle>{title}</DrawerTitle>
           </DrawerHeader>
-          <div>{children}</div>
+          <div className="overflow-auto flex-1">{children}</div>
         </div>
         <DrawerFooter>
           <DrawerClose asChild>

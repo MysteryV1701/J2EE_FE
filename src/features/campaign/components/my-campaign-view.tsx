@@ -7,6 +7,7 @@ import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
 import { useUser } from '@/lib/auth';
 import { Pagination } from '@/components/ui/pagination';
+import { CampaignModalView } from './campaign-modal-view';
 
 export const MyCampaignListTable = () => {
   const [page, setPage] = useState(0);
@@ -107,6 +108,14 @@ export const MyCampaignListTable = () => {
               className: 'text-center',
               Cell({ entry: { createdDate } }) {
                 return <span>{formatDate(createdDate)}</span>;
+              },
+            },
+            {
+              title: '',
+              field: 'code',
+              className: 'text-center',
+              Cell({ entry: { code } }) {
+                return <CampaignModalView code={code} />;
               },
             },
           ]}

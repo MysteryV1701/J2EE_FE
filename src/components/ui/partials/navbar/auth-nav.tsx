@@ -152,10 +152,17 @@ export const AuthNavBar: React.FC = () => {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => navigate(paths.donations.getHref())}
+                onClick={() => navigate(paths.my_campaign.getHref())}
                 className={cn('block px-4 py-2 text-sm text-gray-700')}
               >
                 Chiến dịch của tôi
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigate(paths.notification.getHref())}
+                className={cn('block px-4 py-2 text-sm text-gray-700')}
+              >
+                Thông báo
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
