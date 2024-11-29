@@ -13,12 +13,8 @@ export const getRecipients = async (
   size: number;
   totalPages: number;
 }> => {
-  const accessToken = sessionStorage.getItem('access_token');
  
   return await api.get(`/recipients`, {
-    // headers: {
-    //   Authorization: `Bearer ${accessToken}`,
-    // },
     params: {
       page,
       size,

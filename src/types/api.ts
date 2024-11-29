@@ -109,3 +109,16 @@ export type VNPResponse = {
   message: string;
   paymentUrl: string;
 };
+
+export type StatisticRequest = {
+  categoryId: number;
+  status: string;
+  startDate: string;
+  endDate: string;
+};
+
+export type Statistic = {
+  data: Campaign[];
+  totalCampaigns: number;
+  totalDonations: number;
+};

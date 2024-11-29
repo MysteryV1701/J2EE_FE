@@ -17,7 +17,7 @@ export const usersLoader = (queryClient: QueryClient) => async () => {
 
 export const UsersRoute = () => {
   return (
-    <ContentLayout title="Users" description="" isDashboard>
+    <ContentLayout title="Danh sách người dùng" description="" isDashboard>
       <Authorization
         forbiddenFallback={<div>Only admin can view this.</div>}
         allowedRoles={[ROLES.ADMIN]}

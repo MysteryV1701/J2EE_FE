@@ -1,28 +1,17 @@
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
+import { Statistic, StatisticRequest } from '@/types/api';
 import { useQuery } from '@tanstack/react-query';
 
-export type StatisticRequest = {
-  campaignId: number;
-  startDate: string;
-  endDate: string;
-};
-
-export type CampaignStatistic = {
-  totalDonations: number;
-  totalAmount: number;
-};
-
-export const getCampaignStatistic = async (request: StatisticRequest): Promise<CampaignStatistic> => {
+export const getCampaignStatistic = async (request: StatisticRequest): Promise<Statistic> => {
   const accessToken = sessionStorage.getItem('access_token');
-  return api.get('/statistic/campaign', {
+  return api.get('/statistics/campaign', {
     params: request,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
 };
-
 
 export const getCampaignStatisticQueryOptions = (request: StatisticRequest) => {
   return {

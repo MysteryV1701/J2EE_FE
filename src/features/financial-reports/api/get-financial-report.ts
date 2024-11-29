@@ -7,7 +7,7 @@ export const getFinancialReport = ({
   id,
 }: {
   id: number;
-}): Promise<{data: FinancialReport}> => {
+}): Promise<FinancialReport> => {
   return api.get(`/financial-report/${id}`);
 };
 
