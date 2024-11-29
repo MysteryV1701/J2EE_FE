@@ -36,7 +36,7 @@ const getUser = async (): Promise<User | null> => {
 
 const logout = (): Promise<void> => {
   sessionStorage.removeItem('access_token');
-  return api.post('/auth/logout');
+  return api.post('/logout');
 };
 
 export const loginInputSchema = z.object({

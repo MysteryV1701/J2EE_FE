@@ -19,11 +19,33 @@ export const createCampaignInputSchema = z.object({
   createdId: z.number().min(1, 'Required'),
   accountNumber: z.string().min(1, 'Required'),
   bankName: z.string().min(1, 'Required'),
-  // thumbnail: z.string().min(1, 'Required'),
-}
-)
+  thumbnail: z
+  .any()
+  .refine(
+    (value) =>{
+      return value[0] && typeof value[0].name === 'string' && value[0].name.match(/\.(jpg|jpeg|png|gif)$/i);
+    },
+    { message: 'Thumbnail must be an image file' }
+  ),
+})
 
-export type CreateCampaignInput = z.infer<typeof createCampaignInputSchema>;
+export const createCampaignInputData = z.object({
+  name: z.string().min(1, 'Required'),
+  description: string().min(1, 'Required'),
+  startDate: z.string().min(1, 'Required'),
+  endDate: z.string().min(1, 'Required'),
+  targetAmount: z.number().min(1, 'Required'),
+  currentAmount: z.number().min(0, 'Required'),
+  categoryId: z.number().min(1, 'Required'),
+  educationId: z.number().min(1, 'Required'),
+  createdId: z.number().min(1, 'Required'),
+  accountNumber: z.string().min(1, 'Required'),
+  bankName: z.string().min(1, 'Required'),
+  thumbnail: z.string().min(1, 'Required'),
+})
+
+
+export type CreateCampaignInput = z.infer<typeof createCampaignInputData>;
 
 export const createCampaign = ({
   data,
