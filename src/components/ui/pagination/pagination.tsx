@@ -58,7 +58,7 @@ export const Pagination: FunctionComponent<PaginationProps> = ({
   maxPageNumberLimit,
 }) => {
   return (
-    <div className="bg-white px-4 py-3 flex items-center justify-between sm:px-6">
+    <div className=" px-4 py-3 flex items-center justify-between sm:px-6">
       <div className="flex-1 flex justify-between sm:hidden">
         <a
           href="/"
