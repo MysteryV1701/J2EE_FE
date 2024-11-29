@@ -19,7 +19,7 @@ export const createDonation = async ({
 }: {
   data: CreateDonationInput;
   campaignId: number;
-  userId?: string;
+  userId?:number;
 }): Promise<{code: string, paymentUrl: string}> => {
   const response = await api
     .post(`/donations`, { ...data, campaignId, userId })

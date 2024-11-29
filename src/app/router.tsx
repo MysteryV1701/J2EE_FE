@@ -85,6 +85,18 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
+      path: paths.my_campaign.path,
+      lazy: async () => {
+        const { MyCampaignsRoute } = await import(
+          './routes/client/my-campaign.tsx'
+        );
+        return {
+          Component: MyCampaignsRoute,
+        };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
       path: paths.aboutUs.path,
       lazy: async () => {
         const { AboutUsRoute } = await import('./routes/client/about-us.tsx');
