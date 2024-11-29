@@ -3,7 +3,7 @@ import { ContentLayout } from '@/components/layouts';
 export const DashboardRoute = () => {
   return (
     <ContentLayout
-      title="Dashboard"
+      title="Thống kê"
       description="Admin of Happly Life Site"
       isDashboard
     >
