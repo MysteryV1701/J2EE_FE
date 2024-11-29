@@ -8,6 +8,8 @@ import { Modal } from '@/components/ui/modal';
 import { Table } from '@/components/ui/table';
 import { paths } from '@/config/paths';
 import { DeleteFinancialReports } from './delete-financial-report';
+import { Authorization } from '@/lib/authorization';
+import { ROLES } from '@/types/enum';
 
 interface FinancialReportListProps {
   size?: number;
@@ -79,9 +81,11 @@ export const FinancialReportListTable: FunctionComponent<FinancialReportListProp
         <Button>
           <CreateFinancialReportForm />
         </Button>
+        <Authorization allowedRoles={[ROLES.ADMIN]}>
         <Button>
           <DeleteFinancialReports financialReportIds={Array.from(selectedRows)} />
         </Button>
+        </Authorization>
       </div>
       <Table
         data={financialReports}

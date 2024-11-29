@@ -9,6 +9,8 @@ import { paths } from '@/config/paths';
 import { formatDate } from '@/helpers/utils';
 import { Table } from '@/components/ui/table';
 import { DeleteRecipienties } from './delete-recipient';
+import { Authorization } from '@/lib/authorization';
+import { ROLES } from '@/types/enum';
 
 
 interface RecipientListProps {
@@ -83,10 +85,12 @@ export const RecipientListTable: FunctionComponent<RecipientListProps> = (
     <>
     <div className="flex justify-end space-x-4 mb-4">
       <CreateRecipientForm />
+      <Authorization allowedRoles={[ROLES.ADMIN]}>
       <Button
       >
         <DeleteRecipienties recipientIds={Array.from(selectedRows)}/>
       </Button>
+      </Authorization>
     </div>
       <Table
         data={recipients}
