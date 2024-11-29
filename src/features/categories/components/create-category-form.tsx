@@ -79,7 +79,7 @@ export const CreateCategoryForm = () => {
           schema={createCategoryInputSchema}
         >
           {({ register, formState }) => (
-            <div className="py-4 flex-1">
+            <div className="py-4 flex-1 flex flex-col gap-4">
               <Input
                 label="Tên loại"
                 error={formState.errors['name']}

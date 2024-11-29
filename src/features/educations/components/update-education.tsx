@@ -74,7 +74,7 @@ export const UpdateEducation = ({ id }: UpdateEducationProps) => {
                     schema={updateEducationInputSchema}
                 >
                     {({ register, formState }) => (
-                        <div className="py-4 flex-1">
+                        <div className="py-4 flex-1 flex flex-col gap-4">
                             <Input
                                 label="Tên loại từ thiện"
                                 error={formState.errors['name']}
