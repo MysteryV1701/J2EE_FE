@@ -93,8 +93,10 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
         <Form
           id="update-campaign"
           onSubmit={(values, event) => {
-            const status = (event?.nativeEvent?.submitter as HTMLButtonElement)
-              ?.dataset.status;
+            const status = (
+              (event?.nativeEvent as SubmitEvent)
+                ?.submitter as HTMLButtonElement
+            )?.dataset.status;
             const dataUpdate = {
               name: values.name,
               description: values.description,

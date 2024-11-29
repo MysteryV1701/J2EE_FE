@@ -36,18 +36,17 @@ api.interceptors.response.use(
       if (access_token) {
         try {
           const refreshResponse = await api.post('/auth/refresh-token');
-          const newAccessToken = refreshResponse.access_token;
+          const newAccessToken = refreshResponse.data.access_token;
           sessionStorage.setItem('access_token', newAccessToken);
-
-          // Retry fetching the user data with the new token
+          const token = sessionStorage.getItem('access_token');
           return await api.get('/auth/me', {
-            headers: {
-              Authorization: `Bearer ${newAccessToken}`,
+            headers: {  
+              Authorization: `Bearer ${token}`,
             },
           });
         } catch (refreshError) {
           console.error('Failed to refresh token:', refreshError);
-          sessionStorage.removeItem('access_token'); // Remove invalid token
+          sessionStorage.removeItem('access_token');
         }
       } else {
         const searchParams = new URLSearchParams();

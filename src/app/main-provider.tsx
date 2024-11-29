@@ -22,7 +22,6 @@ export const AppProvider = ({ children }: AppProviderProps) => {
         defaultOptions: queryConfig,
       }),
   );
-
   return (
     <React.Suspense
       fallback={

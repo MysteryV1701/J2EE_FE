@@ -66,6 +66,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
             id="create-donation"
             onSubmit={(values) => {
               values.amount = Number(values.amount);
+              console.log(values);
               createDonationMutation.mutate({
                 data: values,
                 campaignId,
@@ -75,7 +76,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
             options={{
               defaultValues: {
                 amount: Number(10000),
-                name: user.data?.name,
+                name: user.data?.name ?? '',
                 isAnonymous: false,
               },
             }}
@@ -100,7 +101,6 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                 </div>
 
                 <Input
-                  className=""
                   type="number"
                   label="Số tiền bạn muốn quyên góp"
                   error={formState.errors['amount']}
@@ -191,7 +191,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
         <p className="text-gray-400">{formatDate(campaign.createdDate)}</p>
 
         <div className="lg:grid lg:grid-cols-8 flex flex-col gap-8   justify-center align-start">
-          <div className="w-full col-start-1 col-end-6">
+          <div className="w-full max-h-[26rem] col-start-1 col-end-6">
             <img
               src={campaign.thumbnail}
               alt="No campaigns available"

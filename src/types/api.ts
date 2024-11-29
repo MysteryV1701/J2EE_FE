@@ -69,6 +69,8 @@ export type Category = Entity<{
 
 export type Donation = Entity<{
   campaignId: number;
+  campaignCode: string;
+  campaignName: string;
   userId: number;
   amount: number;
   name: string;

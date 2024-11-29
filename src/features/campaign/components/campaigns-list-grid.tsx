@@ -124,6 +124,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
                   ? paths.campaigns.path
                   : `/${paths.campaigns.path}`
               }
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
               Xem thêm chiến dịch
             </Link>
