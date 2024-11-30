@@ -169,7 +169,7 @@ const CampaignStatisticChart = () => {
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} dataType={formValues.dataType}/> : <p>Không có dữ liệu phù hợp</p>}
+      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} dataType={formValues.dataType} donations={data.totalDonations} /> : <p>Không có dữ liệu phù hợp</p>}
 
       <Table
         data={data?.data || []}

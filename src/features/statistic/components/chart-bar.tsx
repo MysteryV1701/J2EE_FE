@@ -12,10 +12,11 @@ interface CampaignData {
 interface StatisticBarChartProps {
   data: CampaignData[];
   totalCampaigns: number;
+  donations: number;
   dataType: string; 
 }
 
-export const StatisticBarChart = ({ data, totalCampaigns, dataType }: StatisticBarChartProps) => {
+export const StatisticBarChart = ({ data, totalCampaigns, dataType, donations}: StatisticBarChartProps) => {
   const chartData = data.reduce<{ month: string; countCampaign: number; totalDonations: number }[]>((acc, item) => {
     const month = format(new Date(item.campaigns.startDate), 'yyyy-MM');
     const existing = acc.find((d) => d.month === month);
@@ -38,7 +39,7 @@ export const StatisticBarChart = ({ data, totalCampaigns, dataType }: StatisticB
 
   return (
     <div style={{ height: 400 }}>
-      <h2>Tổng số {dataType === 'campaign' ? 'chiến dịch' : 'đóng góp'} theo khoảng thời gian trên: {totalCampaigns}</h2>
+      <h2>Tổng số {dataType === 'campaign' ? 'chiến dịch' : 'đóng góp'} theo khoảng thời gian trên: {dataType === 'campaign' ? totalCampaigns : donations }</h2>
       <ResponsiveBar
         data={chartData}
         keys={[dataType === 'campaign' ? 'countCampaign' : 'totalDonations']}
