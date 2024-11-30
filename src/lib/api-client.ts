@@ -55,6 +55,6 @@ api.interceptors.response.use(
         window.location.href = paths.auth.login.getHref(redirectTo);
       }
     }
-    return error;
+    return Promise.reject(error);
   },
 );

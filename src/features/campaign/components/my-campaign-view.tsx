@@ -8,15 +8,21 @@ import { CAMPAIGNSTATUS } from '@/types/enum';
 import { useUser } from '@/lib/auth';
 import { Pagination } from '@/components/ui/pagination';
 import { CampaignModalView } from './campaign-modal-view';
+import NO_MY_CAMPAIGN from '@/assets/images/illustration/no_my_campaign.png';
 
 export const MyCampaignListTable = () => {
   const [page, setPage] = useState(0);
+  const [status, setStatus] = useState<CAMPAIGNSTATUS | null>(null);
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
 
   const user = useUser();
-  const campaignQuery = useCampaigns({ userId: user.data?.id, page });
+  const campaignQuery = useCampaigns({
+    userId: user.data?.id,
+    page,
+    status: status ?? undefined,
+  });
 
   useEffect(() => {
     setPageNumberLimit(campaignQuery.data?.totalPages || 5);
@@ -52,10 +58,46 @@ export const MyCampaignListTable = () => {
   };
   const campaigns = campaignQuery.data?.data;
 
-  if (!campaigns) return null;
+  if (!campaigns || campaigns.length === 0)
+    return (
+      <div className="flex flex-col gap-4 my-8 min-h-[20rem] text-center">
+        <div className="w-full h-[24rem]">
+          <img
+            src={NO_MY_CAMPAIGN}
+            alt=""
+            className="w-full h-full object-contain"
+          />
+        </div>
+        <p className="font-dancing font-semibold text-2xl text-secondary-700">
+          Hãy kết nối chúng tôi với những sinh viên khó khăn có tinh thần vươn
+          lên trong học tập
+        </p>
+      </div>
+    );
 
   return (
-    <div className="flex flex-col gap-4 mt-8 min-h-[20rem]">
+    <div className="flex flex-col gap-4 my-8 min-h-[20rem]">
+      <div className="flex flex-row gap-4 justify-end">
+        <select
+          name="status"
+          id="status"
+          value={status || 'all'}
+          onChange={(e) =>
+            setStatus(
+              e.target.value === 'all'
+                ? null
+                : (e.target.value as CAMPAIGNSTATUS),
+            )
+          }
+          className="p-1 rounded-lg border border-gray-400 shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500 overflow-hidden"
+        >
+          <option value="all">Tất cả</option>
+          <option value={CAMPAIGNSTATUS.APPROVED}>Đã duyệt</option>
+          <option value={CAMPAIGNSTATUS.COMPLETED}>Hoàn thành</option>
+          <option value={CAMPAIGNSTATUS.PENDING}>Đang chờ</option>
+          <option value={CAMPAIGNSTATUS.REJECTED}>Từ chối</option>
+        </select>
+      </div>
       <div className="flex-1">
         <Table
           data={campaigns}

@@ -32,14 +32,8 @@ export const DonationsRoute = () => {
           title="Help many children need to help"
           className="text-gray-800 font-semibold text-3xl w-1/2"
         >
-          Lịch sử quyên góp của tôi
+          Lịch sử quyên góp
         </h1>
-        <span className="text-gray-600 text-base w-1/2">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam totam
-          laborum ipsum, possimus earum consequuntur delectus exercitationem
-          cumque! Veritatis ea ab, repellendus dicta quisquam obcaecati ratione
-          optio perspiciatis quod nihil.
-        </span>
       </div>
       <MyDonations />
     </ContentLayout>

@@ -38,12 +38,13 @@ export const MyCampaignsRoute = () => {
         </h1>
         <div className="flex md:flex-row flex-col justify-center items-end">
           <span className="text-gray-600 text-base w-1/2 flex-1">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam
-            totam laborum ipsum, possimus earum consequuntur delectus
-            exercitationem cumque! Veritatis ea ab, repellendus dicta quisquam
-            obcaecati ratione optio perspiciatis quod nihil.
+            Nếu bạn là một sinh viên Đại Học và đang gặp khó khăn về tài chính
+            hoặc bạn là một nhà hảo tâm muốn giúp đỡ các sinh viên Đại Học có
+            hoàn cảnh khó khăn, hãy kết nối với chúng tôi để chúng tôi giúp bạn.
+            (Các thông tin cần phải được xác thực trước khi được đưa vào quyên
+            góp nên sẽ mất một thời gian để xác thực thông tin)
           </span>
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex gap-2 justify-end">
             <CreateCampaign />
           </div>
         </div>

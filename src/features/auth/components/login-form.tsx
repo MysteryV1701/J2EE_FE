@@ -8,9 +8,11 @@ import { paths } from '@/config/paths';
 import { ROLES } from '@/types/enum';
 import { GoogleLogin } from '@react-oauth/google';
 import { api } from '@/lib/api-client';
+import { useNotifications } from '@/components/ui/notifications';
 
 export const LoginForm = () => {
   const navigate = useNavigate();
+  const { addNotification } = useNotifications();
   const login = useLogin({
     onSuccess: (data) => {
       if (data?.role_name === ROLES.ADMIN || data?.role_name === ROLES.OR) {
@@ -23,6 +25,13 @@ export const LoginForm = () => {
           replace: true,
         });
       }
+    },
+    onError: (error: any) => {
+      addNotification({
+        message: error.response.data.detail,
+        type: 'error',
+        title: 'Đăng ký thất bại',
+      });
     },
   });
   const handleSuccess = async (response: any) => {

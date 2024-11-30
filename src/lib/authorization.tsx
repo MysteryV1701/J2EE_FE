@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import * as React from 'react';
 
 import { Comment, User } from '@/types/api';
@@ -24,10 +25,6 @@ export const POLICIES = {
 export const useAuthorization = () => {
   const user = useUser();
 
-  if (!user.data) {
-    throw Error('User does not exist!');
-  }
-
   const checkAccess = React.useCallback(
     ({ allowedRoles }: { allowedRoles: RoleTypes[] }) => {
       if (allowedRoles && allowedRoles.length > 0 && user.data) {
@@ -38,6 +35,10 @@ export const useAuthorization = () => {
     },
     [user.data],
   );
+
+  if (!user.data) {
+    return { checkAccess: () => false, role: null };
+  }
 
   return { checkAccess, role: user.data.roleName };
 };

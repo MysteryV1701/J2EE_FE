@@ -18,7 +18,7 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
     >
       <div className="w-full h-52 border border-2 rounded-lg">
         <img
-          className="w-full h-full object-contain"
+          className="w-full h-full object-cover rounded-lg"
           src={props.thumbnail}
           alt="Campaign Image of Dann Charity"
         />
@@ -35,7 +35,7 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
         </h3>
         <div className="flex flex-col justify-between content-center md:gap-4 gap-2 mt-2">
           <div className="flex flex-col gap-2">
-            <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-row flex-wrap justify-between items-center">
               <p className="text-md font-medium max-md:text-sm text-primary-600">
                 <span className="font-semibold text-primary-900">
                   {formatPrice(props.currentAmount)}
@@ -46,7 +46,6 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
                 Còn lại {date} ngày{' '}
               </p>
             </div>
-
             <div className="block w-full rounded overflow-hidden h-2 bg-primary-200 transition-all duration-200 ease-in-out">
               <div
                 className=" h-full bg-primary-600"
@@ -78,6 +77,9 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
                   size: 'md',
                   rounded: 'sm',
                   behavior: 'block',
+                }}
+                onClick={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
               >
                 Ủng hộ ngay

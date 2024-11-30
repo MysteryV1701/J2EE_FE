@@ -13,7 +13,6 @@ import axios from 'axios';
 const getUser = async (): Promise<User | null> => {
   const accessToken = sessionStorage.getItem('access_token');
   if (!accessToken) {
-    console.warn('No access token found. Returning guest user.');
     return null;
   }
   try {
@@ -40,8 +39,8 @@ const logout = (): Promise<void> => {
 };
 
 export const loginInputSchema = z.object({
-  email: z.string().min(1, 'Required').email('Invalid email'),
-  password: z.string().min(1, 'Required'),
+  email: z.string().min(1, 'Yêu cầu cần có email').email('Email không hợp lệ'),
+  password: z.string().min(1, 'Yêu cầu cần có mật khẩu'),
 });
 
 export type LoginInput = z.infer<typeof loginInputSchema>;
@@ -51,31 +50,33 @@ const loginWithEmailAndPassword = (data: LoginInput): Promise<AuthResponse> => {
 
 export const registerInputSchema = z
   .object({
-    email: z.string().min(1, 'Required'),
+    email: z
+      .string()
+      .min(1, 'Yêu cầu cần có email')
+      .email('Email không hợp lệ'),
     name: z
       .string()
-      .min(1, 'Required')
-      .regex(/^[a-zA-Z]+$/, 'Name must only contain letters'),
+      .min(1, 'Yêu cầu cần có họ và tên')
+      .regex(
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂĐÊÔƠƯàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹỲÝỴỶỸ]+(?:\s[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂÂĐÊÔƠƯàáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹỲÝỴỶỸ]+)+$/,
+        'Họ và tên không hợp lệ',
+      ),
     password: z
       .string()
-      .min(8, 'Password must be at least 8 characters long')
-      .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-      .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-      .regex(/[\W_]/, 'Password must contain at least one special character'),
-    confirmPassword: z
-      .string()
-      .min(8, 'Password must be at least 8 characters long'),
+      .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+      .regex(/[a-z]/, 'Mật khẩu phải có ít nhất 1 ký tự thường')
+      .regex(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 ký tự hoa')
+      .regex(/[\W_]/, 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt'),
+    confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Confirm password don't match",
-    path: ['confirmPassword'], // show error for confirmPassword field
+    message: 'Mật khẩu và xác nhận mật khẩu không khớp',
+    path: ['confirmPassword'],
   });
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
-const registerWithEmailAndPassword = (
-  data: RegisterInput,
-): Promise<AuthResponse> => {
+const registerWithEmailAndPassword = (data: RegisterInput): Promise<User> => {
   return api.post('/auth/register', data);
 };
 
@@ -89,8 +90,7 @@ const authConfig = {
   },
   registerFn: async (data: RegisterInput) => {
     const response = await registerWithEmailAndPassword(data);
-    sessionStorage.setItem('access_token', response.access_token);
-    return getUser();
+    return response;
   },
   logoutFn: logout,
 };

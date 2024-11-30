@@ -95,7 +95,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
           : 'py-12 flex flex-col gap-8',
       )}
     >
-      <div className="grid sm:grid-cols-2 2xl:grid-cols-4 lg:grid-cols-3 grid-cols-1 gap-md-16 gap-8 ">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 grid-cols-1 gap-md-16 gap-8 ">
         {campaigns.map((campaign) => {
           return <CampaignCard {...campaign} key={campaign.id}></CampaignCard>;
         })}
