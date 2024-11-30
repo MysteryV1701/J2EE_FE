@@ -20,14 +20,14 @@ export const createDonation = async ({
   data: CreateDonationInput;
   campaignId: number;
   userId?:number;
-}): Promise<{code: string, paymentUrl: string}> => {
+}): Promise<{code: string, payUrl: string}> => {
   const response = await api
     .post(`/donations`, { ...data, campaignId, userId })
     .catch((error) => {
       return error;
     });
   return api.get(
-    `/payment/vnp?amount=${response.amount}&donationId=${response.id}`,
+    `/payment/momo?amount=${response.amount}&donationId=${response.id}`,
   );
 };
 

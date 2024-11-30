@@ -37,7 +37,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
       onSuccess: (data) => {
         params.delete('modal');
         setParams(params);
-        window.location.href = data.paymentUrl;
+        window.location.href = data.payUrl;
       },
       onError: (error) => {
         console.error('Mutation failed:', error);
