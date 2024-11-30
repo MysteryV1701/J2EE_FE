@@ -2,6 +2,7 @@ import Button from '@/components/ui/button';
 import { ConfirmationDialog } from '@/components/ui/dialog';
 import { useNotifications } from '@/components/ui/notifications';
 import { useUser } from '@/lib/auth';
+import { TrashIcon } from 'lucide-react';
 
 import { useDeleteUser } from '../api/delete-user';
 
@@ -30,7 +31,11 @@ export const DeleteUser = ({ id }: DeleteUserProps) => {
       icon="danger"
       title="Delete User"
       body="Are you sure you want to delete this user?"
-      triggerButton={<Button buttonVariant="outlined">Delete</Button>}
+      triggerButton={
+        <Button buttonVariant="outlined">
+          <TrashIcon className="size-5 text-danger-700" />
+        </Button>
+      }
       confirmButton={
         <Button
           isLoading={deleteUserMutation.isPending}

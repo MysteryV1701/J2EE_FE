@@ -4,9 +4,13 @@ import { Statistic, StatisticRequest } from '@/types/api';
 import { useQuery } from '@tanstack/react-query';
 
 export const getCampaignStatistic = async (request: StatisticRequest): Promise<Statistic> => {
+  const data = {endDate: request.endDate, startDate: request.startDate, status: request.status};
+  if(request.categoryId !== 0) {
+    data.categoryId = request.categoryId;  
+  }
   const accessToken = sessionStorage.getItem('access_token');
   return api.get('/statistics/campaign', {
-    params: request,
+    params: data,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
