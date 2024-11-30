@@ -25,6 +25,7 @@ const CampaignStatisticChart = () => {
     status: CAMPAIGNSTATUS.COMPLETED,
     startDate: format(defaultStartDate, 'yyyy-MM-dd'),
     endDate: format(defaultEndDate, 'yyyy-MM-dd'),
+    dataType: 'campaign',
   });
 
   const handleChange = (field: string, value: any) => {
@@ -82,57 +83,76 @@ const CampaignStatisticChart = () => {
     { label: 'Bị từ chối', value: CAMPAIGNSTATUS.REJECTED },
   ];
 
+  const dataTypeOptions = [
+    { label: 'Campaigns', value: 'campaign' },
+    { label: 'Donations', value: 'donations' },
+  ];
+
   return (
     <div className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-        <Input
-          label="Ngày bắt đầu"
-          type="date"
-          value={formValues.startDate}
-          registration={{
-            onChange: async (e) => {
-              handleChange('startDate', e.target.value);
-              return true;
-            },
-          }}
-        />
-        <Input
-          label="Ngày kết thúc"
-          type="date"
-          value={formValues.endDate}
-          registration={{
-            onChange: async (e) => {
-              handleChange('endDate', e.target.value);
-              return true;
-            },
-          }}
-        />
-        <Select
-          label="Thể loại chiến dịch"
-          options={
-            categories.data?.data.map((item) => ({
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <Input
+          className="w-full"
+            label="Ngày bắt đầu"
+            type='date'
+            value={formValues.startDate}
+            registration={{
+              onChange: async (e) => {
+                handleChange('startDate', e.target.value);
+                return true;
+              }
+            }}
+          />
+          <Input
+          className="w-full"
+            label="Ngày kết thúc"
+            type='date'
+            value={formValues.endDate}
+            registration={{
+              onChange: async (e) => {
+                handleChange('endDate', e.target.value);
+                return true;
+              }
+            }}
+          />
+          <Select
+            className="w-full"
+            label="Thể loại chiến dịch"
+            options={categories.data?.data.map((item) => ({
               label: item.name,
               value: item.id,
-            })) || []
-          }
-          defaultValue={Number(formValues.categoryId)}
+            })) || []}
+            defaultValue={Number(formValues.categoryId)}
+            registration={{
+              onChange: async (e) => {
+                handleChange('categoryId', e.target.value);
+                return true;
+              },
+            }}
+          />
+          <Select
+          className="w-full"
+            label="Trạng thái"
+            options={statusOptions}
+            defaultValue={Number(formValues.status)}
+            registration={{
+              onChange: async (e) => {
+                handleChange('status', e.target.value);
+                return true;
+              }
+            }}
+          />
+          <Select
+          label="Loại dữ liệu"
+          options={dataTypeOptions}
+          defaultValue={Number(formValues.dataType)}
           registration={{
             onChange: async (e) => {
-              handleChange('categoryId', e.target.value);
+              handleChange('dataType', e.target.value);
               return true;
             },
           }}
-        />
-        <Select
-          label="Trạng thái"
-          options={statusOptions}
-          defaultValue={Number(formValues.status)}
-          registration={{
-            onChange: async (e) => {
-              handleChange('status', e.target.value);
-              return true;
-            },
-          }}
+          className="w-full"
         />
       </div>
       <div className="flex justify-end space-x-4 mb-4">
@@ -148,14 +168,7 @@ const CampaignStatisticChart = () => {
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && data.data.length > 0 ? (
-        <StatisticBarChart
-          data={tableData || undefined}
-          totalCampaigns={data.totalCampaigns}
-        />
-      ) : (
-        <p>Không có dữ liệu phù hợp</p>
-      )}
+      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} dataType={formValues.dataType} donations={data.totalDonations} /> : <p>Không có dữ liệu phù hợp</p>}
 
       <Table
         data={tableData || []}

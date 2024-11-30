@@ -2,7 +2,8 @@ import { api } from "@/lib/api-client";
 import { StatisticRequest } from "@/types/api";
 
 export const exportStatistic = async (request: StatisticRequest): Promise<void> => {
-  const response = await fetch('http://localhost:8090/api/statistics/export', {
+  const queryParams = new URLSearchParams(request as any).toString();
+  const response = await fetch(`http://localhost:8090/api/statistics/export?${queryParams}`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${sessionStorage.getItem('access_token')}`,
@@ -23,7 +24,7 @@ export const exportStatistic = async (request: StatisticRequest): Promise<void> 
   window.URL.revokeObjectURL(url);
 
   // const response = await api.get('statistics/export', {
-  //   headers: {
+  //   headers: { 
   //     'Content-Type': 'application/octet-stream',
   //   },
   //   responseType: 'blob',
