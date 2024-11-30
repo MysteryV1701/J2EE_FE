@@ -9,7 +9,7 @@ export const getCampaigns = (
   userId = 0,
   status = "",
   page = 0,
-  size = 10,
+  size = 9,
 ): Promise<{
   data: Campaign[];
   total: number;

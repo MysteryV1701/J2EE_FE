@@ -248,7 +248,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
               <div className="grid grid-cols-2 gap-2 mt-2">
                 <p className="text-base text-gray-700">Lượt quyên góp </p>
                 <span className="text-gray-900 font-semibold text-end">
-                  {12}
+                  {campaign.totalDonation}
                 </span>
                 <p className="text-base text-gray-700">Đạt được </p>
                 <span className="text-gray-900 font-semibold text-end">
