@@ -56,7 +56,9 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
           <div className="flex flex-row justify-between items-center">
             <p className="text-base text-gray-700">
               Lượt ủng hộ:{' '}
-              <span className="text-gray-900 font-semibold">{12}</span>
+              <span className="text-gray-900 font-semibold">
+                {props.totalDonation}
+              </span>
             </p>
             <p className="text-base text-gray-700">
               Đạt được:{' '}

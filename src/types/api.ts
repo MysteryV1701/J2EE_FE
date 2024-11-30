@@ -53,6 +53,7 @@ export type Campaign = Entity<{
   categoryId: number;
   categoryName: string;
   createdId: number;
+  totalDonation: number;
 }>;
 
 export type CampaignView = Entity<{
@@ -109,7 +110,7 @@ export type Education = Entity<{
 export type VNPResponse = {
   code: string;
   message: string;
-  paymentUrl: string;
+  payUrl: string;
 };
 
 export type StatisticRequest = {
