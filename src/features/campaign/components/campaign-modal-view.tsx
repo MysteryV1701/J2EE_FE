@@ -10,6 +10,8 @@ import { useCampaign } from '../api/get-campaign';
 import { MDPreview } from '@/components/ui/md-preview';
 import { FunctionComponent } from 'react';
 import { updateCampaignInputSchema } from '../api/update-campaign';
+import { useDonations } from '@/features/donation/api/get-donates';
+import { Donations } from '@/features/donation/components/get-donations';
 
 type UpdateCampaignProps = {
   code: string;
@@ -20,6 +22,7 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
 }) => {
   const campaignQuery = useCampaign({ code });
   const campaign = campaignQuery?.data;
+  const donations = useDonations({ campaignId: campaign?.id ?? 0 });
   const education = campaign?.education;
   return (
     <Authorization allowedRoles={[ROLES.USER, ROLES.ADMIN]}>
@@ -60,7 +63,7 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
           {({ register, formState, watch }) => {
             const descriptionValue = watch('description');
             return (
-              <div className="py-4 flex-1 flex flex-col gap-4">
+              <div className="py-4 flex-1 flex flex-col gap-4 px-1">
                 <Input
                   label="Tên chiến dịch"
                   disabled
@@ -123,13 +126,6 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
                   />
                 </div>
                 <Input
-                  label="Thumbnail"
-                  type="text"
-                  disabled
-                  error={formState.errors['thumbnail']}
-                  registration={register('thumbnail')}
-                />
-                <Input
                   label="Thể loại chiến dịch"
                   type="text"
                   disabled
@@ -157,15 +153,7 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
                     />
                   </div>
                 </div>
-
-                <div>
-                  <div className="flex flex-row justify-between items-center">
-                    <Label>Mô tả</Label>
-                  </div>
-                  <div className="border border-gray-200 rounded-md mt-2">
-                    <MDPreview value={descriptionValue} />
-                  </div>
-                </div>
+                <Donations campaignId={campaign?.id ?? 0} />
               </div>
             );
           }}

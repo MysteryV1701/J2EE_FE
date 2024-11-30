@@ -1,11 +1,13 @@
 import Button from '@/components/ui/button';
 import { paths } from '@/config/paths';
+import { useUser } from '@/lib/auth';
 import { Link } from 'react-router-dom';
 
 export const DonationResultView = ({ code }: { code: string }) => {
-  if (code === '00')
+  const user = useUser(); // Pass the required props here
+  if (code === '0')
     return (
-      <div className="mt-8 flex flex-col items-center gap-4">
+      <div className="my-8 flex flex-col items-center gap-4">
         <div className="w-[28rem] rounded-xl overflow-hidden border">
           <img
             src="./src/assets/images/hand_heart.png"
@@ -43,36 +45,38 @@ export const DonationResultView = ({ code }: { code: string }) => {
               Quay về trang chiến dịch
             </Link>
           </Button>
-          <Button
-            buttonVariant="outlined"
-            buttonStyled={{
-              color: 'primary',
-              rounded: 'lg',
-              size: 'lg',
-              vPadding: 'md',
-              hPadding: 'md',
-              ringWidth: 1,
-              responsiveVariants: 'md' as keyof string[],
-            }}
-            style={{ width: 'fit-content' }}
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          >
-            <Link
-              to={
-                paths.donations.path.startsWith('/')
-                  ? paths.donations.path
-                  : `/${paths.donations.path}`
-              }
+          {!user && user?.data.length > 0 && (
+            <Button
+              buttonVariant="outlined"
+              buttonStyled={{
+                color: 'primary',
+                rounded: 'lg',
+                size: 'lg',
+                vPadding: 'md',
+                hPadding: 'md',
+                ringWidth: 1,
+                responsiveVariants: 'md' as keyof string[],
+              }}
+              style={{ width: 'fit-content' }}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              Xem lịch sử quyên góp
-            </Link>
-          </Button>
+              <Link
+                to={
+                  paths.donations.path.startsWith('/')
+                    ? paths.donations.path
+                    : `/${paths.donations.path}`
+                }
+              >
+                Xem lịch sử quyên góp
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     );
-  else if (code === '24')
+  else
     return (
-      <div className="mt-8 flex flex-col items-center gap-4">
+      <div className="my-8 flex flex-col items-center gap-4">
         <div className="w-[28rem] rounded-xl overflow-hidden border">
           <img
             src="./src/assets/images/hand_heart_empty.png"
