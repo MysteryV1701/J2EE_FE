@@ -5,12 +5,23 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
 export const createDonationInputSchema = z.object({
+  amount: z
+    .string()
+    .refine(
+      (value) => !isNaN(Number(value)) && Number(value) >= 10000,
+      {
+        message: 'Tối thiểu 10,000 VND',
+      }
+    ),
+  name: z.string(),
+  isAnonymous: z.boolean()})
+
+export const createDonationDataSchema = z.object({
   amount: z.number().min(10000, 'Tối thiểu 10,000 VND'),
   name: z.string(),
   isAnonymous: z.boolean(),
 });
-
-export type CreateDonationInput = z.infer<typeof createDonationInputSchema>;
+export type CreateDonationInput = z.infer<typeof createDonationDataSchema>;
 
 export const createDonation = async ({
   data,
