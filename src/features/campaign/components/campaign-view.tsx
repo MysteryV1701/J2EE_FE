@@ -74,7 +74,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
             }}
             options={{
               defaultValues: {
-                amount: Number(10000),
+                amount: 10000,
                 name: user.data?.name ?? '',
                 isAnonymous: false,
               },
