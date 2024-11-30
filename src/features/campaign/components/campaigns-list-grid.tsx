@@ -27,7 +27,7 @@ export const CampaignListGird: FunctionComponent<CampaignListGirdProps> = (
     queryConfig: {},
     categoryId: props.categoryId ?? 0,
     page,
-    status: CAMPAIGNSTATUS.APPROVED,
+    status: [CAMPAIGNSTATUS.APPROVED, CAMPAIGNSTATUS.COMPLETED],
     size: props.size,
   });
 

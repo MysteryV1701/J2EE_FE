@@ -7,10 +7,8 @@ import { Authorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
 
 import { useCampaign } from '../api/get-campaign';
-import { MDPreview } from '@/components/ui/md-preview';
 import { FunctionComponent } from 'react';
 import { updateCampaignInputSchema } from '../api/update-campaign';
-import { useDonations } from '@/features/donation/api/get-donates';
 import { Donations } from '@/features/donation/components/get-donations';
 
 type UpdateCampaignProps = {
@@ -22,7 +20,6 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
 }) => {
   const campaignQuery = useCampaign({ code });
   const campaign = campaignQuery?.data;
-  const donations = useDonations({ campaignId: campaign?.id ?? 0 });
   const education = campaign?.education;
   return (
     <Authorization allowedRoles={[ROLES.USER, ROLES.ADMIN]}>
@@ -60,8 +57,7 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
           }}
           schema={updateCampaignInputSchema}
         >
-          {({ register, formState, watch }) => {
-            const descriptionValue = watch('description');
+          {({ register, formState }) => {
             return (
               <div className="py-4 flex-1 flex flex-col gap-4 px-1">
                 <Input

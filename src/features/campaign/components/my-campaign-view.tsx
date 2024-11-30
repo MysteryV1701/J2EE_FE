@@ -21,7 +21,7 @@ export const MyCampaignListTable = () => {
   const campaignQuery = useCampaigns({
     userId: user.data?.id,
     page,
-    status: status ?? undefined,
+    status: status ? [status] : undefined,
   });
 
   useEffect(() => {
