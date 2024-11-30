@@ -126,7 +126,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                   }}
                   buttonVariant="filled"
                 >
-                  Quyên góp qua VNPay
+                  Quyên góp qua MOMO
                 </Button>
               </>
             )}
