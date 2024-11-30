@@ -1,4 +1,6 @@
 import Button from '@/components/ui/button';
+import { paths } from '@/config/paths';
+import { Link } from 'react-router-dom';
 
 export const DonationResultView = ({ code }: { code: string }) => {
   if (code === '00')
@@ -29,8 +31,17 @@ export const DonationResultView = ({ code }: { code: string }) => {
               responsiveVariants: 'md' as keyof string[],
             }}
             style={{ width: 'fit-content' }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            Quay về chiến dịch
+            <Link
+              to={
+                paths.campaigns.path.startsWith('/')
+                  ? paths.campaigns.path
+                  : `/${paths.campaigns.path}`
+              }
+            >
+              Quay về trang chiến dịch
+            </Link>
           </Button>
           <Button
             buttonVariant="outlined"
@@ -44,8 +55,17 @@ export const DonationResultView = ({ code }: { code: string }) => {
               responsiveVariants: 'md' as keyof string[],
             }}
             style={{ width: 'fit-content' }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            Xem lịch sử quyên góp
+            <Link
+              to={
+                paths.donations.path.startsWith('/')
+                  ? paths.donations.path
+                  : `/${paths.donations.path}`
+              }
+            >
+              Xem lịch sử quyên góp
+            </Link>
           </Button>
         </div>
       </div>
@@ -78,8 +98,17 @@ export const DonationResultView = ({ code }: { code: string }) => {
               responsiveVariants: 'md' as keyof string[],
             }}
             style={{ width: 'fit-content' }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            Quay về chiến dịch
+            <Link
+              to={
+                paths.campaigns.path.startsWith('/')
+                  ? paths.campaigns.path
+                  : `/${paths.campaigns.path}`
+              }
+            >
+              Quay về trang chiến dịch
+            </Link>
           </Button>
           <Button
             buttonVariant="outlined"
@@ -93,8 +122,17 @@ export const DonationResultView = ({ code }: { code: string }) => {
               responsiveVariants: 'md' as keyof string[],
             }}
             style={{ width: 'fit-content' }}
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           >
-            Quay về trang chủ
+            <Link
+              to={
+                paths.home.path.startsWith('/')
+                  ? paths.home.path
+                  : `/${paths.home.path}`
+              }
+            >
+              Quay về trang chủ
+            </Link>
           </Button>
         </div>
       </div>

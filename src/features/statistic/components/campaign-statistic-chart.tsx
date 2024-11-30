@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { useCampaignStatistic } from '../api/get-campaign-statistic';
 import { StatisticBarChart } from './chart-bar';
@@ -27,7 +28,6 @@ const CampaignStatisticChart = () => {
     dataType: 'campaign',
   });
 
-
   const handleChange = (field: string, value: any) => {
     setFormValues((prev) => ({ ...prev, [field]: value }));
   };
@@ -43,9 +43,7 @@ const CampaignStatisticChart = () => {
       enabled: false,
     },
   });
-
-  console.log(data?.data);
-
+  const tableData = data?.data;
 
   useEffect(() => {
     const startDate = formValues.startDate;
@@ -92,7 +90,6 @@ const CampaignStatisticChart = () => {
 
   return (
     <div className="p-4">
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
           <Input
           className="w-full"
@@ -159,12 +156,14 @@ const CampaignStatisticChart = () => {
         />
       </div>
       <div className="flex justify-end space-x-4 mb-4">
-        <ExportStatisticButton request={{
-          categoryId: Number(formValues.categoryId),
-          status: formValues.status,
-          startDate: `${formValues.startDate} 00:00:00`,
-          endDate: `${formValues.endDate} 00:00:00`,
-        }} />
+        <ExportStatisticButton
+          request={{
+            categoryId: Number(formValues.categoryId),
+            status: formValues.status,
+            startDate: `${formValues.startDate} 00:00:00`,
+            endDate: `${formValues.endDate} 00:00:00`,
+          }}
+        />
       </div>
 
       {isLoading && <p>Loading...</p>}
@@ -172,11 +171,14 @@ const CampaignStatisticChart = () => {
       {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} dataType={formValues.dataType} donations={data.totalDonations} /> : <p>Không có dữ liệu phù hợp</p>}
 
       <Table
-        data={data?.data || []}
+        data={tableData || []}
         columns={[
           {
             title: 'Tên chiến dịch',
-            field: 'campaigns.name',
+            field: 'name',
+            Cell({ entry: { campaigns } }) {
+              return <span>{campaigns.name}</span>;
+            },
           },
           {
             title: 'Người tạo',
@@ -184,46 +186,57 @@ const CampaignStatisticChart = () => {
           },
           {
             title: 'Số tiền mục tiêu',
-            field: 'campaigns.targetAmount',
+            field: 'targetAmount',
+            Cell({ entry: { campaigns } }) {
+              return <span>{campaigns.targetAmount}</span>;
+            },
           },
           {
             title: 'Số tiền hiện tại',
             field: 'currentAmount',
+            Cell({ entry: { campaigns } }) {
+              return <span>{campaigns.currentAmount}</span>;
+            },
           },
           {
             title: 'Ngày bắt đầu',
             field: 'startDate',
             className: 'text-center',
-            Cell({ entry: { startDate } }) {
-              return <span>{formatDate(startDate)}</span>;
+            Cell({ entry: { campaigns } }) {
+              return <span>{formatDate(campaigns.startDate)}</span>;
             },
           },
           {
             title: 'Ngày kết thúc',
             field: 'endDate',
             className: 'text-center',
-            Cell({ entry: { endDate } }) {
-              return <span>{formatDate(endDate)}</span>;
+            Cell({ entry: { campaigns } }) {
+              return <span>{formatDate(campaigns.endDate)}</span>;
             },
           },
           {
             title: 'Trạng thái',
             field: 'status',
             className: 'text-center font-semibold',
-            Cell({ entry: { status } }) {
+            Cell({ entry: { campaigns } }) {
               const statusColor =
-                status === CAMPAIGNSTATUS.APPROVED
+                campaigns.status === CAMPAIGNSTATUS.APPROVED
                   ? 'text-success'
-                  : status === CAMPAIGNSTATUS.REJECTED
+                  : campaigns.status === CAMPAIGNSTATUS.REJECTED
                     ? 'text-danger'
                     : 'text-default';
 
-              return <span className={cn(statusColor)}>{status}</span>;
+              return (
+                <span className={cn(statusColor)}>{campaigns.status}</span>
+              );
             },
           },
           {
             title: 'Số lượt quyên góp',
             field: 'totalDonations',
+            Cell({ entry: { totalDonations } }) {
+              return <span>{totalDonations}</span>;
+            },
           },
         ]}
       />

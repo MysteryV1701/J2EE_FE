@@ -13,6 +13,7 @@ type ContentLayoutProps = {
   title: string;
   description: string;
   isDashboard?: boolean;
+  isBackgroundClient?: boolean;
 };
 
 export const ContentLayout = ({
@@ -20,6 +21,7 @@ export const ContentLayout = ({
   title,
   description,
   isDashboard = false,
+  isBackgroundClient = false,
 }: ContentLayoutProps) => {
   const { addNotification } = useNotifications();
   const user = useUser();
@@ -69,6 +71,7 @@ export const ContentLayout = ({
       ) : (
         <>
           <Head title={title} description={description} />
+          {isBackgroundClient && <div className="background-client"></div>}
           <div className="md:px-20 px-2 py-4 relative">
             <Navbar />
             <div className="px-4">{children}</div>

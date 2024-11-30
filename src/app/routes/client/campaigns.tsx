@@ -52,10 +52,12 @@ export const CampaignsRoute = () => {
           Các chiến dịch gây quỹ
         </h1>
         <span className="text-gray-600 text-base w-1/2">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam totam
-          laborum ipsum, possimus earum consequuntur delectus exercitationem
-          cumque! Veritatis ea ab, repellendus dicta quisquam obcaecati ratione
-          optio perspiciatis quod nihil.
+          Cùng nhau kiến tạo tương lai tươi sáng cho các sinh viên khó khăn
+          thông qua các chiến dịch gây quỹ đầy ý nghĩa. Tại đây, mỗi đóng góp
+          của bạn sẽ trở thành nguồn động lực to lớn, giúp trao học bổng, cải
+          thiện cơ sở vật chất, và hỗ trợ đời sống cho những bạn trẻ có hoàn
+          cảnh đặc biệt. Hãy chung tay cùng chúng tôi để lan tỏa yêu thương và
+          mở ra cơ hội mới cho thế hệ trẻ.
         </span>
       </div>
       <CampaignListGird pagination={true} />

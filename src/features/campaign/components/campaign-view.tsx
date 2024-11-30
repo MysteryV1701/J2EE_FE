@@ -66,7 +66,6 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
             id="create-donation"
             onSubmit={(values) => {
               values.amount = Number(values.amount);
-              console.log(values);
               createDonationMutation.mutate({
                 data: values,
                 campaignId,
@@ -168,7 +167,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
       </div>
     );
   }
-
+  const education = campaign?.education;
   const progress = Math.floor(
     (campaign.currentAmount / campaign.targetAmount) * 100,
   );
@@ -181,12 +180,10 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
       <div className="mt-8 min-h-screen flex flex-col gap-4">
         <h2 className="text-3xl font-semibold">{campaign?.name}</h2>
         <p className="text-gray-600">
-          Nơi tiếp nhận: {campaign?.education.name ?? ''} -{' '}
-          {campaign?.education.address ?? ''}
+          Nơi tiếp nhận: {education.name ?? ''} - {education.address ?? ''}
         </p>
         <p className="text-gray-600">
-          Liên hệ: {campaign?.education.phone ?? ''} -{' '}
-          {campaign?.education.email ?? ''}
+          Liên hệ: {education.phone ?? ''} - {education.email ?? ''}
         </p>
         <p className="text-gray-400">{formatDate(campaign.createdDate)}</p>
 
@@ -195,7 +192,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
             <img
               src={campaign.thumbnail}
               alt="No campaigns available"
-              className="h-full w-full object-conver rounded-xl"
+              className="h-full w-full object-contain rounded-xl"
             />
           </div>
           <div className="flex flex-col gap-4 col-start-6 col-end-9 bg-secondary-200 rounded-xl px-4 py-2">

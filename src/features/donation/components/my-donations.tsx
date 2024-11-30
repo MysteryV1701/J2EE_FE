@@ -5,8 +5,8 @@ import { formatPrice } from '@/helpers/utils';
 import { useUser } from '@/lib/auth';
 import { Pagination } from '@/components/ui/pagination';
 import { Table } from '@/components/ui/table';
-import { Link } from 'lucide-react';
 import { paths } from '@/config/paths';
+import NO_MY_DONATION from '@/assets/images/illustration/no_my_donation.png';
 
 export const MyDonations: FunctionComponent = () => {
   const [page, setPage] = useState(0);
@@ -54,20 +54,24 @@ export const MyDonations: FunctionComponent = () => {
 
   if (!donations || donations.length === 0) {
     return (
-      <div className="px-4 py-2 border border-secondary-600 rounded-xl text-secondary-800">
-        <div className="h-64 w-full">
+      <div className="flex flex-col gap-4 my-8 min-h-[20rem] text-center">
+        <div className="w-full h-[20rem]">
           <img
-            src="/path/to/illustration.png"
-            alt="No campaigns available"
-            className="h-full w-full object-contain"
+            src={NO_MY_DONATION}
+            alt=""
+            className="w-full h-full object-contain"
           />
         </div>
+        <p className="font-dancing font-semibold text-2xl text-secondary-700">
+          Hiện tại bạn chưa quyên góp cho chiến dịch nào của chúng tôi.{' '}
+          <br></br> Hãy chung tay cùng chúng tôi
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-4 mt-8">
+    <div className="flex flex-col gap-4 my-8">
       <Table
         data={donations}
         columns={[
@@ -115,16 +119,18 @@ export const MyDonations: FunctionComponent = () => {
           },
         ]}
       />
-      <Pagination
-        totalPages={donationsQuery.data?.totalPages || 5}
-        pageSize={donationsQuery.data?.size || 5}
-        page={page}
-        changePage={changePage}
-        incrementPage={incrementPage}
-        decrementPage={decrementPage}
-        minPageNumberLimit={minPageNumberLimit}
-        maxPageNumberLimit={maxPageNumberLimit}
-      />
+      {(donationsQuery?.data?.totalPages ?? 0) > 1 && (
+        <Pagination
+          totalPages={donationsQuery.data?.totalPages || 5}
+          pageSize={donationsQuery.data?.size || 5}
+          page={page}
+          changePage={changePage}
+          incrementPage={incrementPage}
+          decrementPage={decrementPage}
+          minPageNumberLimit={minPageNumberLimit}
+          maxPageNumberLimit={maxPageNumberLimit}
+        />
+      )}
     </div>
   );
 };

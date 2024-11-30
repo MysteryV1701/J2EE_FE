@@ -1,16 +1,36 @@
-import { Link, useSearchParams } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useRegister, registerInputSchema } from '@/lib/auth';
+import { paths } from '@/config/paths';
+import { useNotifications } from '@/components/ui/notifications';
 
-type RegisterFormProps = {
-  onSuccess: () => void;
-};
-
-export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
-  const registering = useRegister({ onSuccess });
+export const RegisterForm = () => {
+  const navigate = useNavigate();
+  const { addNotification } = useNotifications();
+  const registering = useRegister({
+    onSuccess: () => {
+      navigate(redirectTo || paths.auth.login.getHref(), {
+        replace: true,
+      });
+      addNotification({
+        message: 'Bạn hãy đăng nhập để tiếp tục',
+        type: 'success',
+        title: 'Đăng ký thành công',
+      });
+    },
+    onError: (error: any) => {
+      addNotification({
+        message: error.response.data.detail,
+        type: 'error',
+        title: 'Đăng ký thất bại',
+      });
+    },
+  });
   const [searchParams] = useSearchParams();
+
   const redirectTo = searchParams.get('redirectTo');
   return (
     <div className="flex flex-col gap-4">
