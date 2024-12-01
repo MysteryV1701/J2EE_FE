@@ -64,10 +64,6 @@ export const CampaignListTable = () => {
             field: 'name',
           },
           {
-            title: 'Mô tả',
-            field: 'description',
-          },
-          {
             title: 'Trạng thái',
             field: 'status',
             className: 'text-center font-semibold',

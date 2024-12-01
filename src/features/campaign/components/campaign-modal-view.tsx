@@ -50,7 +50,7 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
               bankname: campaign?.bankName ?? '',
               accountNumber: campaign?.accountNumber ?? '',
               categoryName: campaign?.category.name ?? 0,
-              educationId: education?.id ?? 0,
+              educationEmail: education?.email ?? 0,
               educationName: education?.name ?? 0,
               thumbnail: campaign?.thumbnail ?? '',
             },
@@ -60,12 +60,6 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
           {({ register, formState }) => {
             return (
               <div className="py-4 flex-1 flex flex-col gap-4 px-1">
-                <Input
-                  label="Tên chiến dịch"
-                  disabled
-                  error={formState.errors['name']}
-                  registration={register('name')}
-                />
                 <div className="flex md:flex-row flex-col gap-4">
                   <Input
                     label="Số tiền mục tiêu"
@@ -87,24 +81,6 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
                 </div>
                 <div className="flex md:flex-row flex-col gap-4">
                   <Input
-                    label="Ngày bắt đầu"
-                    type="date"
-                    disabled
-                    classNameParent="flex-1"
-                    error={formState.errors['startDate']}
-                    registration={register('startDate')}
-                  />
-                  <Input
-                    label="Ngày kết thúc"
-                    type="date"
-                    disabled
-                    classNameParent="flex-1"
-                    error={formState.errors['endDate']}
-                    registration={register('endDate')}
-                  />
-                </div>
-                <div className="flex md:flex-row flex-col gap-4">
-                  <Input
                     label="Ngân hàng nhận tiền"
                     type="text"
                     disabled
@@ -121,24 +97,9 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
                     registration={register('accountNumber')}
                   />
                 </div>
-                <Input
-                  label="Thể loại chiến dịch"
-                  type="text"
-                  disabled
-                  error={formState.errors['categoryName']}
-                  registration={register('categoryName')}
-                />
                 <div className="flex flex-col gap-4 border border-gray-400 p-2 rounded-md">
                   <Label>Đại diện giáo dục</Label>
                   <div className="flex md:flex-row flex-col gap-4">
-                    <Input
-                      label="Id"
-                      type="text"
-                      disabled
-                      classNameParent="flex-1"
-                      error={formState.errors['educationId']}
-                      registration={register('educationId')}
-                    />
                     <Input
                       label="Tên trường"
                       type="text"
@@ -146,6 +107,14 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
                       classNameParent="flex-1"
                       error={formState.errors['educationName']}
                       registration={register('educationName')}
+                    />
+                    <Input
+                      label="Email của trường"
+                      type="text"
+                      disabled
+                      classNameParent="flex-1"
+                      error={formState.errors['educationEmail']}
+                      registration={register('educationEmail')}
                     />
                   </div>
                 </div>

@@ -74,7 +74,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
             }}
             options={{
               defaultValues: {
-                amount: 10000,
+                amount: '10000',
                 name: user.data?.name ?? '',
                 isAnonymous: false,
               },
@@ -100,7 +100,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                 </div>
 
                 <Input
-                  type="number"
+                  type="text"
                   label="Số tiền bạn muốn quyên góp"
                   error={formState.errors['amount']}
                   registration={register('amount')}
