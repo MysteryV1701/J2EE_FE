@@ -1,7 +1,7 @@
 import { Spinner } from '@/components/ui/spinner';
 import { useDonations } from '../api/get-donates';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { formatPrice } from '@/helpers/utils';
+import { formatDate, formatPrice } from '@/helpers/utils';
 import { useUser } from '@/lib/auth';
 import { Pagination } from '@/components/ui/pagination';
 import { Table } from '@/components/ui/table';
@@ -71,7 +71,7 @@ export const MyDonations: FunctionComponent = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 my-8">
+    <div className="flex flex-col flex-1 gap-4 my-8">
       <Table
         data={donations}
         columns={[
@@ -79,27 +79,21 @@ export const MyDonations: FunctionComponent = () => {
             title: 'Chiến dịch',
             field: 'campaignName',
           },
-          {
-            title: 'Trạng thái',
-            field: 'isPaid',
-            Cell({ entry: { isPaid } }) {
-              return isPaid === true ? (
-                <span className="font-semibold text-success">
-                  Thanh toán thành công
-                </span>
-              ) : (
-                <span className="font-semibold text-danger">
-                  Thanh toán thất bại
-                </span>
-              );
-            },
-          },
+
           {
             title: 'Số tiền',
             field: 'amount',
             className: 'text-start',
             Cell({ entry: { amount } }) {
               return <span>{formatPrice(amount)}</span>;
+            },
+          },
+          {
+            title: 'Số tiền',
+            field: 'createdDate',
+            className: 'text-start',
+            Cell({ entry: { createdDate } }) {
+              return <span>{formatDate(createdDate)}</span>;
             },
           },
           {

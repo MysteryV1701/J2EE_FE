@@ -33,11 +33,9 @@ export const ContentLayout = ({
       const stompClient = new Client({
         webSocketFactory: () => socket,
         reconnectDelay: 5000,
-        debug: (str) => {
-          console.log(str);
-        },
         onConnect: () => {
           stompClient.subscribe(`/user/${id}/notifications`, (response) => {
+            console.log(response);
             addNotification({
               type: 'info',
               title: JSON.parse(response.body).title,

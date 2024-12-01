@@ -21,7 +21,7 @@ const CampaignStatisticChart = () => {
   const defaultStartDate = subMonths(defaultEndDate, 12);
 
   const [formValues, setFormValues] = useState({
-    categoryId: 1,
+    categoryId: '',
     status: CAMPAIGNSTATUS.COMPLETED,
     startDate: format(defaultStartDate, 'yyyy-MM-dd'),
     endDate: format(defaultEndDate, 'yyyy-MM-dd'),
@@ -67,14 +67,14 @@ const CampaignStatisticChart = () => {
       return;
     }
 
-    if (!formValues.categoryId) {
-      addNotification({
-        type: 'error',
-        title: 'Error',
-        message: 'Category ID is required',
-      });
-      return;
-    }
+    // if (!formValues.categoryId) {
+    //   addNotification({
+    //     type: 'error',
+    //     title: 'Error',
+    //     message: 'Category ID is required',
+    //   });
+    //   return;
+    // }
     refetch();
   }, [formValues, refetch, addNotification]);
 
@@ -84,65 +84,67 @@ const CampaignStatisticChart = () => {
   ];
 
   const dataTypeOptions = [
-    { label: 'Campaigns', value: 'campaign' },
-    { label: 'Donations', value: 'donations' },
+    { label: 'Chiến dịch', value: 'campaign' },
+    { label: 'Quyên góp', value: 'donations' },
   ];
 
   return (
     <div className="p-4">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-          <Input
+        <Input
           className="w-full"
-            label="Ngày bắt đầu"
-            type='date'
-            value={formValues.startDate}
-            registration={{
-              onChange: async (e) => {
-                handleChange('startDate', e.target.value);
-                return true;
-              }
-            }}
-          />
-          <Input
+          label="Ngày bắt đầu"
+          type="date"
+          value={formValues.startDate}
+          registration={{
+            onChange: async (e) => {
+              handleChange('startDate', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Input
           className="w-full"
-            label="Ngày kết thúc"
-            type='date'
-            value={formValues.endDate}
-            registration={{
-              onChange: async (e) => {
-                handleChange('endDate', e.target.value);
-                return true;
-              }
-            }}
-          />
-          <Select
-            className="w-full"
-            label="Thể loại chiến dịch"
-            options={categories.data?.data.map((item) => ({
+          label="Ngày kết thúc"
+          type="date"
+          value={formValues.endDate}
+          registration={{
+            onChange: async (e) => {
+              handleChange('endDate', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Select
+          className="w-full"
+          label="Thể loại chiến dịch"
+          options={
+            categories.data?.data.map((item) => ({
               label: item.name,
               value: item.id,
-            })) || []}
-            defaultValue={Number(formValues.categoryId)}
-            registration={{
-              onChange: async (e) => {
-                handleChange('categoryId', e.target.value);
-                return true;
-              },
-            }}
-          />
-          <Select
+            })) || []
+          }
+          defaultValue={Number(formValues.categoryId)}
+          registration={{
+            onChange: async (e) => {
+              handleChange('categoryId', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Select
           className="w-full"
-            label="Trạng thái"
-            options={statusOptions}
-            defaultValue={Number(formValues.status)}
-            registration={{
-              onChange: async (e) => {
-                handleChange('status', e.target.value);
-                return true;
-              }
-            }}
-          />
-          <Select
+          label="Trạng thái"
+          options={statusOptions}
+          defaultValue={Number(formValues.status)}
+          registration={{
+            onChange: async (e) => {
+              handleChange('status', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Select
           label="Loại dữ liệu"
           options={dataTypeOptions}
           defaultValue={Number(formValues.dataType)}
@@ -168,8 +170,17 @@ const CampaignStatisticChart = () => {
 
       {isLoading && <p>Loading...</p>}
       {error && <p>Error: {error.message}</p>}
-      {data && data.data.length > 0 ? <StatisticBarChart data={data.data} totalCampaigns={data.totalCampaigns} dataType={formValues.dataType} donations={data.totalDonations} /> : <p>Không có dữ liệu phù hợp</p>}
-
+      {data && data.data.length > 0 ? (
+        <StatisticBarChart
+          data={data.data}
+          totalCampaigns={data.totalCampaigns}
+          dataType={formValues.dataType}
+          donations={data.totalDonations}
+        />
+      ) : (
+        <p>Không có dữ liệu phù hợp</p>
+      )}
+      <div className="py-8"></div>
       <Table
         data={tableData || []}
         columns={[

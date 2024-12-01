@@ -21,7 +21,7 @@ export const DonationsRoute = () => {
   return (
     <ContentLayout title="Donation Page" description="Dann Charity">
       <Breadcrumb items={breadcrumbs} className="mt-8" />
-      <div className="mt-8 flex flex-col gap-2 font-nunito">
+      <div className="mt-8 flex flex-col gap-2 font-nunito min-h-[32rem]">
         <div className="flex items-center gap-2">
           <span className="w-fit-content font-dancing text-primary font-semibold text-2xl relative ">
             Cảm ơn bạn đã tham gia quyên góp
@@ -34,8 +34,8 @@ export const DonationsRoute = () => {
         >
           Lịch sử quyên góp
         </h1>
+        <MyDonations />
       </div>
-      <MyDonations />
     </ContentLayout>
   );
 };

@@ -12,7 +12,6 @@ import NO_MY_CAMPAIGN from '@/assets/images/illustration/no_my_campaign.png';
 
 export const MyCampaignListTable = () => {
   const [page, setPage] = useState(0);
-  const [status, setStatus] = useState<CAMPAIGNSTATUS | null>(null);
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
@@ -21,7 +20,6 @@ export const MyCampaignListTable = () => {
   const campaignQuery = useCampaigns({
     userId: user.data?.id,
     page,
-    status: status ? [status] : undefined,
   });
 
   useEffect(() => {
@@ -77,27 +75,6 @@ export const MyCampaignListTable = () => {
 
   return (
     <div className="flex flex-col gap-4 my-8 min-h-[20rem]">
-      <div className="flex flex-row gap-4 justify-end">
-        <select
-          name="status"
-          id="status"
-          value={status || 'all'}
-          onChange={(e) =>
-            setStatus(
-              e.target.value === 'all'
-                ? null
-                : (e.target.value as CAMPAIGNSTATUS),
-            )
-          }
-          className="p-1 rounded-lg border border-gray-400 shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-500 overflow-hidden"
-        >
-          <option value="all">Tất cả</option>
-          <option value={CAMPAIGNSTATUS.APPROVED}>Đã duyệt</option>
-          <option value={CAMPAIGNSTATUS.COMPLETED}>Hoàn thành</option>
-          <option value={CAMPAIGNSTATUS.PENDING}>Đang chờ</option>
-          <option value={CAMPAIGNSTATUS.REJECTED}>Từ chối</option>
-        </select>
-      </div>
       <div className="flex-1">
         <Table
           data={campaigns}
@@ -105,10 +82,6 @@ export const MyCampaignListTable = () => {
             {
               title: 'Tên chiến dịch',
               field: 'name',
-            },
-            {
-              title: 'Mô tả',
-              field: 'description',
             },
             {
               title: 'Trạng thái',
@@ -145,11 +118,19 @@ export const MyCampaignListTable = () => {
               className: 'text-center',
             },
             {
-              title: 'Thời gian tạo',
-              field: 'createdDate',
+              title: 'Ngày bắt đầu',
+              field: 'startDate',
               className: 'text-center',
-              Cell({ entry: { createdDate } }) {
-                return <span>{formatDate(createdDate)}</span>;
+              Cell({ entry: { startDate } }) {
+                return <span>{formatDate(startDate)}</span>;
+              },
+            },
+            {
+              title: 'Ngày kết thúc',
+              field: 'endDate',
+              className: 'text-center',
+              Cell({ entry: { endDate } }) {
+                return <span>{formatDate(endDate)}</span>;
               },
             },
             {
