@@ -3,77 +3,61 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
-import { useRegister, registerInputSchema } from '@/lib/auth';
-import { paths } from '@/config/paths';
 import { useNotifications } from '@/components/ui/notifications';
+import { paths } from '@/config/paths';
+import {
+  useForgotPassword,
+  forgotPasswordSchema,
+} from '@/features/auth/api/forgot-password';
 
-export const RegisterForm = () => {
+export const ForgotPasswordForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
-  const registering = useRegister({
-    onSuccess: () => {
-      navigate(redirectTo || paths.auth.login.getHref(), {
-        replace: true,
-      });
-      addNotification({
-        message: 'Bạn hãy đăng nhập để tiếp tục',
-        type: 'success',
-        title: 'Đăng ký thành công',
-      });
-    },
-    onError: (error: any) => {
-      addNotification({
-        message: error.response.data.detail,
-        type: 'danger',
-        title: 'Đăng ký thất bại',
-      });
+  const forgotPassword = useForgotPassword({
+    mutationConfig: {
+      onSuccess: () => {
+        console.log('Forgot password success');
+        addNotification({
+          message: 'Vui lòng kiểm tra email của bạn để nhận được mật khật mới',
+          type: 'success',
+          title: 'Xác nhận email thanh công',
+        });
+        navigate(redirectTo || paths.auth.login.getHref(), {
+          replace: true,
+        });
+      },
+      onError: (error: any) => {
+        addNotification({
+          message: error.response.data.detail,
+          type: 'danger',
+          title: 'Xác nhận email thất bại',
+        });
+      },
     },
   });
   const [searchParams] = useSearchParams();
-
   const redirectTo = searchParams.get('redirectTo');
+
   return (
     <div className="flex flex-col gap-4">
       <Form
         onSubmit={(values) => {
-          registering.mutate(values);
+          forgotPassword.mutate(values);
         }}
-        schema={registerInputSchema}
-        options={{
-          shouldUnregister: true,
-        }}
+        schema={forgotPasswordSchema}
       >
         {({ register, formState }) => (
           <>
             <Input
               type="email"
-              label="Email"
+              label="Email Address"
               error={formState.errors['email']}
               registration={register('email')}
             />
-            <Input
-              type="text"
-              label="Họ và tên"
-              error={formState.errors['name']}
-              registration={register('name')}
-            />
-            <Input
-              type="password"
-              label="Mật khẩu"
-              error={formState.errors['password']}
-              registration={register('password')}
-            />
-            <Input
-              type="password"
-              label="Nhập lại mật khẩu"
-              error={formState.errors['confirmPassword']}
-              registration={register('confirmPassword')}
-            />
             <div>
               <Button
-                isLoading={registering.isPending}
+                isLoading={forgotPassword.isPending}
                 type="submit"
-                className="w-full"
                 buttonStyled={{
                   behavior: 'block',
                   rounded: 'normal',
@@ -83,7 +67,7 @@ export const RegisterForm = () => {
                 }}
                 buttonVariant="filled"
               >
-                Đăng ký
+                Xác nhận email
               </Button>
             </div>
           </>
@@ -107,7 +91,7 @@ export const RegisterForm = () => {
             to={`/auth/login${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
             className="font-medium"
           >
-            Đăng nhập
+            Quay lại đăng nhập
           </Link>
         </Button>
       </div>

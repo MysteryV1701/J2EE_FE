@@ -1,11 +1,13 @@
-import { createRecipientInputSchema, useCreateRecipient } from '../api/create-recipients';
+import {
+  createRecipientInputSchema,
+  useCreateRecipient,
+} from '../api/create-recipients';
 import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
 import { ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input} from '@/components/ui/form';
+import { Form, FormDrawer, Input } from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
-
 
 export const CreateRecipientForm = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ export const CreateRecipientForm = () => {
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });
@@ -32,7 +34,8 @@ export const CreateRecipientForm = () => {
 
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
-      <FormDrawer isDone={createRecipientMutation.isSuccess}
+      <FormDrawer
+        isDone={createRecipientMutation.isSuccess}
         triggerButton={
           <Button
             buttonVariant="filled"
@@ -64,10 +67,10 @@ export const CreateRecipientForm = () => {
           }}
           options={{
             defaultValues: {
-              name: "",
-              code: "",
-              phone: "",
-            }
+              name: '',
+              code: '',
+              phone: '',
+            },
           }}
           schema={createRecipientInputSchema}
         >
@@ -89,7 +92,7 @@ export const CreateRecipientForm = () => {
                 registration={register('phone')}
               />
             </div>
-          )}        
+          )}
         </Form>
       </FormDrawer>
     </Authorization>

@@ -9,7 +9,9 @@ type DeleteRecipientsProps = {
   recipientIds: number[];
 };
 
-export const DeleteRecipienties: React.FC<DeleteRecipientsProps> = ({ recipientIds }) => {
+export const DeleteRecipienties: React.FC<DeleteRecipientsProps> = ({
+  recipientIds,
+}) => {
   const { addNotification } = useNotifications();
   const [isDialogClose, setIsDialogClose] = useState(false);
   const deleteRecipientiesMutation = useDeleteRecipients({
@@ -23,7 +25,7 @@ export const DeleteRecipienties: React.FC<DeleteRecipientsProps> = ({ recipientI
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });

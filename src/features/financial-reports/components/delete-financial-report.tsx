@@ -9,7 +9,9 @@ type DeleteFinancialReportsProps = {
   financialReportIds: number[];
 };
 
-export const DeleteFinancialReports: React.FC<DeleteFinancialReportsProps> = ({ financialReportIds }) => {
+export const DeleteFinancialReports: React.FC<DeleteFinancialReportsProps> = ({
+  financialReportIds,
+}) => {
   const { addNotification } = useNotifications();
   const [isDialogClose, setIsDialogClose] = useState(false);
   const deleteFinancialReportiesMutation = useDeleteFinancialReports({
@@ -23,7 +25,7 @@ export const DeleteFinancialReports: React.FC<DeleteFinancialReportsProps> = ({ 
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });

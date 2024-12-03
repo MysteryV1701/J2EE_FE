@@ -70,7 +70,7 @@ export const ContentLayout = ({
         <>
           <Head title={title} description={description} />
           {isBackgroundClient && <div className="background-client"></div>}
-          <div className="md:px-20 px-2 py-4 relative">
+          <div className="lg:px-20 px-2 py-4 relative">
             <Navbar />
             <div className="px-4">{children}</div>
           </div>

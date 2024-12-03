@@ -51,7 +51,7 @@ export const CampaignsRoute = () => {
         >
           Các chiến dịch gây quỹ
         </h1>
-        <span className="text-gray-600 text-base w-1/2">
+        <span className="text-gray-600 text-base md:w-1/2 w-full">
           Cùng nhau kiến tạo tương lai tươi sáng cho các sinh viên khó khăn
           thông qua các chiến dịch gây quỹ đầy ý nghĩa. Tại đây, mỗi đóng góp
           của bạn sẽ trở thành nguồn động lực to lớn, giúp trao học bổng, cải
