@@ -1,7 +1,7 @@
 import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/helpers/utils';
-import { useCampaigns } from '../api/get-campaigns';
+import { useMyCampaigns } from '../api/get-my-campaigns';
 import { useEffect, useState } from 'react';
 import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
@@ -17,9 +17,8 @@ export const MyCampaignListTable = () => {
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
 
   const user = useUser();
-  const campaignQuery = useCampaigns({
-    userId: user.data?.id,
-    page,
+  const campaignQuery = useMyCampaigns({
+    id: user?.data?.id || 0,
   });
 
   useEffect(() => {

@@ -9,10 +9,12 @@ type DeleteCategoryProps = {
   categoryIds: number[];
 };
 
-export const DeleteCategories: React.FC<DeleteCategoryProps> = ({ categoryIds }) => {
+export const DeleteCategories: React.FC<DeleteCategoryProps> = ({
+  categoryIds,
+}) => {
   const { addNotification } = useNotifications();
   const [isDialogClose, setIsDialogClose] = useState(false);
-  
+
   const deleteCategoriesMutation = useDeleteCategories({
     mutationConfig: {
       onSuccess: () => {
@@ -24,7 +26,7 @@ export const DeleteCategories: React.FC<DeleteCategoryProps> = ({ categoryIds })
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });
@@ -53,7 +55,6 @@ export const DeleteCategories: React.FC<DeleteCategoryProps> = ({ categoryIds })
           type="button"
           buttonVariant="outlined"
           onClick={handleDelete}
-          
         >
           Delete
         </Button>

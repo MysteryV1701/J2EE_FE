@@ -1,11 +1,13 @@
-import { createEducationInputSchema, useCreateEducation } from '../api/create-education';
+import {
+  createEducationInputSchema,
+  useCreateEducation,
+} from '../api/create-education';
 import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
 import { EDUCATIONSTATUS, ROLES } from '@/types/enum';
 import { Form, FormDrawer, Input, Select } from '@/components/ui/form';
 import { useNavigate } from 'react-router-dom';
-
 
 export const CreateEducationForm = () => {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ export const CreateEducationForm = () => {
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });
@@ -35,10 +37,10 @@ export const CreateEducationForm = () => {
     { label: 'Dừng hoạt động', value: EDUCATIONSTATUS.INACTIVE },
   ];
 
-
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
-      <FormDrawer isDone={createEducationMutation.isSuccess}
+      <FormDrawer
+        isDone={createEducationMutation.isSuccess}
         triggerButton={
           <Button
             buttonVariant="filled"
@@ -70,12 +72,12 @@ export const CreateEducationForm = () => {
           }}
           options={{
             defaultValues: {
-              name: "",
-              phone: "",
-              email: "",
-              address: "",
+              name: '',
+              phone: '',
+              email: '',
+              address: '',
               status: 1,
-            }
+            },
           }}
           schema={createEducationInputSchema}
         >

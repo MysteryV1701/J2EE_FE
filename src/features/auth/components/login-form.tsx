@@ -29,7 +29,7 @@ export const LoginForm = () => {
     onError: (error: any) => {
       addNotification({
         message: error.response.data.detail,
-        type: 'error',
+        type: 'danger',
         title: 'Đăng ký thất bại',
       });
     },
@@ -66,9 +66,9 @@ export const LoginForm = () => {
       <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
       <div className="relative text-center">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-gray-400"></div>
+          <div className="w-full border-t border-gray-400 bg-danger"></div>
         </div>
-        <span className="relative bg-white px-2 text-gray-500">
+        <span className="relative bg-white  px-2 text-gray-500">
           Hoặc đăng nhập với tài khoản
         </span>
       </div>
@@ -112,6 +112,12 @@ export const LoginForm = () => {
           </>
         )}
       </Form>
+      <Link
+        to={`/auth/forgot-password${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`}
+        className="font-medium text-end italic text-primary underline"
+      >
+        Quên mật khẩu?
+      </Link>
       <div className="w-100 border-t border-gray-400"></div>
       <div className="mt-2 flex items-center justify-end">
         <Button

@@ -76,7 +76,9 @@ export const registerInputSchema = z
 
 export type RegisterInput = z.infer<typeof registerInputSchema>;
 
-const registerWithEmailAndPassword = (data: RegisterInput): Promise<User> => {
+export const registerWithEmailAndPassword = (
+  data: RegisterInput,
+): Promise<User> => {
   return api.post('/auth/register', data);
 };
 

@@ -9,7 +9,9 @@ type DeleteEducationsProps = {
   educationIds: number[];
 };
 
-export const DeleteEducations: React.FC<DeleteEducationsProps> = ({ educationIds }) => {
+export const DeleteEducations: React.FC<DeleteEducationsProps> = ({
+  educationIds,
+}) => {
   const { addNotification } = useNotifications();
   const [isDialogClose, setIsDialogClose] = useState(false);
 
@@ -24,7 +26,7 @@ export const DeleteEducations: React.FC<DeleteEducationsProps> = ({ educationIds
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });

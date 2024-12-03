@@ -23,7 +23,7 @@ export const UpdateCategory = ({ id }: UpdateCategoryProps) => {
     mutationConfig: {
       onSuccess: () => {
         addNotification({
-          type: 'success',
+          type: 'danger',
           title: 'Loại từ thiện đã được cập nhật',
         });
       },
@@ -64,8 +64,8 @@ export const UpdateCategory = ({ id }: UpdateCategoryProps) => {
           }}
           options={{
             defaultValues: {
-              name: category?.name ?? "",
-              description: category?.description ?? "",
+              name: category?.name ?? '',
+              description: category?.description ?? '',
               status: category?.status ?? 1,
             },
           }}

@@ -3,7 +3,7 @@ import { create } from 'zustand';
 
 export type Notification = {
   id: string;
-  type: 'info' | 'warning' | 'success' | 'error';
+  type: 'info' | 'warning' | 'success' | 'danger';
   title: string;
   message?: string;
 };
@@ -27,7 +27,7 @@ export const useNotifications = create<NotificationsStore>((set) => ({
           (notification) => notification.id !== id,
         ),
       }));
-    }, 10000);
+    }, 6000);
   },
 
   dismissNotification: (id) =>

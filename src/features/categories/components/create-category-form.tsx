@@ -1,15 +1,20 @@
-import { createCategoryInputSchema, useCreateCategory } from '../api/create-category';
+import {
+  createCategoryInputSchema,
+  useCreateCategory,
+} from '../api/create-category';
 import Button from '@/components/ui/button';
 import { useNotifications } from '@/components/ui/notifications';
 import { Authorization } from '@/lib/authorization';
 import { CATEGORIESSTATUS, ROLES } from '@/types/enum';
-import { Form, FormDrawer, Input, Select, Textarea} from '@/components/ui/form';
-import { useNavigate } from 'react-router-dom';
-import { useCategories } from '../api/get-categories';
-
+import {
+  Form,
+  FormDrawer,
+  Input,
+  Select,
+  Textarea,
+} from '@/components/ui/form';
 
 export const CreateCategoryForm = () => {
-  const navigate = useNavigate();
   const { addNotification } = useNotifications();
 
   const createCategoryMutation = useCreateCategory({
@@ -23,7 +28,7 @@ export const CreateCategoryForm = () => {
       },
       onError: (error) => {
         addNotification({
-          type: 'error',
+          type: 'danger',
           title: 'Error',
           message: error.message,
         });
@@ -36,10 +41,10 @@ export const CreateCategoryForm = () => {
     { label: 'Dừng hoạt động', value: CATEGORIESSTATUS.INACTIVE },
   ];
 
-
   return (
     <Authorization allowedRoles={[ROLES.ADMIN]}>
-      <FormDrawer isDone={createCategoryMutation.isSuccess}
+      <FormDrawer
+        isDone={createCategoryMutation.isSuccess}
         triggerButton={
           <Button
             buttonVariant="filled"
@@ -71,10 +76,10 @@ export const CreateCategoryForm = () => {
           }}
           options={{
             defaultValues: {
-              name: "",
-              description: "",
+              name: '',
+              description: '',
               status: 1,
-            }
+            },
           }}
           schema={createCategoryInputSchema}
         >
@@ -97,7 +102,7 @@ export const CreateCategoryForm = () => {
                 registration={register('status')}
               />
             </div>
-          )}        
+          )}
         </Form>
       </FormDrawer>
     </Authorization>

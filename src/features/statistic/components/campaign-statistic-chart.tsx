@@ -51,7 +51,7 @@ const CampaignStatisticChart = () => {
 
     if (endDate < startDate) {
       addNotification({
-        type: 'error',
+        type: 'danger',
         title: 'Error',
         message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
       });
@@ -60,7 +60,7 @@ const CampaignStatisticChart = () => {
 
     if (differenceInMonths(endDate, startDate) > 12) {
       addNotification({
-        type: 'error',
+        type: 'danger',
         title: 'Error',
         message: 'Khoảng thời gian không được quá 12 tháng',
       });

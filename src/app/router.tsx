@@ -34,6 +34,16 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
+      path: paths.auth.forgot_password.path,
+      lazy: async () => {
+        const { ForgotPasswordRoute } = await import(
+          './routes/auth/forgot-password'
+        );
+        return { Component: ForgotPasswordRoute };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
       path: paths.campaigns.path,
       lazy: async () => {
         const { CampaignsRoute, campaignsLoader } = await import(
