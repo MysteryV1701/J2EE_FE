@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-export const createDonationInputSchema = z.object({
+export const createDonationInputSchema = (isAnonymous : boolean) => z.object({
   amount: z
     .string()
     .refine(
@@ -13,8 +13,17 @@ export const createDonationInputSchema = z.object({
         message: 'Tối thiểu 10,000 VND',
       }
     ),
-  name: z.string(),
-  isAnonymous: z.boolean()})
+  name: z.string().refine(
+      (value) => {
+        // Kiểm tra giá trị isAnonymous và tính hợp lệ của name
+        if (!isAnonymous && (!value || value.trim() === '')) {
+          return false;
+        }
+        return true;
+      },
+      { message: 'Tên không được để trống khi không ẩn danh' }
+    ),
+})
 
 export const createDonationDataSchema = z.object({
   amount: z.number().min(10000, 'Tối thiểu 10,000 VND'),

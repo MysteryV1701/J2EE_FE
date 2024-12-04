@@ -3,15 +3,18 @@ import ReactDOM from 'react-dom';
 import { getFocusableElements, nextFocus, usePortal } from '@/helpers/utils';
 import { cn } from '@/helpers/cn';
 import Button from '../button';
+import HAND_HEART from '@/assets/images/hand_heart.png';
 
 const Frame: FunctionComponent<{
   children: React.ReactNode;
+  isDonationModel?: boolean;
   closeOnClickOutside?: boolean;
   closeOnEsc?: boolean;
   onClose: () => void;
   open?: boolean;
 }> = ({
   children,
+  isDonationModel = false,
   closeOnClickOutside = true,
   closeOnEsc = true,
   onClose,
@@ -71,7 +74,13 @@ const Frame: FunctionComponent<{
       )}
       onClick={closeOnClickOutside ? onOverlayClick : undefined}
     >
-      <div className="relative w-full max-w-lg mx-auto mt-8" ref={container}>
+      <div
+        className={cn(
+          'relative w-full mx-auto mt-8',
+          isDonationModel ? 'max-w-2xl' : 'max-w-lg',
+        )}
+        ref={container}
+      >
         <div className="overflow-hidden bg-gray-100 rounded shadow-xl">
           {children}
         </div>
@@ -98,8 +107,18 @@ const Head: FunctionComponent<{
   </div>
 );
 
-const Body: FunctionComponent<{ children: React.ReactNode }> = ({
-  children,
-}) => <div className="p-4">{children}</div>;
+const Body: FunctionComponent<{
+  children: React.ReactNode;
+  isDonationModel?: boolean;
+}> = ({ children, isDonationModel = false }) => (
+  <div className={cn('p-4', isDonationModel ? 'flex gap-4' : '')}>
+    {isDonationModel && (
+      <div className="flex-1 rounded-xl overflow-hidden bg-secondary-200">
+        <img src={HAND_HEART} alt="" className="w-full h-full object-contain" />
+      </div>
+    )}
+    <div className="flex-1">{children}</div>
+  </div>
+);
 
 export const Modal = { Frame, Head, Body };

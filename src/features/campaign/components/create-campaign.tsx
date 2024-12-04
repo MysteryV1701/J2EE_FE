@@ -37,6 +37,13 @@ export const CreateCampaign: FunctionComponent = () => {
           title: 'Create Campaign Success',
         });
       },
+      onError: () => {
+        addNotification({
+          type: 'danger',
+          title: 'Tạo chiến dịch thất bại',
+          message: 'Tên chiến dịch đã tồn tại',
+        });
+      },
     },
   });
 
@@ -111,7 +118,7 @@ export const CreateCampaign: FunctionComponent = () => {
             defaultValues: {
               name: '',
               description: '',
-              targetAmount: Number(100000),
+              targetAmount: '1000000',
               currentAmount: 0,
               bankName: '',
               accountNumber: '0',
@@ -124,6 +131,7 @@ export const CreateCampaign: FunctionComponent = () => {
             },
           }}
           schema={createCampaignInputSchema}
+          className="px-1"
         >
           {({ register, formState, watch, setValue }) => {
             const descriptionValue = watch('description');
@@ -158,14 +166,18 @@ export const CreateCampaign: FunctionComponent = () => {
                     type="date"
                     classNameParent="flex-1"
                     error={formState.errors['startDate']}
-                    registration={register('startDate')}
+                    registration={register('startDate', {
+                      setValueAs: (value) => (value ? new Date(value) : null), // Chuyển giá trị ngày thành Date
+                    })}
                   />
                   <Input
                     label="Ngày kết thúc"
                     type="date"
                     classNameParent="flex-1"
                     error={formState.errors['endDate']}
-                    registration={register('endDate')}
+                    registration={register('endDate', {
+                      setValueAs: (value) => (value ? new Date(value) : null), // Chuyển giá trị ngày thành Date
+                    })}
                   />
                 </div>
                 <div className="flex md:flex-row flex-col gap-4">
