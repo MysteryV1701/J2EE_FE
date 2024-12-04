@@ -66,12 +66,6 @@ export const CampaignCategoryRoute = () => {
             {category.data?.name}
           </q>
         </h1>
-        <span className="text-gray-600 text-base w-1/2">
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ullam totam
-          laborum ipsum, possimus earum consequuntur delectus exercitationem
-          cumque! Veritatis ea ab, repellendus dicta quisquam obcaecati ratione
-          optio perspiciatis quod nihil.
-        </span>
       </div>
       <CampaignListGird pagination={true} categoryId={category.data?.id} />
     </ContentLayout>

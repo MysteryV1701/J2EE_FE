@@ -6,7 +6,7 @@ import Button from '@/components/ui/button';
 import { UserIcon } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import { Modal } from '@/components/ui/modal';
-import { Form, Input, Label } from '@/components/ui/form';
+import { Form, Input, Label, Switch } from '@/components/ui/form';
 
 import {
   createDonationInputSchema,
@@ -51,6 +51,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
         params.delete('modal');
         setParams(params);
       }}
+      isDonationModel={true}
     >
       <Modal.Head
         onClose={() => {
@@ -60,14 +61,18 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
       >
         Quyên góp
       </Modal.Head>
-      <Modal.Body>
+      <Modal.Body isDonationModel={true}>
         <div className="flex flex-col space-y-2 text-gray-900">
           <Form
             id="create-donation"
             onSubmit={(values) => {
-              values.amount = Number(values.amount);
+              const dataCreate = {
+                isAnonymous: isChecked,
+                name: values.name,
+                amount: Number(values.amount),
+              };
               createDonationMutation.mutate({
-                data: values,
+                data: dataCreate,
                 campaignId,
                 userId: user.data?.id,
               });
@@ -76,26 +81,22 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
               defaultValues: {
                 amount: '10000',
                 name: user.data?.name ?? '',
-                isAnonymous: false,
+                isAnonymous: isChecked,
               },
             }}
-            schema={createDonationInputSchema}
+            schema={createDonationInputSchema(isChecked)}
           >
             {({ register, formState }) => (
               <>
-                <div className="flex flex-row justify-between align-center">
+                <div className="flex flex-row justify-between items-center">
                   <Label htmlFor="isAnonymous" className="text-gray-900">
                     Quyên góp ẩn danh
                   </Label>
-
-                  <Input
+                  <Switch
                     id="isAnonymous"
-                    type="checkbox"
-                    registration={register('isAnonymous')}
                     checked={isChecked}
-                    className="border border-gray-400 rounded-full"
-                    classNameParent="p-0"
-                    onClick={() => handleSwitchChange(!isChecked)}
+                    onCheckedChange={() => handleSwitchChange(!isChecked)}
+                    className={`relative inline-flex h-6 w-9 items-center rounded-full transition-colors border border-primary-600`}
                   />
                 </div>
 
@@ -109,7 +110,7 @@ export const DonationFormModal: FunctionComponent<{ campaignId: number }> = ({
                 <Input
                   type="text"
                   disabled={isChecked}
-                  className={cn('!bg-gray-200', { 'bg-gray-200': isChecked })}
+                  className={cn(isChecked ? 'bg-gray-200' : 'bg-gray-50')}
                   label="Tên của người quyên góp"
                   error={formState.errors['name']}
                   registration={register('name')}
