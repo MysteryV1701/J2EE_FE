@@ -40,16 +40,23 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
   }
 
   return (
-    <div className="px-4 py-2 border border-secondary-600 rounded-xl text-secondary-800 min-h-[20rem]">
+    <div className="px-4 py-2 border border-gray-200 rounded-xl text-black min-h-[20rem]">
       <h6 className="text-lg font-semibold mb-2 underline">
-        Danh sách người ủng hộ
+        Nhà ủng hộ mới nhất
       </h6>
-      <div className="flex flex-col gap-2 text-secondary-900">
+      <div className="flex flex-col gap-2 text-black">
         {donations.map((donates) => {
+          const initial = donates.name ? donates.name.charAt(0).toUpperCase() : 'A';
           return (
             <div className="flex flex-row justify-between" key={donates.id}>
-              <div className="text-base font-semibold">
-                {donates.isAnonymous ? donates.name : 'Ẩn danh'}
+
+              <div className = " flex justify-start">
+              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500 text-white font-bold">
+                {initial}
+              </div>
+              <div className="px-8 text-base leading-8">
+                {donates.name ? donates.name : 'Ẩn danh'}
+              </div>
               </div>
               <div className="text-base ">{formatPrice(donates.amount)}</div>
             </div>
