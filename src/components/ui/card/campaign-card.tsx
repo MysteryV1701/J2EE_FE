@@ -14,7 +14,7 @@ export const CampaignCard: FunctionComponent<Campaign> = (props) => {
   return (
     <div
       key={props.id}
-      className="rounded-lg shadow-lg overflow-hidden h-fit bg-secondary-100 h-100 self-stretch"
+      className="rounded-lg shadow-lg overflow-hidden h-fit h-100 self-stretch"
     >
       <div className="w-full h-52 border border-2 rounded-lg">
         <img

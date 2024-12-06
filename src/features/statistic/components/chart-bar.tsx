@@ -48,7 +48,8 @@ export const StatisticBarChart = ({ data, totalCampaigns, dataType, donations}: 
         padding={0.3}
         valueScale={{ type: 'linear' }}
         indexScale={{ type: 'band', round: true }}
-        colors={{ scheme: 'nivo' }}
+        colors={['#2980b9']}
+        labelTextColor="#bdc3c7"
         axisBottom={{
           legend: 'Thời gian',
           legendPosition: 'middle',
@@ -60,8 +61,8 @@ export const StatisticBarChart = ({ data, totalCampaigns, dataType, donations}: 
           legendOffset: -50,
           tickValues: tickValues,
         }}
-        tooltip={({ indexValue, value, color, data }) => (
-          <div style={{ padding: '5px', color: '#fff', background: color }}>
+        tooltip={({ indexValue, value, color }) => (
+          <div style={{ padding: '5px', color: '#fff', background: '#3498db' }}>
             <strong>{indexValue}</strong>
             <br />
             {dataType === 'campaign' ? 'Số lượng chiến dịch' : 'Tổng số đóng góp'}: {value}
