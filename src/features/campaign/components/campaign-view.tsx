@@ -196,11 +196,11 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
               className="h-full w-full object-contain rounded-xl"
             />
           </div>
-          <div className="flex flex-col gap-4 col-start-6 col-end-9 bg-secondary-200 rounded-xl px-4 py-2">
+          <div className="flex flex-col gap-4 col-start-6 col-end-9 rounded-xl px-4 py-2 bg-gray-100">
             <div className="uppercase text-xl font-semibold text-secondary-800">
               Thông tin quyên góp
             </div>
-            <div className="flex-1 bg-secondary-300 rounded-xl p-4 flex flex-col gap-2">
+            <div className="flex-1 bg-white border-gray border rounded-xl p-4 flex flex-col gap-2">
               <div className="flex flex-row gap-2 items-center">
                 {campaign.owner.avatar ? (
                   <img

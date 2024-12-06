@@ -10,8 +10,9 @@ import { Input } from '@/components/ui/form';
 import { differenceInMonths, format, subMonths } from 'date-fns';
 import ExportStatisticButton from './export-statistic';
 import { Table } from '@/components/ui/table';
-import { formatDate } from '@/helpers/utils';
+import { formatDate, formatPrice } from '@/helpers/utils';
 import { cn } from '@/helpers/cn';
+import Button from '@/components/ui/button';
 
 const CampaignStatisticChart = () => {
   const { addNotification } = useNotifications();
@@ -83,81 +84,95 @@ const CampaignStatisticChart = () => {
     { label: 'Bị từ chối', value: CAMPAIGNSTATUS.REJECTED },
   ];
 
-  const dataTypeOptions = [
-    { label: 'Chiến dịch', value: 'campaign' },
-    { label: 'Quyên góp', value: 'donations' },
+  const handleDataTypeChange = (dataType: string) => {
+    handleChange('dataType', dataType);
+  };
+
+
+  const categoryOptions = [
+    { label: 'Tất cả', value: 0 },
+    ...(categories.data?.data.map((item) => ({
+      label: item.name,
+      value: item.id,
+    })) || []),
   ];
 
   return (
     <div className="p-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-        <Input
-          className="w-full"
-          label="Ngày bắt đầu"
-          type="date"
-          value={formValues.startDate}
-          registration={{
-            onChange: async (e) => {
-              handleChange('startDate', e.target.value);
-              return true;
-            },
-          }}
-        />
-        <Input
-          className="w-full"
-          label="Ngày kết thúc"
-          type="date"
-          value={formValues.endDate}
-          registration={{
-            onChange: async (e) => {
-              handleChange('endDate', e.target.value);
-              return true;
-            },
-          }}
-        />
-        <Select
-          className="w-full"
-          label="Thể loại chiến dịch"
-          options={
-            categories.data?.data.map((item) => ({
-              label: item.name,
-              value: item.id,
-            })) || []
-          }
-          defaultValue={Number(formValues.categoryId)}
-          registration={{
-            onChange: async (e) => {
-              handleChange('categoryId', e.target.value);
-              return true;
-            },
-          }}
-        />
-        <Select
-          className="w-full"
-          label="Trạng thái"
-          options={statusOptions}
-          defaultValue={Number(formValues.status)}
-          registration={{
-            onChange: async (e) => {
-              handleChange('status', e.target.value);
-              return true;
-            },
-          }}
-        />
-        <Select
-          label="Loại dữ liệu"
-          options={dataTypeOptions}
-          defaultValue={Number(formValues.dataType)}
-          registration={{
-            onChange: async (e) => {
-              handleChange('dataType', e.target.value);
-              return true;
-            },
-          }}
-          className="w-full"
-        />
+      <div className="grid grid-cols-1 md:grid-cols-2 p-4 mb-4 border border-gray-300 rounded-md">
+        <div className="flex space-x-4 justify-start">
+          <Input
+            className="w-full"
+            label="Ngày bắt đầu"
+            type="date"
+            value={formValues.startDate}
+            registration={{
+              onChange: async (e) => {
+                handleChange('startDate', e.target.value);
+                return true;
+              },
+            }}
+          />
+          <Input
+            className="w-full"
+            label="Ngày kết thúc"
+            type="date"
+            value={formValues.endDate}
+            registration={{
+              onChange: async (e) => {
+                handleChange('endDate', e.target.value);
+                return true;
+              },
+            }}
+          />
+        </div>
+        <div className="flex space-x-4 justify-end">
+          <Select
+            className="w-full border border-gray-400 rounded-md"
+            label="Thể loại chiến dịch"
+            options={
+              categoryOptions
+            }
+            defaultValue={Number(formValues.categoryId)}
+            registration={{
+              onChange: async (e) => {
+                handleChange('categoryId', e.target.value);
+                return true;
+              },
+            }}
+          />
+          <Select
+            className="w-full border border-gray-400 rounded-md"
+            label="Trạng thái"
+            options={statusOptions}
+            defaultValue={Number(formValues.status)}
+            registration={{
+              onChange: async (e) => {
+                handleChange('status', e.target.value);
+                return true;
+              },
+            }}
+          />
+        </div>
       </div>
-      <div className="flex justify-end space-x-4 mb-4">
+      <div className="flex justify-between space-x-4 mb-4 mt-12">
+      <div className="flex space-x-4">
+          <Button
+            className={`mb-4  ${formValues.dataType === 'campaign' ? 'bg-primary hover:bg-primary-600 text-sm py-2 px-4' : 'bg-gray-200 text-black'}`}
+            onClick={() => handleDataTypeChange('campaign')}
+            buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}
+          >
+            Chiến dịch
+          </Button>
+          <Button
+            className={`mb-4  ${formValues.dataType === 'donations' ? 'bg-primary hover:bg-primary-600 text-sm py-2 px-4' : 'bg-gray-200 text-black'}`}
+            onClick={() => handleDataTypeChange('donations')}
+            buttonStyled={{ color: 'primary', size: 'md', rounded: 'normal' }}
+          >
+            Quyên góp
+          </Button>
+        </div>
+        <div className="flex space-x-4 justify-start">
         <ExportStatisticButton
           request={{
             categoryId: Number(formValues.categoryId),
@@ -166,6 +181,7 @@ const CampaignStatisticChart = () => {
             endDate: `${formValues.endDate} 00:00:00`,
           }}
         />
+        </div>
       </div>
 
       {isLoading && <p>Loading...</p>}
@@ -198,15 +214,25 @@ const CampaignStatisticChart = () => {
           {
             title: 'Số tiền mục tiêu',
             field: 'targetAmount',
+            className: 'text-right px-4',
             Cell({ entry: { campaigns } }) {
-              return <span>{campaigns.targetAmount}</span>;
+              return <span>{formatPrice(campaigns.targetAmount)}</span>;
             },
           },
           {
             title: 'Số tiền hiện tại',
             field: 'currentAmount',
+            className: 'text-right px-4',
             Cell({ entry: { campaigns } }) {
-              return <span>{campaigns.currentAmount}</span>;
+              return <span>{formatPrice(campaigns.currentAmount)}</span>;
+            },
+          },
+          {
+            title: 'Số lượt quyên góp',
+            field: 'totalDonations',
+            className: 'text-center',
+            Cell({ entry: { totalDonations } }) {
+              return <span>{totalDonations}</span>;
             },
           },
           {
@@ -223,30 +249,6 @@ const CampaignStatisticChart = () => {
             className: 'text-center',
             Cell({ entry: { campaigns } }) {
               return <span>{formatDate(campaigns.endDate)}</span>;
-            },
-          },
-          {
-            title: 'Trạng thái',
-            field: 'status',
-            className: 'text-center font-semibold',
-            Cell({ entry: { campaigns } }) {
-              const statusColor =
-                campaigns.status === CAMPAIGNSTATUS.APPROVED
-                  ? 'text-success'
-                  : campaigns.status === CAMPAIGNSTATUS.REJECTED
-                    ? 'text-danger'
-                    : 'text-default';
-
-              return (
-                <span className={cn(statusColor)}>{campaigns.status}</span>
-              );
-            },
-          },
-          {
-            title: 'Số lượt quyên góp',
-            field: 'totalDonations',
-            Cell({ entry: { totalDonations } }) {
-              return <span>{totalDonations}</span>;
             },
           },
         ]}
