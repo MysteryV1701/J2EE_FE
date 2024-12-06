@@ -49,7 +49,7 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
           return (
             <div className="flex flex-row justify-between" key={donates.id}>
               <div className="text-base font-semibold">
-                {donates.name ? donates.name : 'Ẩn danh'}
+                {donates.isAnonymous ? donates.name : 'Ẩn danh'}
               </div>
               <div className="text-base ">{formatPrice(donates.amount)}</div>
             </div>

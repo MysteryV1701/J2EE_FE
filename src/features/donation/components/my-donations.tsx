@@ -78,37 +78,32 @@ export const MyDonations: FunctionComponent = () => {
           {
             title: 'Chiến dịch',
             field: 'campaignName',
+            Cell({ entry: { campaignCode, campaignName } }) {
+              return (
+                <a
+                  href={paths.campaign.getHref(campaignCode)}
+                  className="text-primary-600 hover:text-primary-700 font-semibold transition duration-500"
+                >
+                  {campaignName}
+                </a>
+              );
+            },
           },
 
           {
             title: 'Số tiền',
             field: 'amount',
-            className: 'text-start',
+            className: 'text-center',
             Cell({ entry: { amount } }) {
               return <span>{formatPrice(amount)}</span>;
             },
           },
           {
-            title: 'Số tiền',
+            title: 'Ngày quyên góp',
             field: 'createdDate',
-            className: 'text-start',
+            className: 'text-center',
             Cell({ entry: { createdDate } }) {
               return <span>{formatDate(createdDate)}</span>;
-            },
-          },
-          {
-            title: 'Đường dẫn tới chiến dịch',
-            field: 'campaignId',
-            className: 'text-center',
-            Cell({ entry: { campaignCode } }) {
-              return (
-                <a
-                  href={paths.campaign.getHref(campaignCode)}
-                  className="text-secondary-600 hover:underline font-semibold transition duration-500"
-                >
-                  Đường dẫn tới chiến dịch
-                </a>
-              );
             },
           },
         ]}

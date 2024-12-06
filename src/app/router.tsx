@@ -44,6 +44,14 @@ const createAppRouter = (queryClient: QueryClient) =>
       ErrorBoundary: AppRootErrorBoundary,
     },
     {
+      path: paths.auth.verify_otp.path,
+      lazy: async () => {
+        const { VerifyOTPRoute } = await import('./routes/auth/verify-otp');
+        return { Component: VerifyOTPRoute };
+      },
+      ErrorBoundary: AppRootErrorBoundary,
+    },
+    {
       path: paths.campaigns.path,
       lazy: async () => {
         const { CampaignsRoute, campaignsLoader } = await import(

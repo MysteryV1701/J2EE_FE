@@ -52,8 +52,13 @@ export const paths = {
       getHref: (redirectTo?: string | null | undefined) =>
         `/auth/forgot-password${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
     },
+    verify_otp: {
+      path: '/auth/verify-otp',
+      getHref: (redirectTo?: string | null | undefined) =>
+        `/auth/verify-otp${redirectTo ? `?redirectTo=${encodeURIComponent(redirectTo)}` : ''}`,
+    },
   },
-
+  
   app: {
     root: {
       path: '/app',

@@ -257,7 +257,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
                 </span>
                 <p className="text-base text-gray-700">Thời gian còn lại </p>
                 <span className="text-gray-900 font-semibold text-end">
-                  {date} ngày
+                  {date >= 0 ? date : 0} ngày
                 </span>
               </div>
             </div>
