@@ -49,6 +49,7 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
           const initial = donates.name ? donates.name.charAt(0).toUpperCase() : 'A';
           return (
             <div className="flex flex-row justify-between" key={donates.id}>
+
               <div className = " flex justify-start">
               <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500 text-white font-bold">
                 {initial}

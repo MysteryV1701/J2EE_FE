@@ -6,25 +6,23 @@ import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
 
-export const forgotPasswordSchema = z.object({
-  email: z.string().min(1, 'Không được bỏ trống'),
-  code: z.number().min(6, 'Không được bỏ trống').max(6, 'Không được bỏ trống'),
-  isUser: z.boolean().optional().default(true),
+export const sendOTPSchema = z.object({
+  email: z.string().min(1, 'Yêu cầu cần có email').email('Email không hợp lệ'),
 });
 
-type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+type SendOTPInput = z.infer<typeof sendOTPSchema>;
 
-const forgotPasswordWithEmail = (
-  data: ForgotPasswordInput,
+const sendOTPWithEmail = (
+  data: SendOTPInput,
 ): Promise<{ success: boolean }> => {
-  return api.post('/auth/forgot-password', data);
+  return api.post('/auth/send-otp', data);
 };
 
 type UseForgotPassworOptions = {
-  mutationConfig?: MutationConfig<typeof forgotPasswordWithEmail>;
+  mutationConfig?: MutationConfig<typeof sendOTPWithEmail>;
 };
 
-export const useForgotPassword = ({
+export const useSendOTP = ({
   mutationConfig,
 }: UseForgotPassworOptions = {}) => {
   const { onSuccess, onError, ...restConfig } = mutationConfig || {};
@@ -37,6 +35,6 @@ export const useForgotPassword = ({
         onError?.(...args);
     },
     ...restConfig,
-    mutationFn: forgotPasswordWithEmail,
+    mutationFn: sendOTPWithEmail,
   });
 };

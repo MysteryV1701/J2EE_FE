@@ -5,28 +5,25 @@ import Button from '@/components/ui/button';
 import { Form, Input } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
-import {
-  useForgotPassword,
-  forgotPasswordSchema,
-} from '@/features/auth/api/forgot-password';
+import { useSendOTP, sendOTPSchema } from '@/features/auth/api/send-otp';
 
 export const ForgotPasswordForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
-  const forgotPassword = useForgotPassword({
+  const forgotPassword = useSendOTP({
     mutationConfig: {
       onSuccess: () => {
-        console.log('Forgot password success');
         addNotification({
-          message: 'Vui lòng kiểm tra email của bạn để nhận được mật khật mới',
+          message: 'Vui lòng kiểm tra email của bạn để nhận được mã OTP',
           type: 'success',
           title: 'Xác nhận email thanh công',
         });
-        navigate(redirectTo || paths.auth.login.getHref(), {
+        navigate(redirectTo || paths.auth.verify_otp.getHref(), {
           replace: true,
         });
       },
       onError: (error: any) => {
+        sessionStorage.removeItem('emailVerify');
         addNotification({
           message: error.response.data.detail,
           type: 'danger',
@@ -42,9 +39,10 @@ export const ForgotPasswordForm = () => {
     <div className="flex flex-col gap-4">
       <Form
         onSubmit={(values) => {
+          sessionStorage.setItem('emailVerify', values.email);
           forgotPassword.mutate(values);
         }}
-        schema={forgotPasswordSchema}
+        schema={sendOTPSchema}
       >
         {({ register, formState }) => (
           <>
