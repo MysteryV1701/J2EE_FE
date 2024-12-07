@@ -28,7 +28,13 @@ export const AboutUsRoute = () => {
         className="grid grid-cols-1 md:grid-cols-2 items-center md:gap-24 md:pt-32 md:pb-24 gap-12 py-12"
       >
         <div className="flex flex-col lg:gap-0 gap-8">
-          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
+          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
+            <img
+              src="http://res.cloudinary.com/dciqj149d/image/upload/v1732949848/natge8mt2npzwoh15pue.jpg"
+              alt=""
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </div>
           <div className="lg:-mt-24 px-8 py-4 self-end w-[20rem] h-fit-content bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
             <ul className="text-gray-900 font-normal list-disc ">
               <li className="text-primary-900">
@@ -124,8 +130,20 @@ export const AboutUsRoute = () => {
           </span>
         </div>
         <div className="flex flex-col lg:gap-0 gap-8">
-          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
-          <div className="lg:-mt-24 px-8 py-4 self-end w-[20rem] h-[20rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
+          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
+            <img
+              src="http://res.cloudinary.com/dciqj149d/image/upload/v1732950232/pkab6kmwdm08rpmvqz47.jpg"
+              alt=""
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </div>
+          <div className="lg:-mt-24 self-end w-[20rem] h-[20rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
+            <img
+              src="http://res.cloudinary.com/dciqj149d/image/upload/v1732949848/natge8mt2npzwoh15pue.jpg"
+              alt=""
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </div>
         </div>
       </section>
       <section id="feature"></section>
