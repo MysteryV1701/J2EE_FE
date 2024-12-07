@@ -12,7 +12,7 @@ export const getMyCampaigns = ({
   page: number;
   size: number;
 }): Promise<{
-     data: Campaign[];
+  data: Campaign[];
   total: number;
   size: number;
   totalPages: number;
