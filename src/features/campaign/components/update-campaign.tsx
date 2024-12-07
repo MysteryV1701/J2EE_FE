@@ -105,7 +105,7 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
               targetAmount: values.targetAmount,
               currentAmount: values.currentAmount,
               startDate: formatToISO(campaign?.startDate) || '',
-              endDate: formatToISO(values.endDate) || '',
+              endDate: formatToISO(campaign?.endDate) || '',
               bankName: values.bankname,
               accountNumber: values.accountNumber,
               categoryId: campaign?.category.id,

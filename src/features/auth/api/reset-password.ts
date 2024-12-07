@@ -5,15 +5,13 @@ import { z } from 'zod';
 import { api } from '@/lib/api-client';
 import { MutationConfig } from '@/lib/react-query';
 
-
 export const resetPasswordSchema = z
   .object({
     password: z
       .string()
-      .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+      .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
       .regex(/[a-z]/, 'Mật khẩu phải có ít nhất 1 ký tự thường')
-      .regex(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 ký tự hoa')
-      .regex(/[\W_]/, 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt'),
+      .regex(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 ký tự hoa'),
     confirmPassword: z.string(),
   })
   .refine((data) => data.password === data.confirmPassword, {
@@ -21,17 +19,15 @@ export const resetPasswordSchema = z
     path: ['confirmPassword'],
   });
 
-
 export const resetPasswordData = z.object({
   email: z.string().min(1, 'Không được bỏ trống'),
   code: z.number().min(6, 'Không được bỏ trống').max(6, 'Không được bỏ trống'),
   password: z
-      .string()
-      .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
-      .regex(/[a-z]/, 'Mật khẩu phải có ít nhất 1 ký tự thường')
-      .regex(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 ký tự hoa')
-      .regex(/[\W_]/, 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt'),
-  })
+    .string()
+    .min(6, 'Mật khẩu phải có ít nhất 6 ký tự')
+    .regex(/[a-z]/, 'Mật khẩu phải có ít nhất 1 ký tự thường')
+    .regex(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 ký tự hoa'),
+});
 type ResetPasswordInput = z.infer<typeof resetPasswordData>;
 
 const resetPasswordWithOTP = (
@@ -54,7 +50,7 @@ export const useResetPassword = ({
       onSuccess?.(...args);
     },
     onError: (...args) => {
-        onError?.(...args);
+      onError?.(...args);
     },
     ...restConfig,
     mutationFn: resetPasswordWithOTP,

@@ -36,7 +36,7 @@ export const LandingRoute = () => {
               Phát triển đất nước
             </h1>
           </div>
-          <q className="font-dancing text-xl font-medium text-primary-600">
+          <q className="font-dancing text-xl font-medium text-secondary-600">
             Để giúp đỡ bạn sinh viên có cơ hội học tập tốt nhất và phát triển
             toàn diện nhất trong môi trường an toàn, sạch sẽ, vui chơi, học tập.
             Hãy cùng chúng tôi xây dựng một tương lai tươi sáng cho sinh viên
