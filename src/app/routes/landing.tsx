@@ -83,17 +83,34 @@ export const LandingRoute = () => {
         className="grid grid-cols-1 md:grid-cols-2 items-center md:gap-24 md:pt-32 md:pb-24 gap-12 py-12"
       >
         <div className="flex flex-col lg:gap-0 gap-8">
-          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
+          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
+            <img
+              src="http://res.cloudinary.com/dciqj149d/image/upload/v1732949848/natge8mt2npzwoh15pue.jpg"
+              alt=""
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </div>
           <div className="lg:-mt-24 px-8 py-4 self-end w-[20rem] h-fit-content bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
             <ul className="text-gray-900 font-normal list-disc ">
               <li className="text-primary-900">
-                Cùng nhau, chúng ta sẽ tạo ra tương lai tươi đẹp cho các em nhỏ
-                có hoàn cảnh khó khăn
+                Cùng nhau, chúng ta sẽ xây dựng tương lai tươi sáng cho các bạn
+                sinh viên vượt qua khó khăn
               </li>
-              <li>Trẻ em là những mầm non cùng được chúng ta nuôi dưỡng</li>
-              <li>Nuôi dưỡn để giữ các em an toàn khỏi thế giới nguy hiểm</li>
-              <li>Chúng tôi đã bước ra ngoài và bắt đầu thay đổi thế giới</li>
-              <li>Giữ các em an toàn khỏi chiến tranh, sự vô nhân đạo</li>
+              <li>
+                Sinh viên là những tài năng cần được chúng ta khuyến khích và
+                phát triển
+              </li>
+              <li>
+                Hỗ trợ để giúp các bạn đạt được ước mơ và an toàn trong hành
+                trình học tập
+              </li>
+              <li>
+                Chúng tôi đã bắt đầu hành động để thay đổi cuộc đời các bạn trẻ
+              </li>
+              <li>
+                Đồng hành để bảo vệ các bạn khỏi những thử thách và bất công xã
+                hội
+              </li>
             </ul>
           </div>
         </div>
@@ -170,7 +187,7 @@ export const LandingRoute = () => {
           className="text-gray-800 font-semibold text-3xl font-nunito mt-2"
         >
           Những hoàn cảnh cần sự giúp đỡ của các
-          <q className="text-secondary-600 italic">người ương mầm</q> như bạn
+          <q className="text-secondary-600 italic">người hỗ trợ</q> như bạn
         </h1>
         <CampaignListGird size={6} pagination={false} />
       </section>
@@ -214,8 +231,20 @@ export const LandingRoute = () => {
           </Button>
         </div>
         <div className="flex flex-col lg:gap-0 gap-8">
-          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
-          <div className="lg:-mt-24 px-8 py-4 self-end w-[20rem] h-[20rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double"></div>
+          <div className="lg:w-[24rem] lg:h-[24rem] w-100 h-[12rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
+            <img
+              src="http://res.cloudinary.com/dciqj149d/image/upload/v1732950232/pkab6kmwdm08rpmvqz47.jpg"
+              alt=""
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </div>
+          <div className="lg:-mt-24 self-end w-[20rem] h-[20rem] bg-primary-100 rounded-xl outline outline-primary-200 outline-[12px] outline-double">
+            <img
+              src="http://res.cloudinary.com/dciqj149d/image/upload/v1732949848/natge8mt2npzwoh15pue.jpg"
+              alt=""
+              className="h-full w-full object-cover rounded-xl"
+            />
+          </div>
         </div>
       </section>
     </ContentLayout>
