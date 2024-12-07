@@ -15,7 +15,6 @@ import {
   startOfWeek,
   subMonths,
   addMonths,
-  differenceInMonths,
 } from 'date-fns';
 import { Input, Select } from '@/components/ui/form';
 import { useCategories } from '@/features/categories/api/get-categories';
@@ -56,21 +55,11 @@ export const CampaignListTable = () => {
   useEffect(() => {
     const startDate = formValues.startDate;
     const endDate = formValues.endDate;
-
     if (endDate < startDate) {
       addNotification({
         type: 'danger',
         title: 'Error',
         message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
-      });
-      return;
-    }
-
-    if (differenceInMonths(endDate, startDate) > 12) {
-      addNotification({
-        type: 'danger',
-        title: 'Error',
-        message: 'Khoảng thời gian không được quá 12 tháng',
       });
       return;
     }
