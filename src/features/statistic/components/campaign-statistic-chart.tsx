@@ -210,7 +210,7 @@ const CampaignStatisticChart = () => {
           {
             title: 'Số tiền mục tiêu',
             field: 'targetAmount',
-            className: 'text-right px-4',
+            className: 'text-right',
             Cell({ entry: { campaigns } }) {
               return <span>{formatPrice(campaigns.targetAmount)}</span>;
             },
@@ -218,7 +218,7 @@ const CampaignStatisticChart = () => {
           {
             title: 'Số tiền hiện tại',
             field: 'currentAmount',
-            className: 'text-right px-4',
+            className: 'text-right',
             Cell({ entry: { campaigns } }) {
               return <span>{formatPrice(campaigns.currentAmount)}</span>;
             },

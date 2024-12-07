@@ -7,7 +7,7 @@ import { CAMPAIGNSTATUS } from '@/types/enum';
 
 export const getCampaigns = (
   categoryId = 0,
-  status = CAMPAIGNSTATUS.APPROVED,
+  status = '',
   startDate = '',
   endDate = '',
   page = 0,

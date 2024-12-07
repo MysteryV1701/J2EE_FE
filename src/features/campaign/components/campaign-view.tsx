@@ -302,7 +302,7 @@ export const CampaignView: FunctionComponent<CampaignViewProps> = ({
                 <div>Failed to load donations. Try to refresh the page.</div>
               }
             >
-              <Donations campaignId={campaign.id} />
+              <Donations campaignId={campaign.id} title="Nhà ủng hộ mới nhất"/>
             </ErrorBoundary>
           </div>
         </div>

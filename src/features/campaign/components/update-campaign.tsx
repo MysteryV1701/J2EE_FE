@@ -49,7 +49,7 @@ export const UpdateCampaign: FunctionComponent<UpdateCampaignProps> = ({
         triggerButton={
           <Button
             buttonVariant="outlined"
-            buttonStyled={{ vPadding: 'lg', hPadding: 'lg' }}
+            buttonStyled={{ vPadding: 'sm', hPadding: 'sm' }}
           >
             <LucideFilePenLine className="size-5 text-info-700" />
           </Button>

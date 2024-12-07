@@ -1,5 +1,5 @@
 import { Spinner } from '@/components/ui/spinner';
-import { useDonations } from '../api/get-donates';
+import { useCampaignDonations } from '../api/get-campaign-donations';
 import { FunctionComponent } from 'react';
 import { formatPrice } from '@/helpers/utils';
 import handHeartImage from '@/assets/images/hand_heart.png';
@@ -9,8 +9,8 @@ interface DonationsProps {
   campaignId: number;
 }
 
-export const Donations: FunctionComponent<DonationsProps> = (props) => {
-  const donationsQuery = useDonations({
+export const CampaignDonations: FunctionComponent<DonationsProps> = (props) => {
+  const donationsQuery = useCampaignDonations({
     campaignId: props.campaignId,
   });
 
@@ -21,7 +21,7 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
       </div>
     );
   }
-  const donations = donationsQuery?.data?.data;
+  const donations = donationsQuery?.data;
 
   if (!donations || donations.length === 0) {
     return (
@@ -48,17 +48,18 @@ export const Donations: FunctionComponent<DonationsProps> = (props) => {
       </h6>
       <div className="flex flex-col gap-2 text-black">
         {donations.map((donates) => {
-          const initial = !donates.isAnonymous ? donates.name.charAt(0).toUpperCase() : 'A';
+          const initial = !donates.isAnonymous
+            ? donates.name.charAt(0).toUpperCase()
+            : 'A';
           return (
             <div className="flex flex-row justify-between" key={donates.id}>
-
-              <div className = " flex justify-start">
-              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500 text-white font-bold">
-                {initial}
-              </div>
-              <div className="px-8 text-base leading-8">
-                {!donates.isAnonymous ? donates.name : 'Ẩn danh'}
-              </div>
+              <div className=" flex justify-start">
+                <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-500 text-white font-bold">
+                  {initial}
+                </div>
+                <div className="px-8 text-base leading-8">
+                  {!donates.isAnonymous ? donates.name : 'Ẩn danh'}
+                </div>
               </div>
               <div className="text-base ">{formatPrice(donates.amount)}</div>
             </div>
