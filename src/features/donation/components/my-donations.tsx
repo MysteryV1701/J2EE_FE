@@ -16,6 +16,7 @@ export const MyDonations: FunctionComponent = () => {
   const user = useUser();
   const donationsQuery = useDonations({
     userId: user.data?.id,
+    page: page,
   });
 
   useEffect(() => {

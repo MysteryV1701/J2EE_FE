@@ -6,7 +6,6 @@ import { Form } from '@/components/ui/form';
 import { useNotifications } from '@/components/ui/notifications';
 import { paths } from '@/config/paths';
 import { useVerifyOTP, verifyOTPSchema } from '@/features/auth/api/verify-otp';
-import { useForgotPassword } from '../api/forgot-password';
 import { useState } from 'react';
 import OtpInput from '@/components/ui/form/otp';
 
@@ -22,31 +21,17 @@ export const VerifyOTPForm = () => {
     isUser: false,
   });
   const { addNotification } = useNotifications();
-  const sendNewPassword = useForgotPassword({
-    mutationConfig: {
-      onSuccess: () => {
-        addNotification({
-          message: 'Vui lòng kiểm tra email của bạn để nhận được mật khật mới',
-          type: 'success',
-          title: 'Xác nhận email thanh công',
-        });
-        navigate(redirectTo || paths.auth.login.getHref(), {
-          replace: true,
-        });
-      },
-    },
-  });
-
   const verifyOTP = useVerifyOTP({
     mutationConfig: {
       onSuccess: () => {
-        sendNewPassword.mutate(data);
+        sessionStorage.setItem('OTPVerified', data.code.toString());
+        sessionStorage.setItem('emailVerified', data.email);
         addNotification({
-          message: 'Vui lòng kiểm tra email của bạn để nhận được mật khật mới',
+          message: 'Vui lòng thay đổi mật khật mới',
           type: 'success',
           title: 'Xác thực mã OTP thành công',
         });
-        navigate(redirectTo || paths.auth.login.getHref(), {
+        navigate(redirectTo || paths.auth.reset_password.getHref(), {
           replace: true,
         });
       },

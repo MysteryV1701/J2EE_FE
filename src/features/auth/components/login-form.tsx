@@ -47,18 +47,18 @@ export const LoginForm = () => {
     if (responseAccessToken.access_token) {
       sessionStorage.setItem('access_token', responseAccessToken.access_token);
     }
-    navigate(redirectTo || paths.home.getHref(), {
+    navigate(paths.home.getHref(), {
       replace: true,
     });
-    if (redirectTo === paths.home.getHref() || !redirectTo) {
-      window.location.reload();
-    }
+
+    window.location.reload();
   };
 
   const handleError = () => {
     console.error('Login Failed');
   };
   const [searchParams] = useSearchParams();
+
   const redirectTo = searchParams.get('redirectTo');
 
   return (

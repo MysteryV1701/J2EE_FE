@@ -1,22 +1,10 @@
-// import { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-
 import { AuthLayout } from '@/components/layouts/auth-layout';
-import { RegisterForm } from '@/features/auth/components/register-form';
+import { ResetPasswordForm } from '@/features/auth/components/reset-password-form';
 
-export const RegisterRoute = () => {
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get('redirectTo');
+export const ResetPasswordRoute = () => {
   return (
     <AuthLayout title="Reset your password with email">
-      <RegisterForm
-        onSuccess={() =>
-          navigate(`${redirectTo ? `${redirectTo}` : '/app'}`, {
-            replace: true,
-          })
-        }
-      />
+      <ResetPasswordForm />
     </AuthLayout>
   );
 };
