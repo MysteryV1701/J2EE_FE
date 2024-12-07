@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Spinner } from '@/components/ui/spinner';
 import { Table } from '@/components/ui/table';
 import { formatDate } from '@/helpers/utils';
@@ -8,20 +9,73 @@ import { cn } from '@/helpers/cn';
 import { CAMPAIGNSTATUS } from '@/types/enum';
 import { UpdateCampaign } from './update-campaign';
 import { Pagination } from '@/components/ui/pagination';
+import {
+  format,
+  startOfMonth,
+  startOfWeek,
+  subMonths,
+  addMonths,
+  differenceInMonths,
+} from 'date-fns';
+import { Input, Select } from '@/components/ui/form';
+import { useCategories } from '@/features/categories/api/get-categories';
+import { useNotifications } from '@/components/ui/notifications';
 
 export const CampaignListTable = () => {
   const [page, setPage] = useState(0);
-
+  const { addNotification } = useNotifications();
+  const [formValues, setFormValues] = useState({
+    categoryId: '',
+    status: CAMPAIGNSTATUS.COMPLETED,
+    startDate: format(
+      startOfWeek(subMonths(startOfMonth(new Date()), 2), { weekStartsOn: 1 }),
+      'yyyy-MM-dd',
+    ),
+    endDate: format(addMonths(new Date(), 2), 'yyyy-MM-dd'),
+  });
   const [pageNumberLimit, setPageNumberLimit] = useState(5);
   const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
   const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(5);
-  const campaignQuery = useCampaigns({ page });
-
+  const campaignQuery = useCampaigns({
+    page,
+    status: formValues.status || undefined,
+    categoryId: Number(formValues.categoryId) || undefined,
+    startDate: `${formValues.startDate} 00:00:00`,
+    endDate: `${formValues.endDate} 00:00:00`,
+  });
+  const categories = useCategories({ page: 0 });
+  const handleChange = (field: string, value: any) => {
+    setFormValues((prev) => ({ ...prev, [field]: value }));
+  };
 
   useEffect(() => {
     setPageNumberLimit(campaignQuery.data?.totalPages || 5);
     setMaxPageNumberLimit(campaignQuery.data?.totalPages || 5);
   }, [campaignQuery.data]);
+
+  useEffect(() => {
+    const startDate = formValues.startDate;
+    const endDate = formValues.endDate;
+
+    if (endDate < startDate) {
+      addNotification({
+        type: 'danger',
+        title: 'Error',
+        message: 'Ngày kết thúc phải lớn hơn ngày bắt đầu',
+      });
+      return;
+    }
+
+    if (differenceInMonths(endDate, startDate) > 12) {
+      addNotification({
+        type: 'danger',
+        title: 'Error',
+        message: 'Khoảng thời gian không được quá 12 tháng',
+      });
+      return;
+    }
+  }, [formValues, addNotification]);
+
   if (campaignQuery.isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
@@ -54,8 +108,72 @@ export const CampaignListTable = () => {
   const campaigns = campaignQuery.data?.data;
   if (!campaigns) return null;
 
+  const statusOptions = [
+    { label: 'Tất cả', value: 0 },
+    { label: 'Đã duyệt', value: CAMPAIGNSTATUS.APPROVED },
+    { label: 'Đang chờ', value: CAMPAIGNSTATUS.PENDING },
+    { label: 'Đã hoàn thành', value: CAMPAIGNSTATUS.COMPLETED },
+    { label: 'Bị từ chối', value: CAMPAIGNSTATUS.REJECTED },
+  ];
+  const categoryOptions = [
+    { label: 'Tất cả', value: 0 },
+    ...(categories.data?.data.map((item) => ({
+      label: item.name,
+      value: item.id,
+    })) || []),
+  ];
   return (
     <div className="flex flex-col gap-4">
+      <div className="flex flex-row gap-4 justify-end">
+        <Input
+          className="w-full"
+          label="Ngày bắt đầu"
+          type="date"
+          value={formValues.startDate}
+          registration={{
+            onChange: async (e) => {
+              handleChange('startDate', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Input
+          className="w-full"
+          label="Ngày kết thúc"
+          type="date"
+          value={formValues.endDate}
+          registration={{
+            onChange: async (e) => {
+              handleChange('endDate', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Select
+          className="w-full border border-gray-400 rounded-md"
+          label="Thể loại chiến dịch"
+          options={categoryOptions}
+          defaultValue={Number(formValues.categoryId)}
+          registration={{
+            onChange: async (e) => {
+              handleChange('categoryId', e.target.value);
+              return true;
+            },
+          }}
+        />
+        <Select
+          className="w-full border border-gray-400 rounded-md"
+          label="Trạng thái"
+          options={statusOptions}
+          defaultValue={Number(formValues.status)}
+          registration={{
+            onChange: async (e) => {
+              handleChange('status', e.target.value);
+              return true;
+            },
+          }}
+        />
+      </div>
       <Table
         data={campaigns}
         columns={[
@@ -116,16 +234,19 @@ export const CampaignListTable = () => {
           },
         ]}
       />
-      <Pagination
-        totalPages={campaignQuery.data?.totalPages || 5}
-        pageSize={campaignQuery.data?.size || 5}
-        page={page}
-        changePage={changePage}
-        incrementPage={incrementPage}
-        decrementPage={decrementPage}
-        minPageNumberLimit={minPageNumberLimit}
-        maxPageNumberLimit={maxPageNumberLimit}
-      />
+      {campaignQuery.isError && <div>Failed to load data</div>}
+      {campaignQuery.data?.totalPages !== 0 && (
+        <Pagination
+          totalPages={campaignQuery.data?.totalPages || 5}
+          pageSize={campaignQuery.data?.size || 5}
+          page={page}
+          changePage={changePage}
+          incrementPage={incrementPage}
+          decrementPage={decrementPage}
+          minPageNumberLimit={minPageNumberLimit}
+          maxPageNumberLimit={maxPageNumberLimit}
+        />
+      )}
     </div>
   );
 };

@@ -6,6 +6,9 @@ import { Campaign } from '@/types/api';
 
 export const getCampaigns = (
   categoryId = 0,
+  status = 'all',
+  startDate = '',
+  endDate = '',
   page = 0,
   size = 9,
 ): Promise<{
@@ -14,26 +17,39 @@ export const getCampaigns = (
   size: number;
   totalPages: number;
 }> => {
-  const params: { page: number; size: number; categoryId?: number } = { page, size };
+  const params: { page: number; size: number; categoryId?: number; status?:string; startDate:string; endDate:string } = {
+    page, size,
+    startDate: startDate,
+    endDate: endDate
+  };
   if (categoryId !== 0) {
     params.categoryId = categoryId;
+  }
+  if (status !== 'all') {
+    params.status = status;
   }
   return api.get(`/campaigns`, { params });
 };
 
 export const getCampaignsQueryOptions = ({
   categoryId,
+  status,
+  startDate,
+  endDate,
   page,
   size,
-}: { categoryId?: number, page?: number; size?: number } = {}) => {
+}: { categoryId?: number, page?: number; size?: number, status?:string, startDate?:string, endDate?:string } = {}) => {
   return {
-    queryKey: ['campaigns', { categoryId ,page, size }],
-    queryFn: () => getCampaigns(categoryId, page, size),
+    queryKey: ['campaigns', { categoryId, status, startDate, endDate, page, size }],
+    queryFn: () => getCampaigns(categoryId, status,startDate, endDate ,page, size),
   };
 };
 
 type UseCampaignsOptions = {
   categoryId?: number;
+  status?: string;
+  startDate?: string;
+  endDate?: string;
   page?: number;
   size?: number;
   queryConfig?: QueryConfig<typeof getCampaignsQueryOptions>;
@@ -42,11 +58,14 @@ type UseCampaignsOptions = {
 export const useCampaigns = ({
   queryConfig,
   categoryId,
+  status,
+  startDate,
+  endDate,
   page,
   size,
 }: UseCampaignsOptions) => {
   return useQuery({
-    ...getCampaignsQueryOptions({categoryId, page, size }),
+    ...getCampaignsQueryOptions({categoryId, status, startDate, endDate, page, size }),
     ...queryConfig,
   });
 };

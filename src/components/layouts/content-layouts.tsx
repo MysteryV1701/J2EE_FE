@@ -61,9 +61,9 @@ export const ContentLayout = ({
       {isDashboard ? (
         <>
           <Head title={title} description={description} />
-          <div className="px-4 py-4 relative">
+          <div className="px-4 py-4 relative flex flex-col h-full">
             <h1 className="text-2xl font-semibold text-gray-900">{title}</h1>
-            <div className="py-2">{children}</div>
+            <div className="py-2 flex-1">{children}</div>
           </div>
         </>
       ) : (

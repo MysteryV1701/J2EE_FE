@@ -11,7 +11,6 @@ import { differenceInMonths, format, subMonths } from 'date-fns';
 import ExportStatisticButton from './export-statistic';
 import { Table } from '@/components/ui/table';
 import { formatDate, formatPrice } from '@/helpers/utils';
-import { cn } from '@/helpers/cn';
 import Button from '@/components/ui/button';
 
 const CampaignStatisticChart = () => {
@@ -88,7 +87,6 @@ const CampaignStatisticChart = () => {
     handleChange('dataType', dataType);
   };
 
-
   const categoryOptions = [
     { label: 'Tất cả', value: 0 },
     ...(categories.data?.data.map((item) => ({
@@ -130,9 +128,7 @@ const CampaignStatisticChart = () => {
           <Select
             className="w-full border border-gray-400 rounded-md"
             label="Thể loại chiến dịch"
-            options={
-              categoryOptions
-            }
+            options={categoryOptions}
             defaultValue={Number(formValues.categoryId)}
             registration={{
               onChange: async (e) => {
@@ -156,7 +152,7 @@ const CampaignStatisticChart = () => {
         </div>
       </div>
       <div className="flex justify-between space-x-4 mb-4 mt-12">
-      <div className="flex space-x-4">
+        <div className="flex space-x-4">
           <Button
             className={`mb-4  ${formValues.dataType === 'campaign' ? 'bg-primary hover:bg-primary-600 text-sm py-2 px-4' : 'bg-gray-200 text-black'}`}
             onClick={() => handleDataTypeChange('campaign')}
@@ -173,14 +169,14 @@ const CampaignStatisticChart = () => {
           </Button>
         </div>
         <div className="flex space-x-4 justify-start">
-        <ExportStatisticButton
-          request={{
-            categoryId: Number(formValues.categoryId),
-            status: formValues.status,
-            startDate: `${formValues.startDate} 00:00:00`,
-            endDate: `${formValues.endDate} 00:00:00`,
-          }}
-        />
+          <ExportStatisticButton
+            request={{
+              categoryId: Number(formValues.categoryId),
+              status: formValues.status,
+              startDate: `${formValues.startDate} 00:00:00`,
+              endDate: `${formValues.endDate} 00:00:00`,
+            }}
+          />
         </div>
       </div>
 
