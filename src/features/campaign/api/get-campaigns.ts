@@ -3,10 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api-client';
 import { QueryConfig } from '@/lib/react-query';
 import { Campaign } from '@/types/api';
+import { CAMPAIGNSTATUS } from '@/types/enum';
 
 export const getCampaigns = (
   categoryId = 0,
-  status = 'all',
+  status = CAMPAIGNSTATUS.APPROVED,
   startDate = '',
   endDate = '',
   page = 0,
@@ -19,14 +20,12 @@ export const getCampaigns = (
 }> => {
   const params: { page: number; size: number; categoryId?: number; status?:string; startDate:string; endDate:string } = {
     page, size,
-    startDate: startDate,
-    endDate: endDate
+    status,
+    startDate,
+    endDate
   };
   if (categoryId !== 0) {
     params.categoryId = categoryId;
-  }
-  if (status !== 'all') {
-    params.status = status;
   }
   return api.get(`/campaigns`, { params });
 };
@@ -38,7 +37,7 @@ export const getCampaignsQueryOptions = ({
   endDate,
   page,
   size,
-}: { categoryId?: number, page?: number; size?: number, status?:string, startDate?:string, endDate?:string } = {}) => {
+}: { categoryId?: number, page?: number; size?: number, status?: CAMPAIGNSTATUS, startDate?:string, endDate?:string } = {}) => {
   return {
     queryKey: ['campaigns', { categoryId, status, startDate, endDate, page, size }],
     queryFn: () => getCampaigns(categoryId, status,startDate, endDate ,page, size),
@@ -47,7 +46,7 @@ export const getCampaignsQueryOptions = ({
 
 type UseCampaignsOptions = {
   categoryId?: number;
-  status?: string;
+  status?: CAMPAIGNSTATUS;
   startDate?: string;
   endDate?: string;
   page?: number;

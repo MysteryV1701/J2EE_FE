@@ -25,7 +25,7 @@ export const CampaignListTable = () => {
   const { addNotification } = useNotifications();
   const [formValues, setFormValues] = useState({
     categoryId: '',
-    status: CAMPAIGNSTATUS.COMPLETED,
+    status: CAMPAIGNSTATUS.APPROVED,
     startDate: format(
       startOfWeek(subMonths(startOfMonth(new Date()), 2), { weekStartsOn: 1 }),
       'yyyy-MM-dd',
@@ -98,7 +98,6 @@ export const CampaignListTable = () => {
   if (!campaigns) return null;
 
   const statusOptions = [
-    { label: 'Tất cả', value: 0 },
     { label: 'Đã duyệt', value: CAMPAIGNSTATUS.APPROVED },
     { label: 'Đang chờ', value: CAMPAIGNSTATUS.PENDING },
     { label: 'Đã hoàn thành', value: CAMPAIGNSTATUS.COMPLETED },
