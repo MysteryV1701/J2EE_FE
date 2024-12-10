@@ -39,7 +39,7 @@ export const StatisticBarChart = ({ data, totalCampaigns, dataType, donations}: 
 
   return (
     <div style={{ height: 400 }}>
-      <h2>Tổng số {dataType === 'campaign' ? 'chiến dịch' : 'đóng góp'} theo khoảng thời gian trên: {dataType === 'campaign' ? totalCampaigns : donations }</h2>
+      <h2>Tổng số {dataType === 'campaign' ? 'chiến dịch' : 'đóng góp'}: {dataType === 'campaign' ? totalCampaigns : donations }</h2>
       <ResponsiveBar
         data={chartData}
         keys={[dataType === 'campaign' ? 'countCampaign' : 'totalDonations']}

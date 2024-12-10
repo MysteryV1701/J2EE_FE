@@ -11,7 +11,6 @@ import { UpdateCampaign } from './update-campaign';
 import { Pagination } from '@/components/ui/pagination';
 import {
   format,
-  startOfMonth,
   startOfWeek,
   subMonths,
   addMonths,
@@ -27,7 +26,7 @@ export const CampaignListTable = () => {
     categoryId: '',
     status: CAMPAIGNSTATUS.APPROVED,
     startDate: format(
-      startOfWeek(subMonths(startOfMonth(new Date()), 2), { weekStartsOn: 1 }),
+      startOfWeek(subMonths(new Date(), 12), { weekStartsOn: 1 }),
       'yyyy-MM-dd',
     ),
     endDate: format(addMonths(new Date(), 2), 'yyyy-MM-dd'),

@@ -11,22 +11,27 @@ export const ResetPasswordForm = () => {
   const navigate = useNavigate();
   const { addNotification } = useNotifications();
   const resetPassword = useResetPassword({
-    onSuccess: () => {
-      navigate(redirectTo || paths.auth.login.getHref(), {
-        replace: true,
-      });
-      addNotification({
-        message: 'Bạn hãy đăng nhập để tiếp tục',
-        type: 'success',
-        title: 'Thay đổi mật khẩu thành công',
-      });
-    },
-    onError: (error: any) => {
-      addNotification({
-        message: error.response.data.detail,
-        type: 'danger',
-        title: 'Thay đổi mật khẩu thất bại',
-      });
+    mutationConfig: {
+      onSuccess: () => {
+        sessionStorage.removeItem('OTPVerified');
+        sessionStorage.removeItem('emailVerified');
+        addNotification({
+          message: 'Vui lòng đăng nhập với mật khẩu mới',
+          type: 'success',
+          title: 'Thay đổi mật khẩu thành công',
+        });
+        navigate(redirectTo || paths.auth.login.getHref(), {
+          replace: true,
+        });
+        window.location.reload();
+      },
+      onError: (error: any) => {
+        addNotification({
+          message: error.response.data.detail,
+          type: 'danger',
+          title: 'Thay đổi mật khẩu thất bại',
+        });
+      },
     },
   });
   const [searchParams] = useSearchParams();

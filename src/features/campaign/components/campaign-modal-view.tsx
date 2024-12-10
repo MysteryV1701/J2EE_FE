@@ -4,12 +4,13 @@ import { ViewIcon } from 'lucide-react';
 import Button from '@/components/ui/button';
 import { Form, FormDrawer, Input, Label } from '@/components/ui/form';
 import { Authorization } from '@/lib/authorization';
-import { ROLES } from '@/types/enum';
+import { ROLES, CAMPAIGNSTATUS } from '@/types/enum';
 
 import { useCampaign } from '../api/get-campaign';
 import { FunctionComponent } from 'react';
 import { updateCampaignInputSchema } from '../api/update-campaign';
-import { Donations } from '@/features/donation/components/get-donations';
+import { CampaignDonations } from '@/features/donation/components/get-campaign-donations';
+import ExportDonationsButton from '@/features/donation/components/export-donations';
 
 type UpdateCampaignProps = {
   code: string;
@@ -118,7 +119,20 @@ export const CampaignModalView: FunctionComponent<UpdateCampaignProps> = ({
                     />
                   </div>
                 </div>
-                <Donations campaignId={campaign?.id ?? 0} />
+                {campaign && campaign.status === CAMPAIGNSTATUS.COMPLETED ? (
+                  <div className="flex justify-end">
+                    <ExportDonationsButton
+                      request={{
+                        campaignId: campaign?.id ?? 0,
+                      }}
+                    />
+                  </div>
+                ) : null}
+
+                <CampaignDonations
+                  campaignId={campaign?.id ?? 0}
+                  title="Danh sách người ủng hộ"
+                />
               </div>
             );
           }}
